@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.sign_up.SignUp1Fragment">
+
+
+
+    <TextView
+        style="@style/questions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans"
+        android:text="귀하의 성함을\n입력해주세요." />
+
+    <LinearLayout
+        android:layout_marginTop="200dp"
+        android:layout_gravity="right"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_marginRight="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_marginLeft="15dp"
+                android:background="@android:color/transparent"
+                android:id="@+id/answer_name"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:lines="1"
+                android:hint="ex) 세지원"
+                android:textSize="25dp"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginHorizontal="15dp"
+            android:background="@color/colorPrimary" />
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/nextButton1"
+        android:layout_gravity="bottom"
+        style="@style/nextButton"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="15dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+</FrameLayout>

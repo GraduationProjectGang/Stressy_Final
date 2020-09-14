@@ -6,5 +6,112 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="TextStyleBold">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="TextStyleNormal">
+        <item name="android:textSize">17dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="TextStyle">
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#00224C</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+    <style name="RadioWithTextOnTop">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawableBottom">?android:attr/listChoiceIndicatorSingle</item>
+        <item name="android:gravity">center_horizontal|bottom</item>
+    </style>
+    <style name="ViewSurvey">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">1dp</item>
+        <item name="android:background">#8A989898</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawableBottom">?android:attr/listChoiceIndicatorSingle</item>
+        <item name="android:gravity">center_horizontal|bottom</item>
+    </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">2dip</item>
+    </style>
+
+    <style name="Button.Menu" parent="Button">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:lines">1</item>
+        <item name="android:onClick">onButtonClick</item>
+    </style>
+
+    <style name="Button.Settings" parent="Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:onClick">onClearClick</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="EditText">
+        <item name="android:paddingLeft">8sp</item>
+        <item name="android:paddingTop">0sp</item>
+        <item name="android:paddingBottom">0sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="questions">
+        <item name="fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#3A3A3A</item>
+        <item name="android:layout_marginTop">45dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+
+    <style name="answers">
+        <item name="fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:textColor">#808080</item>
+        <item name="android:layout_marginLeft">3dp</item>
+    </style>
+
+    <style name="radius">
+
+        <item name="android:radius">15dp</item>
+    </style>
+
+    <style name="hints">
+        <item name="fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColor">#808080</item>
+        <item name="android:layout_marginLeft">3dp</item>
+    </style>
+
+    <style name="nextButton">
+        <item name="android:text">다음</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
 </resources>
