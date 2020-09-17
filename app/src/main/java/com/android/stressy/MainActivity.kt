@@ -2,24 +2,33 @@ package com.android.stressy
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
 import com.google.firebase.ml.common.modeldownload.FirebaseModelManager
 import com.google.firebase.ml.custom.FirebaseCustomRemoteModel
+import com.opencsv.CSVReader
 import kotlinx.android.synthetic.main.activity_main.*
 import org.tensorflow.lite.Interpreter
+import java.io.BufferedReader
+import java.io.FileReader
+import java.io.InputStreamReader
+import java.lang.reflect.Type
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var interpreter: Interpreter
+    lateinit var inputList: ArrayList<String>
+    lateinit var graph: Graph
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         init()
+
     }
 
     fun init() {
@@ -44,18 +53,4 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    fun getBuffer() {
-
-        val input = ByteBuffer.allocateDirect(1*5*6).order(ByteOrder.nativeOrder())
-
-        val input_arr = ArrayList<Float>()
-
-        
-
-        input.putFloat(0)
-
-        val bufferSize = 4 * java.lang.Float.SIZE / java.lang.Byte.SIZE
-        val modelOutput = ByteBuffer.allocateDirect(bufferSize).order(ByteOrder.nativeOrder())
-        // interpreter?.run(input, modelOutput) // 여기 input에 우리 모델의 input이 들어감
-    }
 }
