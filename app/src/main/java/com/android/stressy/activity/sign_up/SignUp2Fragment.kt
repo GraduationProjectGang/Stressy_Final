@@ -1,11 +1,15 @@
 package com.android.stressy.activity.sign_up
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.android.stressy.R
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_sign_up2.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,16 +22,11 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class SignUp2Fragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
+    var flag_female = false
+    var flag_male = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -35,26 +34,37 @@ class SignUp2Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        initButton()
         return inflater.inflate(R.layout.fragment_sign_up2, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SignUp2Fragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SignUp2Fragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+
+    fun initButton(){
+        female.setOnClickListener {
+            flag_female = true
+            flag_male = false
+            female.setBackgroundResource(R.drawable.female_clicked)
+            male.setBackgroundResource(R.drawable.male)
+
+        }
+        male.setOnClickListener {
+            flag_female = false
+            flag_male = true
+            female.setBackgroundResource(R.drawable.female)
+            male.setBackgroundResource(R.drawable.male_clicked)
+        }
+        nextButton2.setOnClickListener {
+            if (!(flag_female or flag_male)){
+                Snackbar.make(it,"성별을 선택해 주세요.",Snackbar.LENGTH_SHORT).show()
             }
+
+            //true = female, false = male, 성별간 갈등 조장 아님^^
+            var gender  = flag_female
+            toSignUp3(gender)
+        }
+    }
+    fun toSignUp3(userGender:Boolean){
+        var bundle = bundleOf("userGender" to userGender)
+        view?.findNavController()?.navigate(R.id.action_signUp2Fragment_to_signUp3Fragment, bundle)
     }
 }

@@ -15,11 +15,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.*
 import com.android.stressy.R
-import com.android.stressy.dataclass.Stress_st
 import com.android.stressy.dataclass.UsageStat
 import com.android.stressy.dataclass.UsageStatsCollection
 import com.android.stressy.etc.RVecWorker
-import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_stress_collect.*
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -92,6 +90,7 @@ class StressCollectActivity : AppCompatActivity() {
 
 
                 var stCount = prefs.getInt(getString(R.string.stress_collect_count), 0)
+                //TODO:설문 인덱스 -> db AI로 수정
                 Log.w("SCA_COUNT", stCount.toString())
 
                 val curTime = System.currentTimeMillis()
@@ -157,6 +156,8 @@ class StressCollectActivity : AppCompatActivity() {
 //
 //                        })
 //
+
+
 
                 }
 

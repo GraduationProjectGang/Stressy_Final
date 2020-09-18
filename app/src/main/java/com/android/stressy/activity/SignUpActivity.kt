@@ -10,6 +10,5 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
         val navController = findNavController(R.id.nav_host_fragment)
-
     }
 }
