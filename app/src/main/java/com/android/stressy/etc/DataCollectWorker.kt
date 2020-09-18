@@ -17,18 +17,14 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.room.Room
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.android.stressy.R
 import com.android.stressy.activity.u_key
-import com.android.stressy.dataclass.Locate
-import com.android.stressy.dataclass.RotateVector
-import com.android.stressy.dataclass.UsageStat
-import com.android.stressy.dataclass.UsageStatsCollection
+import com.android.stressy.dataclass.*
 import com.google.android.gms.location.*
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -64,8 +60,8 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     private val orientationAngles = FloatArray(3)
     private val mutableListOrientationAngles = mutableListOf<String>()
 
-    lateinit var fbDatabase: FirebaseDatabase
-    lateinit var dbReference: DatabaseReference
+//    lateinit var fbDatabase: FirebaseDatabase
+//    lateinit var dbReference: DatabaseReference
     var mTimestamp:Long = 0
     val dateFormat = SimpleDateFormat("yyyyMMdd.HH:mm:ss")
     lateinit var mChannel : NotificationChannel
@@ -130,17 +126,14 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
                 var rVector = RotateVector(mutableListOf(), dateFormat.format(mTimestamp))
                 rVector.angleList = mutableListOrientationAngles
 
-                fbDatabase = FirebaseDatabase.getInstance()
-                dbReference = fbDatabase.reference
-                dbReference.child("user").child(userKey).child("rotatevector").push().setValue(rVector)
-                dbReference.child("user").child(userKey).child("usagestatsCoroutine").push().setValue(usage)
-                dbReference.child("user").child(userKey).child("location").push().setValue(loc)
-                dbReference.child("user").child(userKey).child("isRunning").setValue("true")
 
-                if (isStopped) {
-                    dbReference.child("user").child(userKey).child("isRunning").setValue("false")
-                }
+                val coroutineData = CoroutineData(mTimestamp,rVector,usage,loc)
+                val dbObject = Room.databaseBuilder(
+                    applicationContext,
+                    AppDatabase::class.java, "coroutineDB"
+                ).build().coroutineDataDao()
 
+                dbObject.insert(coroutineData)
             }
 
         Result.success()
