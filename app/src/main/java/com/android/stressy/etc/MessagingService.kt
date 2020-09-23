@@ -32,7 +32,7 @@ class MessagingService() : FirebaseMessagingService() {
         if (remoteMessage.data.isNotEmpty()){
             Log.d(TAG,"onMessageReceived: Data Size:"+remoteMessage.data.size)
             for(key in remoteMessage.data.keys){
-                Log.d(TAG, "onMessageReceived: Key:"+key+" Data: " + remoteMessage.data.get(key))
+                Log.d(TAG, "onMessageReceived: Key:"+key +" Data: " + remoteMessage.data.get(key))
             }
             Log.d(TAG,"onMessageReceived: Data:"+remoteMessage.data.toString())
             createWorker()

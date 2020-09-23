@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class CoroutineData (
     @PrimaryKey val timestamp: Long,
-    @ColumnInfo(name = "rotateVector") val rotateVector: RotateVector?,
+    @ColumnInfo(name = "rotateVector") val rotateVector: RotateVectorData?,
     @ColumnInfo(name = "usageStats") val usageStats: UsageStatsCollection?,
-    @ColumnInfo(name = "location") val locate: Locate?
+    @ColumnInfo(name = "location") val locate: LocationData?
 
 ){
 }

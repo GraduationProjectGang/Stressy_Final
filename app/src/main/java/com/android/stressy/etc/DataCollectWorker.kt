@@ -49,7 +49,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     //location variable
     private lateinit var locationRequest: LocationRequest
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var locationList:MutableList<Location>
+    private lateinit var locationList: MutableList<Location>
     private lateinit var locationCallback: LocationCallback
 
     //rotate vector variable
@@ -60,19 +60,21 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     private val orientationAngles = FloatArray(3)
     private val mutableListOrientationAngles = mutableListOf<String>()
 
-//    lateinit var fbDatabase: FirebaseDatabase
+    //    lateinit var fbDatabase: FirebaseDatabase
 //    lateinit var dbReference: DatabaseReference
-    var mTimestamp:Long = 0
+    var mTimestamp: Long = 0
     val dateFormat = SimpleDateFormat("yyyyMMdd.HH:mm:ss")
-    lateinit var mChannel : NotificationChannel
+    lateinit var mChannel: NotificationChannel
 
     private val notificationManager =
         appContext.getSystemService(Context.NOTIFICATION_SERVICE) as
                 NotificationManager
 
-    companion object var flag = false
+    companion object
 
-    private fun printCallStack(){
+    var flag = false
+
+    private fun printCallStack() {
         val sb = StringBuilder()
         sb.append("==================================\n  CALL STACK\n==================================\n");
 
@@ -103,14 +105,14 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         //debug
         printCallStack()
 
-        var stats = showAppUsageStats(getAppUsageStats(mTimestamp-900000))
+        var stats = showAppUsageStats(getAppUsageStats(mTimestamp - 900000))
 
         initLocationParms()
         startLocationUpdates()
 
         val jobs =
             async {
-                for (i in 1 .. iterationRange){
+                for (i in 1..iterationRange) {
                     //Repeat every 1s
                     delay(1000L)
                     startMeasureRotateVector()
@@ -119,15 +121,20 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
                 //stop location request when iteration was ended
                 stopLocationUpdates()
 
-                var loc = Locate(mutableListOf(), dateFormat.format(mTimestamp))
+                var loc = LocationData(mutableListOf(), dateFormat.format(mTimestamp))
                 loc.locationList = locationList
-                var usage = UsageStatsCollection(ArrayList(), "coroutine", mTimestamp, dateFormat.format(mTimestamp))
+                var usage = UsageStatsCollection(
+                    ArrayList(),
+                    "coroutine",
+                    mTimestamp,
+                    dateFormat.format(mTimestamp)
+                )
                 usage.statsList = stats
-                var rVector = RotateVector(mutableListOf(), dateFormat.format(mTimestamp))
+                var rVector = RotateVectorData(mutableListOf(), dateFormat.format(mTimestamp))
                 rVector.angleList = mutableListOrientationAngles
 
 
-                val coroutineData = CoroutineData(mTimestamp,rVector,usage,loc)
+                val coroutineData = CoroutineData(mTimestamp, rVector, usage, loc)
                 val dbObject = Room.databaseBuilder(
                     applicationContext,
                     AppDatabase::class.java, "coroutineDB"
@@ -135,9 +142,17 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
 
                 dbObject.insert(coroutineData)
             }
-
         Result.success()
+
     }
+
+    fun dataMatch(mTimestamp:Long, rVector:RotateVectorData, usage:ArrayList<UsageStat>, loc: com.android.stressy.dataclass.LocationData):String{
+        
+
+
+        return ""
+    }
+
 
     private fun createForegroundInfo(progress:String):ForegroundInfo{
         val CHANNEL_ID = "$applicationContext.packageName-${R.string.app_name}"
@@ -170,6 +185,8 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         notificationManager.createNotificationChannel(mChannel)
         Log.d("dcworker","channel created")
     }
+
+
 
     fun initLocationParms() {
 
