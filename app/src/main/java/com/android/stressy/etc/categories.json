@@ -1,0 +1,2174 @@
+{
+    "KREAM 크림": {
+      "packageName": "com.fstudio.kream",
+      "category": "Shopping"
+    },
+    "라스트오더 - 오늘의 마감세일": {
+      "packageName": "com.myro.lastorder",
+      "category": "Food & Drink"
+    },
+    "Ulike - Define your selfie in trendy style": {
+      "packageName": "com.gorgeous.liteinternational",
+      "category": "Photography"
+    },
+    "포켓CU": {
+      "packageName": "com.bgfcu.membership",
+      "category": "Lifestyle"
+    },
+    "코드뱅크 - 사전예약, 사전등록 앱": {
+      "packageName": "com.tnkfactory.precode",
+      "category": "Role Playing"
+    },
+    "Gelato - Best Nail Art Design": {
+      "packageName": "com.tmon.gelato.android",
+      "category": "Beauty"
+    },
+    "과외바다 - 대한민국 No.1 과외마켓": {
+      "packageName": "com.gwbd",
+      "category": "Education"
+    },
+    "다음 - Daum": {
+      "packageName": "net.daum.android.daum",
+      "category": "Browser"
+    },
+    "마켓컬리-내일의 장보기": {
+      "packageName": "com.dbs.kurly.m2",
+      "category": "Food & Drink"
+    },
+    "문단암송 - 당신의 매일을 더 풍성하게": {
+      "packageName": "com.doma.psalms1199",
+      "category": "Tools"
+    },
+    "SPOTV NOW(스포티비 나우) - 프리미엄 스포츠 생중계": {
+      "packageName": "kr.co.spotvnow.app",
+      "category": "Sports"
+    },
+    "ColorNote Notepad Notes": {
+      "packageName": "com.socialnmobile.dictapps.notepad.color.note",
+      "category": "Productivity"
+    },
+    "YBM TOEIC® Speaking 기출문제 체험하기": {
+      "packageName": "com.ybmsisa.TosEx",
+      "category": "Education"
+    },
+    "Google Translate": {
+      "packageName": "com.google.android.apps.translate",
+      "category": "Tools"
+    },
+    "T world": {
+      "packageName": "Com.sktelecom.minit",
+      "category": "Lifestyle"
+    },
+    "KB스타알림": {
+      "packageName": "com.kbstar.starpush",
+      "category": "Finance"
+    },
+    "[Samsung] Always On Display": {
+      "packageName": "com.samsung.android.app.aodservice",
+      "category": "Tools"
+    },
+    "POCO Launcher 2.0 - Customize, Fresh & Clean": {
+      "packageName": "com.mi.android.globallauncher",
+      "category": "Personalization"
+    },
+    "Google Docs": {
+      "packageName": "com.google.android.apps.docs.editors.docs",
+      "category": "Productivity"
+    },
+    "Samsung Experience Service": {
+      "packageName": "com.samsung.android.mobileservice",
+      "category": "Tools"
+    },
+    "Samsung Calculator": {
+      "packageName": "com.sec.android.app.popupcalculator",
+      "category": "Tools"
+    },
+    "SoundHound - Music Discovery & Lyrics": {
+      "packageName": "com.melodis.midomiMusicIdentifier.freemium",
+      "category": "Music & Audio"
+    },
+    "Remote Control For Samsung Air Conditioner": {
+      "packageName": "com.weedle.samsung_ac_remotes",
+      "category": "Tools"
+    },
+    "Microsoft Excel: View, Edit, & Create Spreadsheets": {
+      "packageName": "com.microsoft.office.excel",
+      "category": "Productivity"
+    },
+    "SSGPAY - 혜택 위의 혜택": {
+      "packageName": "com.ssg.serviceapp.android.egiftcertificate",
+      "category": "Finance"
+    },
+    "Samsung Notes": {
+      "packageName": "com.samsung.android.app.notes",
+      "category": "Productivity"
+    },
+    "Video Downloader for Facebook - FB Video Download": {
+      "packageName": "videodownloader.fbvideodownloader.facebookvideodownloader.videodownloaderforfacebook",
+      "category": "Utility"
+    },
+    "SLOWLY - Connect to the World!": {
+      "packageName": "com.slowlyapp",
+      "category": "Lifestyle"
+    },
+    "피터팬의 좋은방 구하기 - No.1 부동산 직거래 (원룸, 아파트, 오피스텔, 상가)": {
+      "packageName": "com.appz.dukkuba",
+      "category": "House & Home"
+    },
+    "알바몬 - 알바 채용 구인구직 취업정보검색": {
+      "packageName": "com.albamon.app",
+      "category": "Business"
+    },
+    "인터파크": {
+      "packageName": "com.interpark.shop",
+      "category": "Shopping"
+    },
+    "디어 deer": {
+      "packageName": "co.deering.deer",
+      "category": "Auto & Vehicles"
+    },
+    "건국대학교": {
+      "packageName": "kr.ac.konkuk.kumob",
+      "category": "Education"
+    },
+    "Microsoft Outlook: Organize Your Email & Calendar": {
+      "packageName": "com.microsoft.office.outlook",
+      "category": "Productivity"
+    },
+    "DEJOU": {
+      "packageName": "com.cafe24.ec.plusnobbi1004",
+      "category": "Shopping"
+    },
+    "티빙(TVING) - 실시간TV, 방송VOD, 영화VOD": {
+      "packageName": "net.cj.cjhv.gs.tving",
+      "category": "Entertainment"
+    },
+    "카카오톡 채널 관리자": {
+      "packageName": "com.kakao.yellowid",
+      "category": "Communication"
+    },
+    "AliExpress - Smarter Shopping, Better Living": {
+      "packageName": "com.alibaba.aliexpresshd",
+      "category": "Shopping"
+    },
+    "U+스팸차단": {
+      "packageName": "com.lguplus.blocksmishing",
+      "category": "Communication"
+    },
+    "To-Do! (quick notes, todo list, schedule)": {
+      "packageName": "com.yong.tat",
+      "category": "Productivity"
+    },
+    "신한 쏠(SOL) – 신한은행 스마트폰뱅킹": {
+      "packageName": "com.shinhan.sbanking",
+      "category": "Finance"
+    },
+    "전국 스마트 버스": {
+      "packageName": "teamdoppelganger.smarterbus",
+      "category": "Maps & Navigation"
+    },
+    "Ruler": {
+      "packageName": "org.nixgame.ruler",
+      "category": "Tools"
+    },
+    "Gunship Battle Total Warfare": {
+      "packageName": "com.joycity.gw",
+      "category": "Strategy"
+    },
+    "BeautyPlus - Easy Photo Editor & Selfie Camera": {
+      "packageName": "com.commsource.beautyplus",
+      "category": "Photography"
+    },
+    "Lovedays - D-Day for Couples": {
+      "packageName": "com.wonderabbit.lovedays",
+      "category": "Lifestyle"
+    },
+    "Naver SmartBoard - Keyboard: Search,Draw,Translate": {
+      "packageName": "com.navercorp.android.smartboard",
+      "category": "Tools"
+    },
+    "KB국민 앱카드": {
+      "packageName": "com.kbcard.cxh.appcard",
+      "category": "Finance"
+    },
+    "연인 - \"연인\"에서 만나 인연이 연인으로": {
+      "packageName": "kr.co.itforone.lover2",
+      "category": "Communication"
+    },
+    "Money Manager Expense & Budget": {
+      "packageName": "com.realbyteapps.moneymanagerfree",
+      "category": "Finance"
+    },
+    "CGV": {
+      "packageName": "com.cgv.android.movieapp",
+      "category": "Entertainment"
+    },
+    "Air Quality | AirVisual": {
+      "packageName": "com.airvisual",
+      "category": "Weather"
+    },
+    "왓챠": {
+      "packageName": "com.frograms.wplay",
+      "category": "Entertainment"
+    },
+    "KakaoTalk: Free Calls & Text": {
+      "packageName": "com.kakao.talk",
+      "category": "Communication"
+    },
+    "Tuner T1": {
+      "packageName": "com.jsplash.tuner",
+      "category": "Music & Audio"
+    },
+    "THE CAMP 대국민 국군 소통 서비스": {
+      "packageName": "com.enabledaonsoft.thecamp",
+      "category": "Communication"
+    },
+    "Kakao TV Live - 카카오 TV 라이브": {
+      "packageName": "com.kakao.playball",
+      "category": "Entertainment"
+    },
+    "lotte.com": {
+      "packageName": "com.lotte",
+      "category": "Shopping"
+    },
+    "KakaoMap - Map / Navigation": {
+      "packageName": "net.daum.android.map",
+      "category": "Maps & Navigation"
+    },
+    "Legends of Runeterra": {
+      "packageName": "com.riotgames.legendsofruneterra",
+      "category": "Card"
+    },
+    "QR코드 전자출입명부 체크인 - QR코드 체크인 바로가기 - 어르신용 QR체크인 QR코드": {
+      "packageName": "com.jnp.qrcheckin",
+      "category": "Lifestyle"
+    },
+    "Dr.Capsule - Antivirus, Cleaner, Booster": {
+      "packageName": "com.estsoft.alyac",
+      "category": "Tools"
+    },
+    "KakaoBus": {
+      "packageName": "com.astroframe.seoulbus",
+      "category": "Maps & Navigation"
+    },
+    "Everland": {
+      "packageName": "com.samsung.everland.android.mobileApp",
+      "category": "Entertainment"
+    },
+    "Naver Papago - AI Translator": {
+      "packageName": "com.naver.labs.translator",
+      "category": "Tools"
+    },
+    "ETS TOEIC Books by YBM": {
+      "packageName": "com.YBMSisa.ETSbook",
+      "category": "Education"
+    },
+    "Dungeon Crawl:SS (ASCII)": {
+      "packageName": "com.crawlmb",
+      "category": "Puzzle"
+    },
+    "Microsoft OneDrive": {
+      "packageName": "com.microsoft.skydrive",
+      "category": "Productivity"
+    },
+    "리브메이트": {
+      "packageName": "com.kbcard.kat.liivmate",
+      "category": "Finance"
+    },
+    "DCSS Online": {
+      "packageName": "com.newtzgames.dcssonline",
+      "category": "Role Playing"
+    },
+    "Blue Light Filter - Night Mode, Night Shift": {
+      "packageName": "com.eyefilter.nightmode.bluelightfilter",
+      "category": "Health & Fitness"
+    },
+    "11st": {
+      "packageName": "com.elevenst",
+      "category": "Shopping"
+    },
+    "여기어때 - 호텔, 모텔, 펜션, 캠핑, 게하, 액티비티 최저가 예약!": {
+      "packageName": "kr.goodchoice.abouthere",
+      "category": "Travel & Local"
+    },
+    "카카오내비": {
+      "packageName": "com.locnall.KimGiSa",
+      "category": "Maps & Navigation"
+    },
+    "헬릭스 왈츠": {
+      "packageName": "com.ubj.waltzkr",
+      "category": "Simulation"
+    },
+    "Lezhin Comics - Daily Releases": {
+      "packageName": "com.lezhin.comics",
+      "category": "Comics"
+    },
+    "Fasting App - Fasting Tracker & Intermittent Fast": {
+      "packageName": "bodyfast.zero.fastingtracker.weightloss",
+      "category": "Health & Fitness"
+    },
+    "[공식]전국 시외버스 승차권 통합 예매(버스타고)": {
+      "packageName": "com.ebcard.bustago",
+      "category": "Maps & Navigation"
+    },
+    "SSG.COM": {
+      "packageName": "kr.co.ssg",
+      "category": "Shopping"
+    },
+    "엠브레인 패널파워": {
+      "packageName": "com.embrain.panelpower",
+      "category": "Lifestyle"
+    },
+    "Hacker's Keyboard": {
+      "packageName": "org.pocketworkstation.pckeyboard",
+      "category": "Productivity"
+    },
+    "Daum Cafe - 다음 카페": {
+      "packageName": "net.daum.android.cafe",
+      "category": "Social"
+    },
+    "Tor Browser": {
+      "packageName": "org.torproject.torbrowser",
+      "category": "Browser"
+    },
+    "랭킹닭컴 - 닭가슴살 감동쇼핑 다이어트 헬스 운동 식단": {
+      "packageName": "com.yooic.b8ps.ia9d8",
+      "category": "Shopping"
+    },
+    "T map 택시 - 티맵택시,T맵택시": {
+      "packageName": "com.skplanet.tmaptaxi.android.passenger",
+      "category": "Maps & Navigation"
+    },
+    "해커스중국어": {
+      "packageName": "com.hackers.app.hackersmp3china",
+      "category": "Education"
+    },
+    "Teamfight Tactics: League of Legends Strategy Game": {
+      "packageName": "com.riotgames.league.teamfighttactics",
+      "category": "Strategy"
+    },
+    "AIR BUSAN": {
+      "packageName": "com.airbusan.gcm",
+      "category": "Travel & Local"
+    },
+    "Lime - Your Ride Anytime": {
+      "packageName": "com.limebike",
+      "category": "Auto & Vehicles"
+    },
+    "Samsung Pay": {
+      "packageName": "com.samsung.android.spay",
+      "category": "Shopping"
+    },
+    "단기PLAYER": {
+      "packageName": "com.stn.mobile_player",
+      "category": "Education"
+    },
+    "텐바이텐 – 디자인 쇼핑몰 10x10": {
+      "packageName": "kr.tenbyten.shopping",
+      "category": "Shopping"
+    },
+    "CamScanner - Scanner to scan PDF": {
+      "packageName": "com.intsig.camscanner",
+      "category": "Productivity"
+    },
+    "펫닥 – 내 손안에 수의사 소환 실시간 무료 수의사 상담 앱": {
+      "packageName": "kr.co.petdoc.petdoc",
+      "category": "Lifestyle"
+    },
+    "정부24(구 민원24)": {
+      "packageName": "kr.go.minwon.m",
+      "category": "Productivity"
+    },
+    "TheDayBefore (D-Day countdown)": {
+      "packageName": "com.aboutjsp.thedaybefore",
+      "category": "Lifestyle"
+    },
+    "가천대학교 스마트출결시스템": {
+      "packageName": "kr.co.echeck.gcuapp",
+      "category": "Education"
+    },
+    "PASS BY KT – 운전면허증이 내 휴대폰속으로!": {
+      "packageName": "com.kt.ktauth",
+      "category": "Lifestyle"
+    },
+    "Daily Schedule - easy timetable, simple planner": {
+      "packageName": "kr.co.famapp.www.daily_schedule",
+      "category": "Lifestyle"
+    },
+    "Collage Maker - Photo Editor & Photo Collage": {
+      "packageName": "photoeditor.layout.collagemaker",
+      "category": "Photography"
+    },
+    "Coupang Eats - Rocket Delivery for Food": {
+      "packageName": "com.coupang.mobile.eats",
+      "category": "Food & Drink"
+    },
+    "소모임 - No.1 취미모임 앱": {
+      "packageName": "com.friendscube.somoim",
+      "category": "Social"
+    },
+    "Windy.com - Weather Radar, Satellite and Forecast": {
+      "packageName": "com.windyty.android",
+      "category": "Weather"
+    },
+    "Zigbang": {
+      "packageName": "com.chbreeze.jikbang4a",
+      "category": "House & Home"
+    },
+    "씽씽 - 새로운 이동생활": {
+      "packageName": "com.xingxingapp",
+      "category": "Auto & Vehicles"
+    },
+    "5G 스트리밍게임": {
+      "packageName": "com.kt.streamgame",
+      "category": "Entertainment"
+    },
+    "Airbnb": {
+      "packageName": "com.airbnb.android",
+      "category": "Travel & Local"
+    },
+    "네이버 카페 - Naver Cafe": {
+      "packageName": "com.nhn.android.navercafe",
+      "category": "Social"
+    },
+    "LH청약센터": {
+      "packageName": "com.tobesoft.LH",
+      "category": "House & Home"
+    },
+    "와이비엠 어학원": {
+      "packageName": "com.ybm.si_eduapp",
+      "category": "Education"
+    },
+    "Shutterstock Contributor": {
+      "packageName": "com.shutterstock.contributor",
+      "category": "Photography"
+    },
+    "네이버 시리즈on - SERIES ON": {
+      "packageName": "com.nhn.android.navertv",
+      "category": "Entertainment"
+    },
+    "Samsung Music": {
+      "packageName": "com.sec.android.app.music",
+      "category": "Music & Audio"
+    },
+    "카플랫 - 집 앞에서 타는 렌트카(렌터카)": {
+      "packageName": "kr.co.plat.carplat",
+      "category": "Maps & Navigation"
+    },
+    "경찰 로스트112": {
+      "packageName": "kr.go.police.lost112.mobile.userapp",
+      "category": "Lifestyle"
+    },
+    "Notebloc: Scanner App - Scan, save & share as PDF": {
+      "packageName": "com.notebloc.app",
+      "category": "Productivity"
+    },
+    "Agoda": {
+      "packageName": "com.agoda.mobile.consumer",
+      "category": "Travel & Local"
+    },
+    "Solitaire: Decked Out Ad Free": {
+      "packageName": "com.devsisters.SolitaireDeckedOut",
+      "category": "Card"
+    },
+    "VLLO - Easy Video & Vlog Editing App": {
+      "packageName": "com.darinsoft.vimo",
+      "category": "Utility"
+    },
+    "WATCHA PEDIA - Movies, TV shows Recommendation App": {
+      "packageName": "com.frograms.watcha",
+      "category": "Entertainment"
+    },
+    "VG 기업용 Web SDK": {
+      "packageName": "kr.co.shiftworks.vguardweb",
+      "category": "Tools"
+    },
+    "Microsoft Word: Write, Edit & Share Docs on the Go": {
+      "packageName": "com.microsoft.office.word",
+      "category": "Productivity"
+    },
+    "Your Phone Companion - Link to Windows": {
+      "packageName": "com.microsoft.appmanager",
+      "category": "Productivity"
+    },
+    "카카오헤어샵 KakaoHairshop": {
+      "packageName": "com.kakao.beauty.hairshop",
+      "category": "Beauty"
+    },
+    "Fake GPS location": {
+      "packageName": "com.lexa.fakegps",
+      "category": "Tools"
+    },
+    "SODA - Natural Beauty Camera": {
+      "packageName": "com.snowcorp.soda.android",
+      "category": "Photography"
+    },
+    "하나원큐 - 하나은행 스마트폰뱅킹": {
+      "packageName": "com.hanabank.ebk.channel.android.hananbank",
+      "category": "Finance"
+    },
+    "Beam - Escooter sharing": {
+      "packageName": "com.escooterapp",
+      "category": "Auto & Vehicles"
+    },
+    "크몽 - 전문가가 필요한 순간": {
+      "packageName": "com.kmong.kmong",
+      "category": "Business"
+    },
+    "Puffin Web Browser": {
+      "packageName": "com.cloudmosa.puffinFree",
+      "category": "Browser"
+    },
+    "B612 - Beauty & Filter Camera": {
+      "packageName": "com.linecorp.b612.android",
+      "category": "Photography"
+    },
+    "Alarmy-Loud Alarm Sounds,Math Alarm Clock for Free": {
+      "packageName": "droom.sleepIfUCan",
+      "category": "Productivity"
+    },
+    "All Files Converter - PDF, DOC, JPG, GIF, MP3, AVI": {
+      "packageName": "com.offiwiz.file.converter",
+      "category": "Productivity"
+    },
+    "허니스크린 - 첫화면 속 꿀캐시": {
+      "packageName": "com.buzzvil.adhours",
+      "category": "Social"
+    },
+    "One-Stop Financial Service : Stockplus": {
+      "packageName": "com.dunamu.stockplus",
+      "category": "Finance"
+    },
+    "만능톡 - 메시지 몰래보기, 삭제된 메시지 보기, 자동응답기, 채팅분석": {
+      "packageName": "com.allabout.katok",
+      "category": "Dating"
+    },
+    "런투런, 한국사, 공무원, 특허, 기출, 핵심이론, 연동 버튼, 경찰": {
+      "packageName": "com.jlesoft.civilservice.koreanhistoryexam9",
+      "category": "Education"
+    },
+    "Photo Wonder - Collage Maker": {
+      "packageName": "com.yubitu.android.YubiCollage",
+      "category": "Photography"
+    },
+    "AI 토익 튜터, 산타": {
+      "packageName": "co.riiid.vida",
+      "category": "Education"
+    },
+    "7급 공무원 시험 기출문제": {
+      "packageName": "kr.co.trutory.nationaltest.publicservice7",
+      "category": "Education"
+    },
+    "Google Chrome: Fast & Secure": {
+      "packageName": "com.android.chrome",
+      "category": "Browser"
+    },
+    "Google Play services": {
+      "packageName": "com.google.android.gms",
+      "category": "Tools"
+    },
+    "Samsung Internet Browser": {
+      "packageName": "com.sec.android.app.sbrowser",
+      "category": "Browser"
+    },
+    "경기지역화폐": {
+      "packageName": "gov.gyeonggi.ggcard",
+      "category": "Finance"
+    },
+    "KorailTalk": {
+      "packageName": "com.korail.talk",
+      "category": "Travel & Local"
+    },
+    "라프텔 - 애니 감상 및 취향저격 추천, 스트리밍": {
+      "packageName": "laftel.net.laftel",
+      "category": "Comics"
+    },
+    "Google": {
+      "packageName": "com.google.android.googlequicksearchbox",
+      "category": "Tools"
+    },
+    "Messages": {
+      "packageName": "com.google.android.apps.messaging",
+      "category": "Communication"
+    },
+    "셀렉트숍 무신사 - SELECT SHOP MUSINSA": {
+      "packageName": "com.musinsa.store",
+      "category": "Shopping"
+    },
+    "DAILY DAY - D-Day Schedule Widget": {
+      "packageName": "kr.co.yjteam.dailyday",
+      "category": "Lifestyle"
+    },
+    "NateOn UC": {
+      "packageName": "Uxpp.UC",
+      "category": "Communication"
+    },
+    "Wild Tamer": {
+      "packageName": "com.percent.wildtamer",
+      "category": "Role Playing"
+    },
+    "Adobe Scan: PDF Scanner with OCR, PDF Creator": {
+      "packageName": "com.adobe.scan.android",
+      "category": "Business"
+    },
+    "T연락처 - 주소록 실시간 백업, 114 검색": {
+      "packageName": "com.skt.prod.phonebook",
+      "category": "Tools"
+    },
+    "KB국민은행 스타뱅킹": {
+      "packageName": "com.kbstar.kbbank",
+      "category": "Finance"
+    },
+    "삼국지 오리진": {
+      "packageName": "com.r2.sgmnz.kr",
+      "category": "Strategy"
+    },
+    "HSK Online — HSK Study and Exams": {
+      "packageName": "com.hskonline",
+      "category": "Education"
+    },
+    "Auto Clicker - Automatic tap": {
+      "packageName": "com.truedevelopersstudio.automatictap.autoclicker",
+      "category": "Tools"
+    },
+    "V3 Mobile Plus": {
+      "packageName": "com.ahnlab.v3mobileplus",
+      "category": "Tools"
+    },
+    "삭제된 메시지 보기 - 삭톡/모든톡K(구)": {
+      "packageName": "com.rbu.saktalk",
+      "category": "Dating"
+    },
+    "YouCut - Video Editor & Video Maker, No Watermark": {
+      "packageName": "com.camerasideas.trimmer",
+      "category": "Utility"
+    },
+    "WeChat": {
+      "packageName": "com.tencent.mm",
+      "category": "Communication"
+    },
+    "쿠팡 플렉스 (배송)": {
+      "packageName": "com.coupang.flex.mobile",
+      "category": "Business"
+    },
+    "Google Photos": {
+      "packageName": "com.google.android.apps.photos",
+      "category": "Photography"
+    },
+    "U+프로야구(모든 통신사 이용가능)": {
+      "packageName": "com.uplus.baseballhdtv",
+      "category": "Sports"
+    },
+    "The Slimeking's Tower": {
+      "packageName": "com.revampedpro.theslimekingtower",
+      "category": "Action"
+    },
+    "U+멤버스 - 멤버십 할인,소액결제,포인트,쿠폰": {
+      "packageName": "uplus.membership",
+      "category": "Lifestyle"
+    },
+    "S-OIL 구도일 Family": {
+      "packageName": "com.soilbonus.goodoilfamily",
+      "category": "Lifestyle"
+    },
+    "스마트OTP 공동앱": {
+      "packageName": "com.kftc.smartotp",
+      "category": "Finance"
+    },
+    "한화손해보험 스마트인슈": {
+      "packageName": "com.hanwha.hima",
+      "category": "Finance"
+    },
+    "롯데홈쇼핑": {
+      "packageName": "com.omnitel.android.lottewebview",
+      "category": "Shopping"
+    },
+    "Discord - Talk, Video Chat & Hangout with Friends": {
+      "packageName": "com.discord",
+      "category": "Communication"
+    },
+    "후후-유플러스 - 함께 쓰면 더 좋은 안전 안심 1등 앱": {
+      "packageName": "com.whox2.lguplus",
+      "category": "Lifestyle"
+    },
+    "Secure Folder": {
+      "packageName": "com.samsung.knox.securefolder",
+      "category": "Business"
+    },
+    "메이플핸즈+": {
+      "packageName": "com.nexon.handsplus",
+      "category": "Entertainment"
+    },
+    "봄 캘린더 - 내 마음대로 꾸미는 생리 달력": {
+      "packageName": "kr.co.ll2016.theday",
+      "category": "Health & Fitness"
+    },
+    "런투런, 국어, 공무원, 특허, 기출, 9급, 일일문제, 어휘, 표준어, 외래어, 사자성어": {
+      "packageName": "com.admin.jlesoft.civilservice_korean",
+      "category": "Education"
+    },
+    "Naver Calendar": {
+      "packageName": "com.nhn.android.calendar",
+      "category": "Productivity"
+    },
+    "Pokémon GO": {
+      "packageName": "com.nianticlabs.pokemongo",
+      "category": "Adventure"
+    },
+    "L.POINT - 엘포인트 [ 포인트, 멤버십, 적립, 사용, 모바일 카드, 쿠폰, 롯데]": {
+      "packageName": "com.lottemembers.android",
+      "category": "Lifestyle"
+    },
+    "중고나라 - 2,100만 회원 국내 최대 중고장터": {
+      "packageName": "com.elz.secondhandstore",
+      "category": "Shopping"
+    },
+    "떠리몰 - B급 상품, 유통기한 임박 최대 95% 할인": {
+      "packageName": "kr.co.fimasia.thirtymall",
+      "category": "Shopping"
+    },
+    "Adobe Acrobat Reader: PDF Viewer, Editor & Creator": {
+      "packageName": "com.adobe.reader",
+      "category": "Productivity"
+    },
+    "手机淘宝": {
+      "packageName": "com.taobao.taobao",
+      "category": "Shopping"
+    },
+    "한컴오피스 viewer": {
+      "packageName": "com.tf.thinkdroid.viewer",
+      "category": "Productivity"
+    },
+    "Trello: Organize anything with anyone, anywhere!": {
+      "packageName": "com.trello",
+      "category": "Productivity"
+    },
+    "NH콕뱅크": {
+      "packageName": "nh.smart.nhcok",
+      "category": "Finance"
+    },
+    "Messenger – Text and Video Chat for Free": {
+      "packageName": "com.facebook.orca",
+      "category": "Communication"
+    },
+    "지니 뮤직 - genie": {
+      "packageName": "com.ktmusic.geniemusic",
+      "category": "Music & Audio"
+    },
+    "Polaris Office - Free Docs, Sheets, Slides + PDF": {
+      "packageName": "com.infraware.office.link",
+      "category": "Productivity"
+    },
+    "SRT - 수서고속철도(NEW)": {
+      "packageName": "kr.co.srail.newapp",
+      "category": "Travel & Local"
+    },
+    "Hearthstone": {
+      "packageName": "com.blizzard.wtcg.hearthstone",
+      "category": "Card"
+    },
+    "Galaxy Buds Plugin": {
+      "packageName": "com.samsung.accessory.fridaymgr",
+      "category": "Tools"
+    },
+    "챌린저스 - 할일, 습관, 목표 관리": {
+      "packageName": "kr.co.whitecube.chlngers",
+      "category": "Productivity"
+    },
+    "Forest: Stay focused": {
+      "packageName": "cc.forestapp",
+      "category": "Productivity"
+    },
+    "CJ ONE": {
+      "packageName": "kr.co.ivlog.mobile.app.cjonecard",
+      "category": "Lifestyle"
+    },
+    "우리카드 (스마트앱)": {
+      "packageName": "com.wooricard.smartapp",
+      "category": "Finance"
+    },
+    "피온북 (피온4정보공유)": {
+      "packageName": "com.hong.fo4book",
+      "category": "Communication"
+    },
+    "Facebook Lite": {
+      "packageName": "com.facebook.lite",
+      "category": "Social"
+    },
+    "GNALI - Real-Time Locator, GPS Tracker, History": {
+      "packageName": "com.xsol.gnali",
+      "category": "Communication"
+    },
+    "Microsoft Office: Word, Excel, PowerPoint & More": {
+      "packageName": "com.microsoft.office.officehubrow",
+      "category": "Productivity"
+    },
+    "Samsung Global Goals": {
+      "packageName": "com.samsung.sree",
+      "category": "Education"
+    },
+    "롯데마트 M쿠폰": {
+      "packageName": "com.lottemart.lmscp",
+      "category": "Shopping"
+    },
+    "Device Care": {
+      "packageName": "com.samsung.android.lool",
+      "category": "Tools"
+    },
+    "T멤버십": {
+      "packageName": "com.tms",
+      "category": "Lifestyle"
+    },
+    "DeX MAX - Tweak for Samsung DeX": {
+      "packageName": "xyz.masmas.dexmax",
+      "category": "Tools"
+    },
+    " Skyscanner – cheap flights, hotels and car rental": {
+      "packageName": "net.skyscanner.android.main",
+      "category": "Travel & Local"
+    },
+    "League+": {
+      "packageName": "com.riotgames.mobile.leagueconnect",
+      "category": "Strategy"
+    },
+    "배달요기요": {
+      "packageName": "com.fineapp.yogiyo",
+      "category": "Food & Drink"
+    },
+    "인투펫-반려동물 건강, 라이프 포털": {
+      "packageName": "co.kr.intocns.app.intopet",
+      "category": "Lifestyle"
+    },
+    "Airy: Global Air Quality Map": {
+      "packageName": "com.ecoa.misebig",
+      "category": "Weather"
+    },
+    "McDonald's": {
+      "packageName": "com.mcdonalds.mobileapp",
+      "category": "Food & Drink"
+    },
+    "팔라고 - 모바일 쿠폰 중고거래, 이제 안전하게 거래하자": {
+      "packageName": "kr.co.kpcard.palrago",
+      "category": "Shopping"
+    },
+    "삼성 모아키 한글 키보드": {
+      "packageName": "org.samsung.app.MoAKey",
+      "category": "Tools"
+    },
+    "Google Home": {
+      "packageName": "com.google.android.apps.chromecast.app",
+      "category": "Lifestyle"
+    },
+    "잡플래닛-2020년 일하기 좋은 기업은 어디?": {
+      "packageName": "com.jobplanet.kr.android",
+      "category": "Business"
+    },
+    "Triple Fantasy Premium": {
+      "packageName": "com.Gameplete.CardFantasyPremium",
+      "category": "Card"
+    },
+    "서울스토어": {
+      "packageName": "com.seoulstore",
+      "category": "Shopping"
+    },
+    "와디즈(wadiz) - 펀딩부터 투자까지": {
+      "packageName": "com.markmount.wadiz",
+      "category": "Shopping"
+    },
+    "다음웹툰 - DAUM WEBTOON": {
+      "packageName": "net.daum.android.webtoon",
+      "category": "Comics"
+    },
+    "멜론": {
+      "packageName": "com.iloen.melon",
+      "category": "Music & Audio"
+    },
+    "Google Classroom": {
+      "packageName": "com.google.android.apps.classroom",
+      "category": "Education"
+    },
+    "Encar": {
+      "packageName": "com.encar.encarMobileApp",
+      "category": "Auto & Vehicles"
+    },
+    "머케인 메이트 - 전동 킥보드 공유 서비스": {
+      "packageName": "com.mobani.oboon",
+      "category": "Auto & Vehicles"
+    },
+    "DaBang - Rental Homes in Korea": {
+      "packageName": "kr.co.station3.dabang",
+      "category": "House & Home"
+    },
+    "HelloLMS": {
+      "packageName": "kr.co.imaxsoft.hellolms",
+      "category": "Education"
+    },
+    "브랜디 - 오늘 사서 내일 입자": {
+      "packageName": "com.brandicorp.brandi3",
+      "category": "Shopping"
+    },
+    "플래시스코어 - FlashScore": {
+      "packageName": "eu.livesport.FlashScore_co_kr",
+      "category": "Sports"
+    },
+    "The Bible App Free + Audio, Offline, Daily Study": {
+      "packageName": "com.sirma.mobile.bible.android",
+      "category": "Books & Reference"
+    },
+    "카카오페이지 KakaoPage": {
+      "packageName": "com.kakao.page",
+      "category": "Entertainment"
+    },
+    "U+모바일tv-실시간TV,TV다시보기,최신영화": {
+      "packageName": "com.uplus.onphone",
+      "category": "Entertainment"
+    },
+    "SNOW": {
+      "packageName": "com.campmobile.snow",
+      "category": "Photography"
+    },
+    "카카오뱅크 - 같지만 다른 은행": {
+      "packageName": "com.kakaobank.channel",
+      "category": "Finance"
+    },
+    "TikTok": {
+      "packageName": "com.ss.android.ugc.trill",
+      "category": "Video Players & Editors"
+    },
+    "OP.GG for League/ PUBG/ Overwatch": {
+      "packageName": "gg.op.lol.android",
+      "category": "Entertainment"
+    },
+    "Clue Period Tracker, Ovulation & Cycle Calendar": {
+      "packageName": "com.clue.android",
+      "category": "Health & Fitness"
+    },
+    "Shazam: Discover songs & lyrics in seconds": {
+      "packageName": "com.shazam.android",
+      "category": "Music & Audio"
+    },
+    "열정품은타이머 - 혼자 공부하지말고 열품타에서함께 공부하세요!": {
+      "packageName": "com.pallo.passiontimerscoped",
+      "category": "Education"
+    },
+    "모바일티머니": {
+      "packageName": "com.skt.skaf.a000as00tm",
+      "category": "Maps & Navigation"
+    },
+    "프렌즈타임": {
+      "packageName": "com.kakaogames.friendstime",
+      "category": "Entertainment"
+    },
+    "Trigon : Triangle Block Puzzle Game": {
+      "packageName": "com.DTA.trigon",
+      "category": "Puzzle"
+    },
+    "Microsoft Teams": {
+      "packageName": "com.microsoft.teams",
+      "category": "Business"
+    },
+    "네이버 포스트 - 콘텐츠 전문가를 위한 공간": {
+      "packageName": "com.nhn.android.post",
+      "category": "Social"
+    },
+    "Foodie - Camera for life": {
+      "packageName": "com.linecorp.foodcam.android",
+      "category": "Photography"
+    },
+    "HD Wallpapers (Backgrounds)": {
+      "packageName": "info.androidstation.hdwallpaper",
+      "category": "Personalization"
+    },
+    "공차": {
+      "packageName": "com.smartro.gongcha",
+      "category": "Food & Drink"
+    },
+    "MangoPlate - Restaurant Search": {
+      "packageName": "com.mangoplate",
+      "category": "Food & Drink"
+    },
+    "코끼리 – 불안, 불면, 스트레스 조절": {
+      "packageName": "com.mindclass.android",
+      "category": "Health & Fitness"
+    },
+    "Elevate - Brain Training Games": {
+      "packageName": "com.wonder",
+      "category": "Education"
+    },
+    "Korean Subway : Smarter Subway": {
+      "packageName": "teamDoppelGanger.SmarterSubway",
+      "category": "Maps & Navigation"
+    },
+    "Seezn(시즌) - 즐거움을 다 본다!": {
+      "packageName": "com.kt.otv",
+      "category": "Entertainment"
+    },
+    "Google Drive": {
+      "packageName": "com.google.android.apps.docs",
+      "category": "Productivity"
+    },
+    "게으름 치료제 - 명언, 동기부여, 좋은 글": {
+      "packageName": "com.humanhelper.forhuman.openquotes",
+      "category": "Lifestyle"
+    },
+    "Phone": {
+      "packageName": "com.google.android.dialer",
+      "category": "Tools"
+    },
+    "우리 건강 지킴이": {
+      "packageName": "com.jnheo.ourhealth",
+      "category": "Health & Fitness"
+    },
+    "미래에셋대우 통합 m.Stock": {
+      "packageName": "com.miraeasset.trade",
+      "category": "Finance"
+    },
+    "패널나우 - 설문조사로 돈버는 앱": {
+      "packageName": "com.d8aspring.panelnow",
+      "category": "Lifestyle"
+    },
+    "UBhind: No.1 Mobile Life Tracker/Addiction Manager": {
+      "packageName": "kr.co.rinasoft.howuse",
+      "category": "Productivity"
+    },
+    "Samsung Email": {
+      "packageName": "com.samsung.android.email.provider",
+      "category": "Productivity"
+    },
+    "Samsung Voice Recorder": {
+      "packageName": "com.sec.android.app.voicenote",
+      "category": "Tools"
+    },
+    "MakeupPlus - Your Own Virtual Makeup Artist": {
+      "packageName": "com.meitu.makeup",
+      "category": "Photography"
+    },
+    "Hwahae - analyzing cosmetics": {
+      "packageName": "kr.co.company.hwahae",
+      "category": "Beauty"
+    },
+    "캐시슬라이드 스텝업 - 잠금화면 만보기": {
+      "packageName": "com.nbt.moves",
+      "category": "Utility"
+    },
+    "GS Fresh Mall/ 심플리쿡 - 마트부터 편의점까지. 3시간 내 당일 배송": {
+      "packageName": "com.gsretail.android.smapp",
+      "category": "Shopping"
+    },
+    "Samsung One UI Home": {
+      "packageName": "com.sec.android.app.launcher",
+      "category": "Personalization"
+    },
+    "글로우픽 (GLOWPICK)": {
+      "packageName": "com.glowdayz.glowmee",
+      "category": "Beauty"
+    },
+    "Auction": {
+      "packageName": "com.ebay.kr.auction",
+      "category": "Shopping"
+    },
+    "Unicorn HTTPS: Bypassing SNI-based HTTPS Filtering": {
+      "packageName": "kr.co.lylstudio.httpsguard",
+      "category": "Tools"
+    },
+    "Samsung Gallery": {
+      "packageName": "com.sec.android.gallery3d",
+      "category": "Photography"
+    },
+    "TenTen - multiplay party mini game": {
+      "packageName": "com.harveanie.drinkinggames",
+      "category": "Casual"
+    },
+    "오독오독 - 펫 사료 성분 분석&리뷰": {
+      "packageName": "com.odokodok.android",
+      "category": "Lifestyle"
+    },
+    "Trabee Pocket : Travel Expense": {
+      "packageName": "com.trabee.exnote.travel",
+      "category": "Travel & Local"
+    },
+    "신한페이판": {
+      "packageName": "com.shcard.smartpay",
+      "category": "Finance"
+    },
+    "Myfit Pro": {
+      "packageName": "com.ictp.mfp",
+      "category": "Tools"
+    },
+    "PUBG MOBILE": {
+      "packageName": "com.pubg.krmobile",
+      "category": "Action"
+    },
+    "instiz (official)": {
+      "packageName": "net.instiz.www.instiz",
+      "category": "Entertainment"
+    },
+    "비플제로페이 - 서울사랑상품권, 온누리상품권, 지역사랑상품권": {
+      "packageName": "com.bizplay.bizzeropay",
+      "category": "Finance"
+    },
+    "착한구두": {
+      "packageName": "com.chakanshoes.byapps",
+      "category": "Shopping"
+    },
+    "AirBattery": {
+      "packageName": "friedrich.georg.airbattery",
+      "category": "Music & Audio"
+    },
+    "GOODTV 다번역성경찬송": {
+      "packageName": "kr.co.GoodTVBible",
+      "category": "Books & Reference"
+    },
+    "Samsung My Files": {
+      "packageName": "com.sec.android.app.myfiles",
+      "category": "Tools"
+    },
+    "리브": {
+      "packageName": "com.kbstar.liivbank",
+      "category": "Finance"
+    },
+    "theqoo - 더쿠": {
+      "packageName": "com.theqoo.app",
+      "category": "Communication"
+    },
+    "스타벅스": {
+      "packageName": "com.starbucks.co",
+      "category": "Food & Drink"
+    },
+    "벅스 - Bugs": {
+      "packageName": "com.neowiz.android.bugs",
+      "category": "Music & Audio"
+    },
+    "Shattered Pixel Dungeon: Roguelike Dungeon Crawler": {
+      "packageName": "com.shatteredpixel.shatteredpixeldungeon",
+      "category": "Role Playing"
+    },
+    "숨고 - 인테리어, 이사, 청소, 과외, 웨딩, 펫시터 등 각종 생활서비스 고수 찾기": {
+      "packageName": "com.soomgo",
+      "category": "Lifestyle"
+    },
+    "에브리타임 - 시간표 & 대학교 커뮤니티": {
+      "packageName": "com.everytime.v2",
+      "category": "Social"
+    },
+    "바디채널 - 피트니스 회원전용 서비스앱": {
+      "packageName": "com.bodychannel.mobileapp",
+      "category": "Lifestyle"
+    },
+    "BLACKUP": {
+      "packageName": "com.cafe24.ec.plusskfo900815",
+      "category": "Shopping"
+    },
+    "Intra": {
+      "packageName": "app.intra",
+      "category": "Tools"
+    },
+    "쏘카 - 1등 카셰어링": {
+      "packageName": "socar.Socar",
+      "category": "Maps & Navigation"
+    },
+    "U+카카오내비": {
+      "packageName": "com.lguplus.navi",
+      "category": "Maps & Navigation"
+    },
+    "서울도서관 통합전자책": {
+      "packageName": "kr.co.smartandwise.ecoepub3viewer.seoul",
+      "category": "Books & Reference"
+    },
+    "ZombieBoy2-CRAZY LOVE-": {
+      "packageName": "com.karapon.zb2en",
+      "category": "Simulation"
+    },
+    "검볼앤던전(G&D) - 밤새지 말란 말이야": {
+      "packageName": "com.dhmobile.gad",
+      "category": "Adventure"
+    },
+    "U+ 고객센터": {
+      "packageName": "com.lguplus.mobile.cs",
+      "category": "Lifestyle"
+    },
+    "TJ노래방 리모컨": {
+      "packageName": "kr.tj.tjsmartplay_B",
+      "category": "Entertainment"
+    },
+    "AirBrush: Easy Photo Editor": {
+      "packageName": "com.magicv.airbrush",
+      "category": "Photography"
+    },
+    "캠퍼스픽 - 대학생 커뮤니티, 동아리, 공모전, 대외활동": {
+      "packageName": "com.vinulabs.campuspick",
+      "category": "Social"
+    },
+    "PASS by U+ 운전면허증이 내 휴대폰 속으로!": {
+      "packageName": "com.lguplus.smartotp",
+      "category": "Finance"
+    },
+    "썸데이즈": {
+      "packageName": "com.cafe24.ssomedays",
+      "category": "Shopping"
+    },
+    "국가법령정보 (Korea Laws)": {
+      "packageName": "com.insideinfo.KoreaLawHybrid",
+      "category": "Lifestyle"
+    },
+    "해커스토익 빅플(Bigple) - 인공지능 토익튜터": {
+      "packageName": "com.hackers.app.bigple",
+      "category": "Education"
+    },
+    "YouTube Music - Stream Songs & Music Videos": {
+      "packageName": "com.google.android.apps.youtube.music",
+      "category": "Music & Audio"
+    },
+    "NAVER Korean Dictionary": {
+      "packageName": "com.nhn.android.naverdic",
+      "category": "Education"
+    },
+    "마이 케이티": {
+      "packageName": "com.ktshow.cs",
+      "category": "Lifestyle"
+    },
+    "인디언포커": {
+      "packageName": "com.BronzeGames.IndianPokerAI",
+      "category": "Card"
+    },
+    "Google Meet - Secure Video Meetings": {
+      "packageName": "com.google.android.apps.meetings",
+      "category": "Business"
+    },
+    "JustWatch - The Streaming Guide for Movies & Shows": {
+      "packageName": "com.justwatch.justwatch",
+      "category": "Entertainment"
+    },
+    "서울자전거 따릉이 (Seoul Public Bike)": {
+      "packageName": "com.dki.spb_android",
+      "category": "Maps & Navigation"
+    },
+    "인터파크 티켓": {
+      "packageName": "com.interpark.app.ticket",
+      "category": "Entertainment"
+    },
+    "Pixel Launcher": {
+      "packageName": "com.google.android.apps.nexuslauncher",
+      "category": "Tools"
+    },
+    "한국장학재단": {
+      "packageName": "com.mo.kosaf",
+      "category": "Education"
+    },
+    "InBody": {
+      "packageName": "com.inbody2014.inbody",
+      "category": "Health & Fitness"
+    },
+    "StyleShare - Fashion & Beauty": {
+      "packageName": "com.styleshare.android",
+      "category": "Shopping"
+    },
+    "온디스크 (ondisk) 모바일 전용앱": {
+      "packageName": "com.ondisk.mobile4v18M",
+      "category": "Lifestyle"
+    },
+    "네이버 블로그 - Naver Blog": {
+      "packageName": "com.nhn.android.blog",
+      "category": "Social"
+    },
+    "Weverse": {
+      "packageName": "co.benx.weverse",
+      "category": "Social"
+    },
+    "Kakao T - Taxi, Driver, Parking, Navi, Carpool": {
+      "packageName": "com.kakao.taxi",
+      "category": "Maps & Navigation"
+    },
+    "KartRider Rush+": {
+      "packageName": "com.nexon.kart",
+      "category": "Racing"
+    },
+    "WIND - 새로운 스마트 전기 모빌리티 공유 플랫폼": {
+      "packageName": "com.wind.korea",
+      "category": "Auto & Vehicles"
+    },
+    "CNN Breaking US & World News": {
+      "packageName": "com.cnn.mobile.android.phone",
+      "category": "News & Magazines"
+    },
+    "디시인사이드 - dcinside": {
+      "packageName": "com.dcinside.app",
+      "category": "Social"
+    },
+    "Luna diary - journal on the moon": {
+      "packageName": "com.epiphany.lunadiary",
+      "category": "Lifestyle"
+    },
+    "인어교주해적단 - 노량진, 가락시장, 킹크랩, 시세, 맛집": {
+      "packageName": "com.tpirates.tpiratesapp",
+      "category": "Food & Drink"
+    },
+    "Ticketlink": {
+      "packageName": "kr.co.ticketlink.cne",
+      "category": "Entertainment"
+    },
+    "NAVER Mail": {
+      "packageName": "com.nhn.android.mail",
+      "category": "Communication"
+    },
+    "Microsoft PowerPoint: Slideshows and Presentations": {
+      "packageName": "com.microsoft.office.powerpoint",
+      "category": "Productivity"
+    },
+    "그린카 – 이동을 새로 그리다": {
+      "packageName": "com.greencar",
+      "category": "Maps & Navigation"
+    },
+    "Maps - Navigate & Explore": {
+      "packageName": "com.google.android.apps.maps",
+      "category": "Maps & Navigation"
+    },
+    "Hangouts": {
+      "packageName": "com.google.android.talk",
+      "category": "Communication"
+    },
+    "병무청": {
+      "packageName": "kr.go.mma.android.ByongMu",
+      "category": "Business"
+    },
+    "AlarmMon": {
+      "packageName": "com.malangstudio.alarmmon",
+      "category": "Lifestyle"
+    },
+    "미래에셋대우 m.ALL (계좌개설)": {
+      "packageName": "com.miraeasset.smartasset",
+      "category": "Finance"
+    },
+    "FLO – 플로": {
+      "packageName": "skplanet.musicmate",
+      "category": "Music & Audio"
+    },
+    "Xbox": {
+      "packageName": "com.microsoft.xboxone.smartglass",
+      "category": "Entertainment"
+    },
+    "Netflix": {
+      "packageName": "com.netflix.mediaclient",
+      "category": "Entertainment"
+    },
+    "KB국민카드": {
+      "packageName": "com.kbcard.kbkookmincard",
+      "category": "Finance"
+    },
+    "Samsung Health": {
+      "packageName": "com.sec.android.app.shealth",
+      "category": "Health & Fitness"
+    },
+    "ISP/PAYBOOC": {
+      "packageName": "kvp.jjy.MispAndroid320",
+      "category": "Finance"
+    },
+    "Gmail": {
+      "packageName": "com.google.android.gm",
+      "category": "Communication"
+    },
+    "Soonsoon Candlelight": {
+      "packageName": "com.soonsoon.SoonsoonCandle",
+      "category": "Lifestyle"
+    },
+    "AFK 아레나": {
+      "packageName": "com.lilithgame.hgame.gp.kr",
+      "category": "Role Playing"
+    },
+    "킥고잉 - 다운로드 1위 킥보드 공유 서비스": {
+      "packageName": "com.olulo.kickgoing",
+      "category": "Auto & Vehicles"
+    },
+    "타임커머스 티몬": {
+      "packageName": "com.tmon",
+      "category": "Shopping"
+    },
+    "에이블리 - 셀럽마켓 모음앱": {
+      "packageName": "com.banhala.android",
+      "category": "Shopping"
+    },
+    "KT 멤버십": {
+      "packageName": "com.olleh.android.oc2",
+      "category": "Lifestyle"
+    },
+    "Google Duo - High Quality Video Calls": {
+      "packageName": "com.google.android.apps.tachyon",
+      "category": "Communication"
+    },
+    "MX Player": {
+      "packageName": "com.mxtech.videoplayer.ad",
+      "category": "Video Players & Editors"
+    },
+    "PAYCO": {
+      "packageName": "com.nhnent.payapp",
+      "category": "Lifestyle"
+    },
+    "Metronome: Tempo Lite": {
+      "packageName": "com.frozenape.tempolite",
+      "category": "Music & Audio"
+    },
+    "Notion - Notes, Tasks, Wikis": {
+      "packageName": "notion.id",
+      "category": "Productivity"
+    },
+    "피임생리달력1위 핑크다이어리(PINKDIARY)-가임기 배란 임신": {
+      "packageName": "com.dnt7.threeW",
+      "category": "Health & Fitness"
+    },
+    "Android Auto - Google Maps, Media & Messaging": {
+      "packageName": "com.google.android.projection.gearhead",
+      "category": "Auto & Vehicles"
+    },
+    "Samsung messaging": {
+      "packageName": "com.samsung.android.messaging",
+      "category": "Communication"
+    },
+    "Anipang 4": {
+      "packageName": "com.sundaytoz.kakao.anipang4",
+      "category": "Action"
+    },
+    "공인회계사 기출문제": {
+      "packageName": "kr.co.trutory.license.account",
+      "category": "Education"
+    },
+    "Xbox Game Pass": {
+      "packageName": "com.gamepass",
+      "category": "Entertainment"
+    },
+    "GOGOSING": {
+      "packageName": "com.byappsc.ggsing",
+      "category": "Shopping"
+    },
+    "먼슬리씽 - 여성 밀착 생활스토어": {
+      "packageName": "com.monthlything.aos",
+      "category": "Health & Fitness"
+    },
+    "Darkside Dungeon": {
+      "packageName": "com.redzaam.dsd",
+      "category": "Role Playing"
+    },
+    "NAVER Map, Navigation": {
+      "packageName": "com.nhn.android.nmap",
+      "category": "Maps & Navigation"
+    },
+    "피망 섯다": {
+      "packageName": "com.neowiz.games.sudda",
+      "category": "Card"
+    },
+    "메가박스(MEGABOX)": {
+      "packageName": "com.megabox.mop",
+      "category": "Entertainment"
+    },
+    "아보카도당 - 카카오톡 테마": {
+      "packageName": "com.kakao.talk.theme.avocado.dang",
+      "category": "Entertainment"
+    },
+    "올리브영": {
+      "packageName": "com.oliveyoung",
+      "category": "Shopping"
+    },
+    "TFT Guide - LoLCHESS.GG": {
+      "packageName": "gg.lolchess",
+      "category": "Productivity"
+    },
+    "Galaxy Buds+ Plugin": {
+      "packageName": "com.samsung.accessory.popcornmgr",
+      "category": "Tools"
+    },
+    "알바천국- 알바 구인구직 포털서비스": {
+      "packageName": "kr.co.alba.webappalba.m",
+      "category": "Business"
+    },
+    "런투런, 행정학, 공무원, 특허, 기출, OX, 일일문제, 요약이론, 9급": {
+      "packageName": "com.admin.jlesoft.science_of_public_administration",
+      "category": "Education"
+    },
+    "나만의냉장고(GS25)": {
+      "packageName": "com.gsr.gs25",
+      "category": "Lifestyle"
+    },
+    "원더플레이스": {
+      "packageName": "com.wonder.wonderplace",
+      "category": "Shopping"
+    },
+    "Mobizen Screen Recorder for LG - Record, Capture": {
+      "packageName": "com.rsupport.mobizen.lg",
+      "category": "Utility"
+    },
+    "쿠팡 (Coupang)": {
+      "packageName": "com.coupang.mobile",
+      "category": "Shopping"
+    },
+    "Between - Private Couples App": {
+      "packageName": "kr.co.vcnc.android.couple",
+      "category": "Social"
+    },
+    "커넥팅 - 클린한 소셜 통화 어플": {
+      "packageName": "com.yangpark.connecting",
+      "category": "Social"
+    },
+    "Google Play Games": {
+      "packageName": "com.google.android.play.games",
+      "category": "Entertainment"
+    },
+    "U+ 편의기능": {
+      "packageName": "com.lguplus.lgusetting",
+      "category": "Lifestyle"
+    },
+    "Q-Net 큐넷(자격의 모든 것)": {
+      "packageName": "com.mcnc.parecis.hrdkorea.qnet",
+      "category": "Education"
+    },
+    "[공식]고속버스 티머니": {
+      "packageName": "com.kscc.scxb.mbl",
+      "category": "Maps & Navigation"
+    },
+    "T전화 - 스팸차단, 녹음, 콜라 영상통화, 전화번호 검색, 로밍, baro(바로)": {
+      "packageName": "com.skt.prod.dialer",
+      "category": "Communication"
+    },
+    "마이호미 - 아파트 앱": {
+      "packageName": "kr.co.myhomie",
+      "category": "House & Home"
+    },
+    "케이디스크 – 최신영화, 드라마, 방송, 애니, 만화, 웹툰, BJ방송": {
+      "packageName": "com.kdisk.mobile4v4M",
+      "category": "Video Players & Editors"
+    },
+    "Conects Q&A: Photo Math Solver": {
+      "packageName": "com.stu.conects",
+      "category": "Education"
+    },
+    "AfreecaTV": {
+      "packageName": "kr.co.nowcom.mobile.afreeca",
+      "category": "Entertainment"
+    },
+    "네이버 - NAVER": {
+      "packageName": "com.nhn.android.search",
+      "category": "Browser"
+    },
+    "Instagram": {
+      "packageName": "com.instagram.android",
+      "category": "Social"
+    },
+    "Mobizen Screen Recorder - Record, Capture, Edit": {
+      "packageName": "com.rsupport.mvagent",
+      "category": "Productivity"
+    },
+    "Chrome Remote Desktop": {
+      "packageName": "com.google.chromeremotedesktop",
+      "category": "Tools"
+    },
+    "Mirror": {
+      "packageName": "com.studio360apps.mirror",
+      "category": "Beauty"
+    },
+    "매직서바이벌": {
+      "packageName": "com.vkslrzm.Zombie",
+      "category": "Casual"
+    },
+    "슥삭 - 대학생활 정보 추천": {
+      "packageName": "com.icoo.ssgsag_android",
+      "category": "Productivity"
+    },
+    "Video to MP3 Converter - mp3 cutter and merger": {
+      "packageName": "mp3videoconverter.videotomp3.videotomp3converter",
+      "category": "Utility"
+    },
+    "Twitter": {
+      "packageName": "com.twitter.android",
+      "category": "Social"
+    },
+    "터치엔 엠백신 for Web(기업용)": {
+      "packageName": "com.TouchEn.mVaccine.webs",
+      "category": "Finance"
+    },
+    "WeGram (Fasting timer, Intermittent fastring)": {
+      "packageName": "com.cleco.wegram.android",
+      "category": "Lifestyle"
+    },
+    "Tank Hero - Fun and addicting game": {
+      "packageName": "com.tankgame.tankhero.en",
+      "category": "Casual"
+    },
+    "꼼꼼시간표": {
+      "packageName": "com.jushine.ggtimetalbe",
+      "category": "Productivity"
+    },
+    "굿닥 – 마스크스캐너, 병원약국찾기, 성형시술 모아보기 필수앱": {
+      "packageName": "com.ksncho.hospitalinfo",
+      "category": "Health & Fitness"
+    },
+    "V LIVE": {
+      "packageName": "com.naver.vapp",
+      "category": "Entertainment"
+    },
+    "지그재그 - No.1 여성쇼핑몰 모음앱": {
+      "packageName": "com.croquis.zigzag",
+      "category": "Shopping"
+    },
+    "Google Play Music": {
+      "packageName": "com.google.android.music",
+      "category": "Music & Audio"
+    },
+    "네이버 톡톡 파트너": {
+      "packageName": "com.naver.shopping.biztalk",
+      "category": "Tools"
+    },
+    "교보문고 전자도서관": {
+      "packageName": "kr.co.kyobobook.KEL",
+      "category": "Lifestyle"
+    },
+    "아이돌Live - 모든 통신사 이용가능 아이돌 콘텐츠 APP": {
+      "packageName": "com.uplus.musicshow",
+      "category": "Entertainment"
+    },
+    "SB톡톡플러스": {
+      "packageName": "kr.or.sbbank.plus",
+      "category": "Finance"
+    },
+    "SuperStar GFRIEND": {
+      "packageName": "com.dalcomsoft.ssg",
+      "category": "Music"
+    },
+    "하나멤버스 - 포인트, 쿠폰, 해외결제, 무료송금": {
+      "packageName": "kr.co.hanamembers.hmscustomer",
+      "category": "Finance"
+    },
+    "아트닷컴 A-RT.COM - ABC마트의 새로운 통합 사이트": {
+      "packageName": "com.art.app.primary",
+      "category": "Shopping"
+    },
+    "성균관대학교 모바일포털앱 KINGO-M": {
+      "packageName": "edu.skku.imp",
+      "category": "Education"
+    },
+    "오늘의집 - 1000만이 선택한 No.1 인테리어 필수앱": {
+      "packageName": "net.bucketplace",
+      "category": "House & Home"
+    },
+    "신한금융투자 알파 (계좌개설 겸용)": {
+      "packageName": "com.shinhaninvest.nsmts",
+      "category": "Finance"
+    },
+    "1Q MTS - 하나금융투자(비대면 계좌개설 포함)": {
+      "packageName": "com.app.shd.pstock",
+      "category": "Finance"
+    },
+    "KakaoMetro - Subway Navigation": {
+      "packageName": "net.orizinal.subway",
+      "category": "Maps & Navigation"
+    },
+    "QuickTouch - Automatic Clicker": {
+      "packageName": "simplehat.clicker",
+      "category": "Tools"
+    },
+    "Rising Cat (떠오르는 고양이)": {
+      "packageName": "com.GiftGames.RisingCat",
+      "category": "Casual"
+    },
+    "이랜드몰 - Eland mall": {
+      "packageName": "kr.co.elandmall.elandmall",
+      "category": "Shopping"
+    },
+    "우리은행 원터치알림": {
+      "packageName": "com.wr.alrim",
+      "category": "Finance"
+    },
+    "Just Dance Now": {
+      "packageName": "com.ubisoft.dance.JustDance",
+      "category": "Music"
+    },
+    "공간 예약은 스페이스클라우드": {
+      "packageName": "com.hustay.swing.p3cfded673ced4983b0db9399638730cb",
+      "category": "Lifestyle"
+    },
+    "모두의주차장-국민주차앱 (주차장검색/주차공유/할인결제)": {
+      "packageName": "com.parkingshare.mobile",
+      "category": "Auto & Vehicles"
+    },
+    "스윙 SWING - Move with Style": {
+      "packageName": "com.co.swing",
+      "category": "Lifestyle"
+    },
+    "파밍RPG - 2D MMORPG": {
+      "packageName": "net.nekoland.game3096",
+      "category": "Role Playing"
+    },
+    "Karrot - Your local buying & selling community": {
+      "packageName": "com.towneers.www",
+      "category": "Shopping"
+    },
+    "Downloader & Private Browser - Kode Browser": {
+      "packageName": "com.app.downloadmanager",
+      "category": "Tools"
+    },
+    "Candy Crush Saga": {
+      "packageName": "com.king.candycrushsaga",
+      "category": "Casual"
+    },
+    "YouTube": {
+      "packageName": "com.google.android.youtube",
+      "category": "Video Players & Editors"
+    },
+    "Subway Korea (Korea Subway route navigation)": {
+      "packageName": "com.imagedrome.jihachul",
+      "category": "Maps & Navigation"
+    },
+    "NetHack": {
+      "packageName": "com.tbd.NetHack",
+      "category": "Role Playing"
+    },
+    "LED Scroller FREE": {
+      "packageName": "oops.ledscroller",
+      "category": "Tools"
+    },
+    "이베스트 마인(MINE) - 빅데이터 주식앱 (계좌개설)": {
+      "packageName": "com.ebest.mine",
+      "category": "Finance"
+    },
+    "Screen rotation control": {
+      "packageName": "jjong.kim.rotationcontrol",
+      "category": "Tools"
+    },
+    "Naver TV": {
+      "packageName": "com.nhn.android.naverplayer",
+      "category": "Video Players & Editors"
+    },
+    "JAM LIVE - Live Show": {
+      "packageName": "tv.jamlive",
+      "category": "Entertainment"
+    },
+    "무음무음 FREE - 기본카메라를 무음으로": {
+      "packageName": "com.plustwo.silentcamera",
+      "category": "Photography"
+    },
+    "BAND - App for all groups": {
+      "packageName": "com.nhn.android.band",
+      "category": "Social"
+    },
+    "Audioclip - podcasts, audiobooks & ASMR": {
+      "packageName": "com.naver.naveraudio",
+      "category": "Entertainment"
+    },
+    "Y박스": {
+      "packageName": "com.kt.ydatabox",
+      "category": "Lifestyle"
+    },
+    "배달의민족": {
+      "packageName": "com.sampleapp",
+      "category": "Food & Drink"
+    },
+    "해커스 MP3 플레이어 - 무료 토익 토플 영어 리스닝": {
+      "packageName": "com.hackers.app.hackersmp3",
+      "category": "Education"
+    },
+    "BBC News": {
+      "packageName": "bbc.mobile.news.ww",
+      "category": "News & Magazines"
+    },
+    "위메프 - 특가대표 (특가 / 쇼핑 / 쇼핑앱 / 쿠폰 / 배송)": {
+      "packageName": "com.wemakeprice",
+      "category": "Shopping"
+    },
+    "Droid-X III Web 백신 (기업용)": {
+      "packageName": "net.nshc.droidx3web",
+      "category": "Tools"
+    },
+    "건국대학교 도서관": {
+      "packageName": "kr.ac.kku.library",
+      "category": "Education"
+    },
+    "모바일증권 나무(계좌개설 겸용)": {
+      "packageName": "com.wooriwm.txsmart",
+      "category": "Finance"
+    },
+    "[선재국어] 30일 정리 공무원 국어 필수 암기APP": {
+      "packageName": "com.stn.lsjkorean",
+      "category": "Education"
+    },
+    "NASA": {
+      "packageName": "gov.nasa",
+      "category": "Education"
+    },
+    "Cookie Run: OvenBreak": {
+      "packageName": "com.devsisters.gb",
+      "category": "Arcade"
+    },
+    "Naver Contacts & Dial": {
+      "packageName": "com.nhn.android.addressbookbackup",
+      "category": "Tools"
+    },
+    "Mafia42 - Free Mobile Mafia Game": {
+      "packageName": "com.sopt.mafia42.client",
+      "category": "Strategy"
+    },
+    "ZOOM Cloud Meetings": {
+      "packageName": "us.zoom.videomeetings",
+      "category": "Education"
+    },
+    "Cute Note - DDay Todo": {
+      "packageName": "com.qhfka0093.cutememo",
+      "category": "Productivity"
+    },
+    "Pathos: Nethack Codex": {
+      "packageName": "com.x10host.pathos",
+      "category": "Role Playing"
+    },
+    "Booking.com: Hotels, Apartments & Accommodation": {
+      "packageName": "com.booking",
+      "category": "Travel & Local"
+    },
+    "푹 (pooq)": {
+      "packageName": "kr.co.captv.pooqV2",
+      "category": "Entertainment"
+    },
+    "SmartThings": {
+      "packageName": "com.samsung.android.oneconnect",
+      "category": "Lifestyle"
+    },
+    "더데이 - 생리 달력": {
+      "packageName": "constant.milk.periodapp",
+      "category": "Health & Fitness"
+    },
+    "델피노 인증서 복사": {
+      "packageName": "com.wizvera.certcopy",
+      "category": "Finance"
+    },
+    "ASPEAR - 무제한 프록시": {
+      "packageName": "i.hate.sni.bypasssni",
+      "category": "Tools"
+    },
+    "모바일투썸": {
+      "packageName": "com.cj.twosome",
+      "category": "Lifestyle"
+    },
+    "성범죄자 알림이": {
+      "packageName": "com.mogef_android1.app",
+      "category": "Lifestyle"
+    },
+    "Thunder VPN - A Fast , Unlimited, Free VPN Proxy": {
+      "packageName": "com.fast.free.unblock.thunder.vpn",
+      "category": "Tools"
+    },
+    "이디야멤버스": {
+      "packageName": "com.ediya.coupon",
+      "category": "Food & Drink"
+    },
+    "코미코": {
+      "packageName": "com.wisdomhouse.justoon",
+      "category": "Comics"
+    },
+    "컴포트랩 - COMFORTLAB": {
+      "packageName": "com.makeshop.powerapp.newcomfort",
+      "category": "Shopping"
+    },
+    "T map - 내비게이션 / 지도": {
+      "packageName": "com.skt.tmap.ku",
+      "category": "Maps & Navigation"
+    },
+    "Zara": {
+      "packageName": "com.inditex.zara",
+      "category": "Lifestyle"
+    },
+    "Pokémon Café Mix": {
+      "packageName": "jp.pokemon.pokemoncafemix",
+      "category": "Puzzle"
+    },
+    "국세청 홈택스 [손택스]": {
+      "packageName": "kr.go.nts.android",
+      "category": "Tools"
+    },
+    "Facebook": {
+      "packageName": "com.facebook.katana",
+      "category": "Social"
+    },
+    "성남시립도서관": {
+      "packageName": "com.yesjnet.sslib",
+      "category": "Education"
+    },
+    "소노호텔&리조트": {
+      "packageName": "com.mn.daemyungresort",
+      "category": "Travel & Local"
+    },
+    "네이버 클라우드 - NAVER Cloud": {
+      "packageName": "com.nhn.android.ndrive",
+      "category": "Productivity"
+    },
+    "리디북스 - 웹툰, 웹소설부터 전자책까지": {
+      "packageName": "com.initialcoms.ridi",
+      "category": "Books & Reference"
+    },
+    "카카오페이": {
+      "packageName": "com.kakaopay.app",
+      "category": "Finance"
+    },
+    "SoundCloud - Play Music, Audio & New Songs": {
+      "packageName": "com.soundcloud.android",
+      "category": "Music & Audio"
+    },
+    "PASS by SKT – 운전면허증이 내 휴대폰속으로!": {
+      "packageName": "com.sktelecom.tauth",
+      "category": "Finance"
+    },
+    "라라잡 – 급이 다른 알바": {
+      "packageName": "com.rarajob.android.app",
+      "category": "Business"
+    },
+    "SOL알리미": {
+      "packageName": "com.shinhan.smartcaremgr",
+      "category": "Finance"
+    },
+    "Slack": {
+      "packageName": "com.Slack",
+      "category": "Communication"
+    },
+    "Scanner App for Me: Scan Documents to PDF": {
+      "packageName": "com.apalon.scanner.app",
+      "category": "Business"
+    },
+    "StarPlayer": {
+      "packageName": "com.axissoft.starplayer",
+      "category": "Entertainment"
+    },
+    "니콘내콘 - 국내 1위 기프티콘 플리마켓": {
+      "packageName": "com.ncncnative",
+      "category": "Shopping"
+    },
+    "프로야구 LIVE - KBO 완전정복 필수 앱": {
+      "packageName": "com.tionnet.android.baseball",
+      "category": "Sports"
+    },
+    "전국버스": {
+      "packageName": "net.hyeongkyu.android.incheonBus",
+      "category": "Maps & Navigation"
+    },
+    "우리은행 우리WON뱅킹": {
+      "packageName": "com.wooribank.smart.npib",
+      "category": "Finance"
+    },
+    "Galaxy Wearable (Samsung Gear)": {
+      "packageName": "com.samsung.android.app.watchmanager",
+      "category": "Tools"
+    },
+    "Twitch: Livestream Multiplayer Games & Esports": {
+      "packageName": "tv.twitch.android.app",
+      "category": "Entertainment"
+    },
+    "Certpia": {
+      "packageName": "com.certpia.issue",
+      "category": "Business"
+    },
+    "아만다: 눈 높아도 괜찮은 프리미엄 소개팅": {
+      "packageName": "com.dorsia.amanda",
+      "category": "Social"
+    },
+    "위밋플레이스 - 모임약속, 도착알림, 위치 공유 서비스": {
+      "packageName": "com.wemeet.kks.wemeetplace",
+      "category": "Lifestyle"
+    },
+    "Polaris Viewer - PDF, Docs, Sheets, Slide Reader": {
+      "packageName": "com.infraware.office.reader.team",
+      "category": "Productivity"
+    },
+    "커넥츠북 온라인서점": {
+      "packageName": "com.stunitas.libro",
+      "category": "Books & Reference"
+    },
+    "SERIES": {
+      "packageName": "com.nhn.android.nbooks",
+      "category": "Books & Reference"
+    },
+    "건국대학교 커뮤니티 KUNG": {
+      "packageName": "com.ku.kung",
+      "category": "Communication"
+    },
+    "훈스 HUN'S": {
+      "packageName": "kr.co.smartskin.huns",
+      "category": "Shopping"
+    },
+    "Cymera Camera - Collage, Selfie Camera, Pic Editor": {
+      "packageName": "com.cyworld.camera",
+      "category": "Photography"
+    },
+    "아이디어스(idus) - 작품구매부터 취미생활까지!": {
+      "packageName": "kr.backpackr.me.idus",
+      "category": "Shopping"
+    },
+    "넥슨플레이 – 넥슨 게이머의 필수 앱": {
+      "packageName": "com.nexon.nxplay",
+      "category": "Communication"
+    },
+    "Galaxy Watch Plugin": {
+      "packageName": "com.samsung.android.geargplugin",
+      "category": "Tools"
+    },
+    "Google Play Movies & TV": {
+      "packageName": "com.google.android.videos",
+      "category": "Video Players & Editors"
+    },
+    "네이버 웹툰 - Naver Webtoon": {
+      "packageName": "com.nhn.android.webtoon",
+      "category": "Comics"
+    },
+    "SBS - On Air, free VOD(70000)": {
+      "packageName": "kr.co.sbs.videoplayer",
+      "category": "Video Players & Editors"
+    },
+    "Syrup Wallet – 초달달, 혜택 생활의 시작": {
+      "packageName": "com.skt.skaf.OA00026910",
+      "category": "Finance"
+    },
+    "해피포인트": {
+      "packageName": "com.hpapp",
+      "category": "Lifestyle"
+    },
+    "(공식) 버거킹 BURGER KING®KOREA": {
+      "packageName": "kr.co.burgerkinghybrid",
+      "category": "Lifestyle"
+    },
+    "스마트택배": {
+      "packageName": "com.sweettracker.smartparcel",
+      "category": "Business"
+    },
+    "롯데시네마": {
+      "packageName": "kr.co.lottecinema.lcm",
+      "category": "Entertainment"
+    },
+    "코스모스": {
+      "packageName": "kr.coursemos.android2",
+      "category": "Education"
+    },
+    "Samsung Members": {
+      "packageName": "com.samsung.android.voc",
+      "category": "Tools"
+    },
+    "LG Camera": {
+      "packageName": "com.lge.camera",
+      "category": "Photography"
+    },
+    "Android MMS": {
+      "packageName": "com.android.mms",
+      "category": "Social"
+    },
+    "TVing": {
+      "packageName": "net.cj.cjhv.gs.tving.samsung",
+      "category": "Entertainment"
+    },
+    "Samsung Dialer": {
+      "packageName": "com.samsung.android.dialer",
+      "category": "Personalization"
+    },
+    "Aladin E-Book": {
+      "packageName": "kr.co.aladin.ebook",
+      "category": "Books & Reference"
+    },
+    "Toss": {
+      "packageName": "viva.republica.toss",
+      "category": "Finance"
+    },
+    "PenUp": {
+      "packageName": "com.sec.penup",
+      "category": "Social"
+    },
+    "LG Clock": {
+      "packageName": "com.lge.clock",
+      "category": "Social"
+    },
+    "디너의 여왕": {
+      "packageName": "com.dinnerqueen",
+      "category": "Food & Drink"
+    },
+    "데이트팝": {
+      "packageName": "com.tenfingers.seouldatepop",
+      "category": "Entertainment"
+    },
+    "한글 hwp": {
+      "packageName": "com.hancom.office.hwp.editor.hwp_apk",
+      "category": "Tools"
+    },
+    "너랑나랑": {
+      "packageName": "com.endressdreamky.loveting",
+      "category": "Social"
+    },
+    "Android 연락처": {
+      "packageName": "com.android.contacts",
+      "category": "Personalization"
+    },
+    "Android Camera": {
+      "packageName": "com.sec.android.app.camera",
+      "category": "Photography"
+    },
+    "자소설닷컴": {
+      "packageName": "com.anchoreer.jasoseol",
+      "category": "Education"
+    },
+    "Nike Run Club": {
+      "packageName": "com.nike.plusgps",
+      "category": "Health & Fitness"
+    },
+    "Android Clock": {
+      "packageName": "com.sec.android.app.clockpackage",
+      "category": "Personalization"
+    },
+    "Android Settings": {
+      "packageName": "com.android.settings",
+      "category": "Personalization"
+    },
+    "Android Calendar": {
+      "packageName": "com.android.calendar",
+      "category": "Personalization"
+    },
+    "Snapseed": {
+      "packageName": "com.niksoftware.snapseed",
+      "category": "Photography"
+    },
+    "PhotoRetouching": {
+      "packageName": "com.sec.android.mimage.photoretouching",
+      "category": "Photography"
+    },
+    "야놀자": {
+      "packageName": "com.cultsotry.yanolja.nativeapp",
+      "category": "Travel & Local"
+    },
+    "Youtube Vanced": {
+      "packageName": "com.vanced.android.youtube",
+      "category": "Entertainment"
+    },
+    "Samsung fmm": {
+      "packageName": "com.samsung.android.fmm",
+      "category": "Personalization"
+    },
+    "Samsung forest": {
+      "packageName": "com.samsung.android.forest",
+      "category": "Shopping"
+    },
+    "Samsung Contacts": {
+      "packageName": "com.samsung.android.app.contacts",
+      "category": "Utility"
+    },
+    "Samsung mtpApplication": {
+      "packageName": "com.samsung.android.MtpApplication",
+      "category": "Utility"
+    },
+    "Samsung Video": {
+      "packageName": "com.samsung.android.video",
+      "category": "Utility"
+    },
+    "Samsung Themestore": {
+      "packageName": "com.samsung.android.themestore",
+      "category": "Utility"
+    },
+    "Samsung Bixby": {
+      "packageName": "com.samsung.android.bixby.agent",
+      "category": "Utility"
+    },
+    "Samsung GameHome": {
+      "packageName": "com.samsung.android.game.gamehome",
+      "category": "Action"
+    },
+    "Samsung ARzone": {
+      "packageName": "com.samsung.android.arzone",
+      "category": "Entertainment"
+    }
+  }

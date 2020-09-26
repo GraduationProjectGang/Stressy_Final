@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_gravity="center"
+    android:background="@drawable/button_radius_gray"
+    tools:context=".activity.StatsPermissionFragment">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        style="@style/TextStyle"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="0dp"
+        android:text="사용정보 접근 권한 허용 Guide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:layout_marginVertical="20dp"
+        android:text="다음 화면은 권한 관리자 창입니다.\n1. 목록에서 저희 StreSSy 앱을 찾아주세요."
+        style="@style/TextStyleNormal"
+        android:lineSpacingExtra="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <ImageView
+        android:background="@android:color/white"
+        android:src="@drawable/guide1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
+    <TextView
+        android:layout_marginVertical="20dp"
+        android:text="2. 사용 추적을 허용해 주세요."
+        style="@style/TextStyleNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <ImageView
+        android:background="@android:color/white"
+        android:src="@drawable/guide2"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:scaleType="fitStart"
+        />
+    <Button
+        android:layout_marginTop="30dp"
+        android:id="@+id/button_permit"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_radius"
+        android:text="권한 허용하러 가기"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp" />
+</LinearLayout>

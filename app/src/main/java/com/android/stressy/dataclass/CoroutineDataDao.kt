@@ -11,4 +11,6 @@ interface CoroutineDataDao {
 
     @Insert
     fun insert(CoroutineData: CoroutineData)
+
+    //([item['ifMoving'],item['orientation'],item['posture'],item['std_posture'],temp['category'],temp['totalTimeInForeground']])
 }

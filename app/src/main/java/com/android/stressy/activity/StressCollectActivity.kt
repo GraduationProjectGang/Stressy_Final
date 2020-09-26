@@ -15,8 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.*
 import com.android.stressy.R
-import com.android.stressy.dataclass.UsageStat
-import com.android.stressy.dataclass.UsageStatsCollection
+import com.android.stressy.dataclass.UsageAppData
+import com.android.stressy.dataclass.UsageStatsList
 import com.android.stressy.etc.RVecWorker
 import kotlinx.android.synthetic.main.activity_stress_collect.*
 import java.text.SimpleDateFormat
@@ -98,7 +98,7 @@ class StressCollectActivity : AppCompatActivity() {
                 if (stCount == 0) {
                     val uArr = showAppUsageStats(getAppUsageStats(curTime - 9000000))
                     val ucol =
-                        UsageStatsCollection(
+                        UsageStatsList(
                             ArrayList(),
                             stCount.toString(),
                             curTime,
@@ -214,19 +214,19 @@ class StressCollectActivity : AppCompatActivity() {
         return queryUsageStats
     }
 
-    fun showAppUsageStats(usageStats: MutableList<UsageStats>): ArrayList<UsageStat> {
+    fun showAppUsageStats(usageStats: MutableList<UsageStats>): ArrayList<UsageAppData> {
 
         val dateFormat = SimpleDateFormat("yyyyMMdd.HH:mm:ss")
         Log.d("appusing", usageStats.size.toString())
         usageStats.sortWith(Comparator { right, left ->
             compareValues(left.lastTimeUsed, right.lastTimeUsed)
         })
-        var statsArr = ArrayList<UsageStat>()
+        var statsArr = ArrayList<UsageAppData>()
 
         usageStats.forEach {
             if (it.totalTimeInForeground > 0 && it.lastTimeUsed > previousTime) {
                 statsArr.add(
-                    UsageStat(
+                    UsageAppData(
                         it.packageName,
                         dateFormat.format(it.lastTimeUsed),
                         it.totalTimeInForeground

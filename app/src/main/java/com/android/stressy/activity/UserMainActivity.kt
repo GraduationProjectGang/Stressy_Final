@@ -1,15 +1,19 @@
 package com.android.stressy.activity
 
+import android.app.AppOpsManager
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.work.Constraints
 import androidx.work.WorkManager
 import com.android.stressy.R
@@ -22,7 +26,9 @@ import kotlinx.android.synthetic.main.activity_user_main.*
 import androidx.work.OneTimeWorkRequestBuilder as OneTimeWorkRequestBuilder1
 
 class UserMainActivity : AppCompatActivity() {
+    val MULTIPLE_REQUEST = 1234
     lateinit var mFirebaseAnalytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_main)
@@ -79,16 +85,11 @@ class UserMainActivity : AppCompatActivity() {
     }
 
     fun init() {
+        checkPermission()
         initFirebase()
+        initButtonAndText()
 
-        val mystring = "프로젝트 가이드 다시보기"
-        val content = SpannableString(mystring)
-        content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
-        tutorialAgain.setText(content)
-//        tutorialAgain.setOnClickListener {
-//            val intent = Intent(this, Tutorial1Activity::class.java)
-//            startActivity(intent)
-//        }
+
         val prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
         usercode.text =
             "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
@@ -106,66 +107,86 @@ class UserMainActivity : AppCompatActivity() {
             edit.commit()
 
 
-//            createWorker()
+        }
+    }
+
+    private fun checkPermission() {
+        var permissionArr = arrayOf(
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        )
+        val rejectedPermissionList = ArrayList<String>()
+
+        for (permission in permissionArr) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                rejectedPermissionList.add(permission)
+            }
+        }
+        if(rejectedPermissionList.isNotEmpty()) {
+            val array = arrayOfNulls<String>(rejectedPermissionList.size)
+            ActivityCompat.requestPermissions(this, rejectedPermissionList.toArray(array), MULTIPLE_REQUEST)
         }
 
-//        setAlarmAt(10)
+        //앱 사용기록 Permission Check
+        if (!ifStatsPermitted()){
+            val fragmentManager = supportFragmentManager
+            val statsPermissionFragment = StatsPermissionFragment()
+            statsPermissionFragment.show(fragmentManager,"permission")
+        }
+    }
 
+
+    fun ifStatsPermitted(): Boolean{
+        var granted = false
+        val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        val mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,android.os.Process.myUid(), getPackageName());
+
+        if (mode == AppOpsManager.MODE_DEFAULT) {
+            granted = (checkCallingOrSelfPermission(android.Manifest.permission.PACKAGE_USAGE_STATS) == PackageManager.PERMISSION_GRANTED)
+            Log.d("frafraif",granted.toString() + "1")
+        } else {
+            granted = (mode == AppOpsManager.MODE_ALLOWED)
+            Log.d("frafraif",granted.toString() + "2")
+        }
+        return granted
+    }
+    private fun getStatsPermission() {
+        // 권한이 없을 경우 권한 요구 페이지 이동
+        val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+        startActivity(intent)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            MULTIPLE_REQUEST -> {
+
+            }
+        }
+    }
+
+    private fun initButtonAndText() {
+        //설문 버튼
         button_survey.setOnClickListener {
             sendEventGoogleAnalytics("button_survey","onClick")
             val intent = Intent(this, StressCollectActivity::class.java)
             startActivity(intent)
         }
 
-        // Set the alarm to start at approximately 2p.m. and 10p.m.
+        //프로젝트 가이드 TextView
+        val mystring = "프로젝트 가이드 다시보기"
+        val content = SpannableString(mystring)
+        content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
+        tutorialAgain.setText(content)
 
-        val pm: PackageManager = this.packageManager
-//        val receiver = ComponentName(this, BootReceiver::class.java)
+        //        tutorialAgain.setOnClickListener {
+//            val intent = Intent(this, Tutorial1Activity::class.java)
+//            startActivity(intent)
+//        }
 
-//        pm.setComponentEnabledSetting(
-//            receiver,
-//            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-//            PackageManager.DONT_KILL_APP
-//        )
 
-        var i = 0
-        emergency.setOnClickListener {
-            if (i == 0) {
-                Toast.makeText(this, "감사합니다! 크크", Toast.LENGTH_SHORT).show()
-                i++
-            }
-            else if (i > 0) {
-                createWorker()
-                Toast.makeText(this, "Worker Enqueued", Toast.LENGTH_SHORT).show()
-            }
-        }
-//        createWorker()
     }
-
-//    fun setAlarmAt(RequestCode: Int) {
-//        val calendar: Calendar = Calendar.getInstance().apply {
-//            timeInMillis = System.currentTimeMillis()
-//            set(Calendar.HOUR_OF_DAY, RequestCode)
-//        }
-//
-//        Log.d("alarmset","main alarm set${RequestCode}")
-////        val alarmIntent = Intent(this, AlarmReceiver::class.java)
-////        alarmIntent.putExtra("time",RequestCode)
-//
-//        val alarmUp = PendingIntent.getBroadcast(this, RequestCode, alarmIntent,
-//            PendingIntent.FLAG_NO_CREATE
-//        ) != null
-//
-//        if (alarmUp) {
-//            Log.d("myTag", "Alarm is already active")
-//        }else{
-//            Log.d("myTag", "Alarm doesn't exist")
-//            val pendingIntent =
-//                PendingIntent.getBroadcast(this, RequestCode, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-//            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pendingIntent)
-//        }
-//    }
 
     fun initFirebase(){
         FirebaseApp.initializeApp(applicationContext)
