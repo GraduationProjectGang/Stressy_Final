@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_signUp1Fragment_to_signUp2Fragment"
             app:destination="@id/signUp2Fragment" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/signUp2Fragment"
@@ -22,6 +25,10 @@
         <action
             android:id="@+id/action_signUp2Fragment_to_signUp3Fragment"
             app:destination="@id/signUp3Fragment" />
+        <argument
+            android:name="userGender"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
     <fragment
         android:id="@+id/signUp3Fragment"

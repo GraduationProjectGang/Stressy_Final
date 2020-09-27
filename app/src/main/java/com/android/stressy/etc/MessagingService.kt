@@ -32,7 +32,7 @@ class MessagingService() : FirebaseMessagingService() {
         if (remoteMessage.data.isNotEmpty()){
             Log.d(TAG,"onMessageReceived: Data Size:"+remoteMessage.data.size)
             for(key in remoteMessage.data.keys){
-                Log.d(TAG, "onMessageReceived: Key:"+key+" Data: " + remoteMessage.data.get(key))
+                Log.d(TAG, "onMessageReceived: Key:"+key +" Data: " + remoteMessage.data.get(key))
             }
             Log.d(TAG,"onMessageReceived: Data:"+remoteMessage.data.toString())
             createWorker()
@@ -96,10 +96,10 @@ class MessagingService() : FirebaseMessagingService() {
 
     }
 
-    override fun onNewToken(token: String) {//새로운 토큰 발급
+    override fun onNewToken(token: String) {//if new token created
         super.onNewToken(token)
         Log.i("fcm", "new token: " + token)
-        //서버로 전송해서 DB에 저장함
+        //save token on db
         val requestBody = RequestBody.create(MediaType.parse("text/plain"),token)
         val response = TokenService.create().submit(requestBody)
         Log.d("fcm", "enqueued")

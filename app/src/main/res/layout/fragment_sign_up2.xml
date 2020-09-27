@@ -17,42 +17,48 @@
             android:fontFamily="@font/noto_sans"
             android:text="귀하의 성별을\n선택해주세요." />
         <LinearLayout
-
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="bottom"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/male"
-                style="@style/nextButton"
-                android:background="#4A459E"
-                android:text="남자"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="10dp"
-                />
-            <Button
-                android:id="@+id/female"
-                style="@style/nextButton"
-                android:background="#4A459E"
-                android:textColor="@android:color/white"
-                android:text="여자"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageButton
+                    android:src="@drawable/female"
+                    android:id="@+id/female"
+                    style="@style/genderButton"
+                    />
+                <TextView
+                    android:text="여자"
+                    style="@style/genderDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="10dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageButton
+                    android:src="@drawable/male"
+                    android:id="@+id/male"
+                    style="@style/genderButton"
+                    />
+                <TextView
+                    android:text="남자"
+                    style="@style/genderDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
-                />
         </LinearLayout>
     </LinearLayout>
     <Button
-        android:id="@+id/nextButton1"
-        android:layout_gravity="bottom"
+        android:id="@+id/nextButton2"
         style="@style/nextButton"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="15dp"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
         />
 </FrameLayout>

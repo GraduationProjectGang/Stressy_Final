@@ -22,13 +22,10 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.android.stressy.R
 import com.android.stressy.activity.u_key
-import com.android.stressy.dataclass.Locate
-import com.android.stressy.dataclass.RotateVector
-import com.android.stressy.dataclass.UsageStat
-import com.android.stressy.dataclass.UsageStatsCollection
+import com.android.stressy.dataclass.LocationData
+import com.android.stressy.dataclass.RotateVectorData
+import com.android.stressy.dataclass.UsageAppData
 import com.google.android.gms.location.*
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -36,7 +33,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.Comparator
-import kotlin.collections.ArrayList
 
 class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     : CoroutineWorker(appContext, workerParams), SensorEventListener {
@@ -53,7 +49,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     //location variable
     private lateinit var locationRequest: LocationRequest
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var locationList:MutableList<Location>
+    private lateinit var locationList: MutableList<Location>
     private lateinit var locationCallback: LocationCallback
 
     //rotate vector variable
@@ -62,21 +58,22 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     private val magnetometerReading = FloatArray(3)
     private val rotationMatrix = FloatArray(9)
     private val orientationAngles = FloatArray(3)
-    private val mutableListOrientationAngles = mutableListOf<String>()
+    private val rotateVecList = mutableListOf<String>()
 
-    lateinit var fbDatabase: FirebaseDatabase
-    lateinit var dbReference: DatabaseReference
-    var mTimestamp:Long = 0
+    //    lateinit var fbDatabase: FirebaseDatabase
+//    lateinit var dbReference: DatabaseReference
+    var mTimestamp: Long = 0
     val dateFormat = SimpleDateFormat("yyyyMMdd.HH:mm:ss")
-    lateinit var mChannel : NotificationChannel
+    lateinit var mChannel: NotificationChannel
 
     private val notificationManager =
         appContext.getSystemService(Context.NOTIFICATION_SERVICE) as
                 NotificationManager
 
-    companion object var flag = false
 
-    private fun printCallStack(){
+    var flag = false
+
+    private fun printCallStack() {
         val sb = StringBuilder()
         sb.append("==================================\n  CALL STACK\n==================================\n");
 
@@ -107,43 +104,87 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         //debug
         printCallStack()
 
-        var stats = showAppUsageStats(getAppUsageStats(mTimestamp-900000))
+        val usageStatsData = showAppUsageStats(getAppUsageStats(mTimestamp - 900000))
 
-        initLocationParms()
+        initLocationParams()
         startLocationUpdates()
 
-        val jobs =
-            async {
-                for (i in 1 .. iterationRange){
-                    //Repeat every 1s
-                    delay(1000L)
-                    startMeasureRotateVector()
-                    Log.d("dcworker", LocalDateTime.now().toString())
-                }
-                //stop location request when iteration was ended
-                stopLocationUpdates()
-
-                var loc = Locate(mutableListOf(), dateFormat.format(mTimestamp))
-                loc.locationList = locationList
-                var usage = UsageStatsCollection(ArrayList(), "coroutine", mTimestamp, dateFormat.format(mTimestamp))
-                usage.statsList = stats
-                var rVector = RotateVector(mutableListOf(), dateFormat.format(mTimestamp))
-                rVector.angleList = mutableListOrientationAngles
-
-                fbDatabase = FirebaseDatabase.getInstance()
-                dbReference = fbDatabase.reference
-                dbReference.child("user").child(userKey).child("rotatevector").push().setValue(rVector)
-                dbReference.child("user").child(userKey).child("usagestatsCoroutine").push().setValue(usage)
-                dbReference.child("user").child(userKey).child("location").push().setValue(loc)
-                dbReference.child("user").child(userKey).child("isRunning").setValue("true")
-
-                if (isStopped) {
-                    dbReference.child("user").child(userKey).child("isRunning").setValue("false")
-                }
-
+        async {
+            for (i in 1..iterationRange) {
+                //Repeat every 1s
+                delay(1000L)
+                startMeasureRotateVector()
+                Log.d("dcworker", LocalDateTime.now().toString())
             }
+            //stop location request when iteration was ended
+            stopLocationUpdates()
+
+            val loc = LocationData(mutableListOf(), dateFormat.format(mTimestamp)) //얘가 파베에서 location임
+            loc.locationList = locationList
+
+            val rVector = RotateVectorData(mutableListOf(), dateFormat.format(mTimestamp))
+            rVector.angleList = rotateVecList
+
+
+
+        }
+        dataToArray(mTimestamp,rotateVecList, usageStatsData, locationList)
+        //TODO: add to local db
+
+//            val coroutineData = CoroutineData(mTimestamp, rVector, usageStatsData, loc)
+//            val dbObject = Room.databaseBuilder(
+//                applicationContext,
+//                LocalDatabase::class.java, "coroutineDB"
+//            ).build().coroutineDataDao()
+//
+//            dbObject.insert(coroutineData)
 
         Result.success()
+
+    }
+
+    fun dataToArray(mTimestamp:Long, rVector:MutableList<String>, usageStats:MutableList<UsageAppData>, loc:MutableList<Location>):String{
+        //TODO
+        //([item['ifMoving'],item['orientation'],item['posture'],item['std_posture'],temp['category'],temp['totalTimeInForeground']])
+
+        //loc
+        val ifMovingList = mutableListOf<Float>()
+        val latitudeList = mutableListOf<Double>()
+        val longitudeList = mutableListOf<Double>()
+        for (item in loc){
+            ifMovingList.add(item.speed)
+            latitudeList.add(item.latitude)
+            latitudeList.add(item.longitude)
+        }
+        val speedMax = Collections.min(ifMovingList)
+        val ifMoving = if (speedMax > 1) 1 else 0
+
+
+        //orientation
+        //TODO
+
+        //rotateVector
+        val orientation = rotateVecList
+        //TODO
+
+        //appstats
+        appToIndex(usageStats)
+
+
+        return ""
+    }
+    fun appToIndex(usageStats: MutableList<UsageAppData>){
+        Log.d("dcworker",usageStats[0].packageName+usageStats[0].lastTimeUsed)
+
+        for (i in 5 until usageStats.size){
+            usageStats.removeAt(i)
+        }
+
+        //TODO: parse categories.json
+
+
+
+
     }
 
     private fun createForegroundInfo(progress:String):ForegroundInfo{
@@ -178,7 +219,9 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         Log.d("dcworker","channel created")
     }
 
-    fun initLocationParms() {
+
+
+    fun initLocationParams() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(applicationContext)
         locationList = mutableListOf()
@@ -212,18 +255,18 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         return queryUsageStats
     }
 
-    fun showAppUsageStats(usageStats: MutableList<UsageStats>) : ArrayList<UsageStat> {
+    fun showAppUsageStats(usageStats: MutableList<UsageStats>) : MutableList<UsageAppData> {
 
         val dateFormat = SimpleDateFormat("yyyyMMdd.HH:mm:ss")
         Log.d("dcworker", usageStats.size.toString())
         usageStats.sortWith(Comparator { right, left ->
             compareValues(left.lastTimeUsed, right.lastTimeUsed)
         })
-        var statsArr = ArrayList<UsageStat>()
+        var statsArr = mutableListOf<UsageAppData>()
 
         usageStats.forEach {
             if(it.totalTimeInForeground>0 && it.lastTimeUsed>mTimestamp-900000){
-                statsArr.add(UsageStat(it.packageName, dateFormat.format(it.lastTimeUsed), it.totalTimeInForeground))
+                statsArr.add(UsageAppData(it.packageName, dateFormat.format(it.lastTimeUsed), it.totalTimeInForeground))
                 Log.d("appusing",statsArr.last().toString())
             }
         }
@@ -261,7 +304,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         //print roll, pitch, yaw
         //note that all three orientation angles are expressed in !!RADIANS!.
         Log.d(TAG_ROTATE, orientationAngles.contentToString())
-        mutableListOrientationAngles.add(orientationAngles.contentToString())
+        rotateVecList.add(orientationAngles.contentToString())
 
     }
 
