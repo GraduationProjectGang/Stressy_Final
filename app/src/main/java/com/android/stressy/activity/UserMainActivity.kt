@@ -34,6 +34,7 @@ class UserMainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_main)
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         init()
+        createWorker()
     }
 
     public fun createWorker() {//init Periodic work
@@ -52,13 +53,6 @@ class UserMainActivity : AppCompatActivity() {
                 .build()
 
 
-        //WorkManager에 enqueue
-//        WorkManager.getInstance(applicationContext)
-//            .enqueueUniquePeriodicWork(
-//                uniqueWorkName,
-//                ExistingPeriodicWorkPolicy.REPLACE,
-//                collectRequest
-//            )
         val workManager = WorkManager.getInstance(applicationContext)
         workManager?.let {
             it.enqueue(collectRequest)

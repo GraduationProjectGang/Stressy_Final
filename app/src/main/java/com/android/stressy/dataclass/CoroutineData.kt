@@ -4,12 +4,18 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "coroutine")
 data class CoroutineData (
-    @PrimaryKey val timestamp: Long,
-    @ColumnInfo(name = "rotateVector") val rotateVector: RotateVectorData?,
-    @ColumnInfo(name = "usageStats") val usageStats: UsageStatsList?,
-    @ColumnInfo(name = "location") val locate: LocationData?
+    //([item["ifMoving"],item["orientation"],item["posture"],item["std_posture"],temp["category"],temp["totalTimeInForeground"]])
+    @PrimaryKey(autoGenerate = true) val id:Int,
+    @ColumnInfo(name = "timestamp") val timestamp: Long,
+    @ColumnInfo(name = "ifMoving") val ifMoving: Int?,
+    @ColumnInfo(name = "orientation") val orientation: Int?,
+    @ColumnInfo(name = "posture") val posture: Int?,
+    @ColumnInfo(name = "std_posture") val std_posture: Double?,
+    @ColumnInfo(name = "category") val category: Int?,
+    @ColumnInfo(name = "totalTimeInForeground") val totalTimeInForeground: Long?
 
 ){
+    constructor(timestamp: Long,ifMoving: Int?,orientation: Int?,posture: Int?,std_posture: Double?,category: Int?,totalTimeInForeground: Long?):this(0,timestamp,ifMoving,orientation,posture,std_posture,category,totalTimeInForeground)
 }

@@ -1,6 +1,7 @@
 package com.android.stressy.activity
 
 import android.app.AppOpsManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -78,6 +79,7 @@ class StatsPermissionFragment : DialogFragment() {
     }
 
     fun ifPermitted(): Boolean{
+        appOps = activity!!.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
         mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,android.os.Process.myUid(), activity!!.getPackageName());
 
         if (mode == AppOpsManager.MODE_DEFAULT) {
