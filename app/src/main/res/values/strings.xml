@@ -2,10 +2,10 @@
     <string name="app_name">Stressy</string>
     <string name="channel_name">스트레스 측정</string>
     <string name="channel_description">스트레스 측정</string>
-    <string name="zero">0점</string>
-    <string name="one">1점</string>
-    <string name="two">2점</string>
-    <string name="three">3점</string>
+    <string name="zero">거의\n없었다</string>
+    <string name="one">약간\n있었다</string>
+    <string name="two">조금\n있었다</string>
+    <string name="three">매우\n많았다</string>
     <string name="four">4점</string>
     <string name="tuto">하루에 <b>2번</b> 스트레스 설문을 통해 스트레스 수치를 입력받습니다. <b>스마트폰 상태바에 알림이 뜨면</b> 설문을 진행해주시면 됩니다.</string>
     <string name="question">질문사항이 있으시다면?\n\n<b>2번</b> 스트레스 설문을 통해 스트레스 수치를 입력받습니다. <b>스마트폰 상태바에 알림이 뜨면</b> 설문을 진행해주시면 됩니다.</string>
@@ -15,4 +15,24 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="worker_status">0.0</string>
+    <string name="hint_email">ex) sejiwon@naver.com</string>
+    <string name="error_email">이메일을 형식에 맞게 입력해주세요.</string>
+    <string name="hint_password">ex)********</string>
+    <string name="guide_password">비밀번호는 영문자, 숫자, 특수문자를 포함한\n8자리 이상 문자열이여야 합니다.</string>
+    <string name="guide_password2">비밀번호와 비밀번호 확인이 다릅니다.</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

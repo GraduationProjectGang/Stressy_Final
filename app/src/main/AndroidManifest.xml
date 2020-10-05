@@ -3,18 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.android.stressy">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.things.permission.MANAGE_GNSS_DRIVERS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -22,10 +24,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".activity.StressCollectActivity"></activity>
-        <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.SplashActivity" />
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup">
+        <activity android:name=".activity.MyPageActivity">
+
+        </activity>
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.SignUpActivity" >
+
+        </activity>
+        <activity android:name=".activity.SplashActivity">
+
+        </activity>
         <activity android:name=".activity.UserMainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,13 +44,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
 
-        <meta-data android:name="firebase_messaging_auto_init_enabled"
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
-        <meta-data android:name="firebase_analytics_collection_enabled"
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
             android:value="false" />
-
     </application>
 
 </manifest>

@@ -14,11 +14,12 @@ import androidx.appcompat.app.AppCompatActivity.NOTIFICATION_SERVICE
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.android.stressy.R
-import com.android.stressy.activity.StressCollectActivity
+import com.android.stressy.activity.UserMainActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AlarmReceiver: BroadcastReceiver() {
+    val stressCollectRequest = 111
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("setalarm","received")
         val CHANNEL_ID = "$context.packageName-${R.string.app_name}"
@@ -26,44 +27,35 @@ class AlarmReceiver: BroadcastReceiver() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = R.string.channel_name
-            val descriptionText =
-                R.string.channel_description
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val mChannel = NotificationChannel(CHANNEL_ID, name.toString(), importance)
-            mChannel.description = descriptionText.toString()
+            val mChannel = NotificationChannel(CHANNEL_ID, name.toString(), NotificationManager.IMPORTANCE_HIGH)
+            mChannel.description = R.string.channel_description.toString()
             val notificationManager = context?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(mChannel)
         }
-        val intent = Intent(context, StressCollectActivity::class.java)
+        val intent = Intent(context, UserMainActivity::class.java)
+        intent.putExtra("notification_code",stressCollectRequest)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val pendingIntent = PendingIntent.getActivity(context, 0,
-            intent, PendingIntent.FLAG_UPDATE_CURRENT)    // 3
+        val pendingIntent = PendingIntent.getActivity(context, stressCollectRequest,
+            intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(context!!, CHANNEL_ID).apply {
             setSmallIcon(R.drawable.full_swipe)
-            setContentTitle("스트레스 측정 설문 요청")
+            setContentTitle("오늘 하루는 어떠셨나요?")
             setContentText("스트레스 설문에 참여해주세요\uD83D\uDD25")
             priority = NotificationCompat.PRIORITY_HIGH
             setAutoCancel(true)
             setContentIntent(pendingIntent)
         }
         with(NotificationManagerCompat.from(context)) {
-            notify(200, builder.build())
+            notify(stressCollectRequest, builder.build())
             Log.d("alal","notified")
         }
 
         val timeInt = System.currentTimeMillis() % Integer.MAX_VALUE
 
         val cal = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-        var addtime = 0
-        if (cal>22 || cal < 9) {
-            Log.d("alarmset","10")
-            addtime = 10
-        }else{
-            addtime = 2
-            Log.d("alarmset","2")
+        var addtime = 24
 
-        }
         setAlarm(context, addtime)
 
 

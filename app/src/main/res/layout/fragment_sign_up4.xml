@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_sign_up4"
+    tools:context=".activity.sign_up.SignUp4Fragment">
+
+
+    <LinearLayout
+        android:id="@+id/gender_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/questions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:text="귀하의 생년월일을\n입력해주세요." />
+        <TextView
+            android:id="@+id/textView_birth"
+            android:layout_marginTop="200dp"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:text="----년 --월 --일" />
+        <Button
+            android:id="@+id/button_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="생년월일 선택하기" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/nextButton4"
+        style="@style/nextButton"
+        />
+
+</FrameLayout>

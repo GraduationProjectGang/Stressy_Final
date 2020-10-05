@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
     app:startDestination="@id/signUp1Fragment">
-
     <fragment
         android:id="@+id/signUp1Fragment"
         android:name="com.android.stressy.activity.sign_up.SignUp1Fragment"
@@ -14,7 +13,10 @@
             android:id="@+id/action_signUp1Fragment_to_signUp2Fragment"
             app:destination="@id/signUp2Fragment" />
         <argument
-            android:name="userName"
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
             app:argType="string" />
     </fragment>
     <fragment
@@ -26,13 +28,25 @@
             android:id="@+id/action_signUp2Fragment_to_signUp3Fragment"
             app:destination="@id/signUp3Fragment" />
         <argument
-            android:name="userGender"
-            app:argType="boolean"
-            android:defaultValue="true" />
+            android:name="userName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/signUp3Fragment"
         android:name="com.android.stressy.activity.sign_up.SignUp3Fragment"
         android:label="fragment_sign_up3"
-        tools:layout="@layout/fragment_sign_up3" />
+        tools:layout="@layout/fragment_sign_up3" >
+        <action
+            android:id="@+id/action_signUp3Fragment_to_signUp4Fragment"
+            app:destination="@id/signUp4Fragment" />
+        <argument
+            android:name="userGender"
+            app:argType="boolean"
+            android:defaultValue="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUp4Fragment"
+        android:name="com.android.stressy.activity.sign_up.SignUp4Fragment"
+        android:label="fragment_sign_up4"
+        tools:layout="@layout/fragment_sign_up4" />
 </navigation>

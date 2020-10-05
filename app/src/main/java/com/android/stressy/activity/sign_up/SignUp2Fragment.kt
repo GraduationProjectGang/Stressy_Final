@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.android.stressy.R
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_sign_up2.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -18,12 +16,12 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SignUp2Fragment.newInstance] factory method to
+ * Use the [SignUp1Fragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SignUp2Fragment : Fragment() {
-    var flag_female = false
-    var flag_male = false
+class SignUp2Fragment : androidx.fragment.app.Fragment() {
+    // TODO: Rename and change types of parameters
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,38 +31,22 @@ class SignUp2Fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        initButton()
-        return inflater.inflate(R.layout.fragment_sign_up2, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_sign_up2, container, false)
+        return rootView
     }
-
-
-    fun initButton(){
-        female.setOnClickListener {
-            flag_female = true
-            flag_male = false
-            female.setBackgroundResource(R.drawable.female_clicked)
-            male.setBackgroundResource(R.drawable.male)
-
-        }
-        male.setOnClickListener {
-            flag_female = false
-            flag_male = true
-            female.setBackgroundResource(R.drawable.female)
-            male.setBackgroundResource(R.drawable.male_clicked)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        init(view)
+    }
+    fun init(rootView: View){
         nextButton2.setOnClickListener {
-            if (!(flag_female or flag_male)){
-                Snackbar.make(it,"성별을 선택해 주세요.",Snackbar.LENGTH_SHORT).show()
-            }
-
-            //true = female, false = male, 성별간 갈등 조장 아님^^
-            var gender  = flag_female
-            toSignUp3(gender)
+            val nameInput = editText_name.text.toString()
+            toSignUp3(nameInput)
         }
     }
-    fun toSignUp3(userGender:Boolean){
-        var bundle = bundleOf("userGender" to userGender)
+
+    fun toSignUp3(userName:String){
+        var bundle = arguments
+        bundle!!.putString("userName", userName)
         view?.findNavController()?.navigate(R.id.action_signUp2Fragment_to_signUp3Fragment, bundle)
     }
 }

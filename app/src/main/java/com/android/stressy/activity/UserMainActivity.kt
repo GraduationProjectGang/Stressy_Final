@@ -33,10 +33,19 @@ class UserMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_main)
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        getRequestCode()
         init()
         createWorker()
     }
+    fun getRequestCode(){
+        if (intent.extras != null){
+            val notificationCode = intent!!.extras!!.getString("notification_code")
+            if (notificationCode == "111"){
+                startStressCollectDialog()
+            }
+        }
 
+    }
     public fun createWorker() {//init Periodic work
 
         val uniqueWorkName = "DataCollectWorker"
@@ -163,9 +172,7 @@ class UserMainActivity : AppCompatActivity() {
     private fun initButtonAndText() {
         //설문 버튼
         button_survey.setOnClickListener {
-            sendEventGoogleAnalytics("button_survey","onClick")
-            val intent = Intent(this, StressCollectActivity::class.java)
-            startActivity(intent)
+            startStressCollectDialog()
         }
 
         //프로젝트 가이드 TextView
@@ -181,7 +188,12 @@ class UserMainActivity : AppCompatActivity() {
 
 
     }
-
+    fun startStressCollectDialog(){
+        val dialog = StressCollectDialog()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        dialog.show(fragmentTransaction,"")
+        supportFragmentManager.executePendingTransactions()
+    }
     fun initFirebase(){
         FirebaseApp.initializeApp(applicationContext)
         FirebaseInstanceId.getInstance().instanceId

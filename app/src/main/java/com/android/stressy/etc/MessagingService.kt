@@ -21,7 +21,7 @@ import retrofit2.Response
 
 class MessagingService() : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        // ...
+        var message = ""
         val TAG = "fcm onmessage"
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
@@ -30,12 +30,16 @@ class MessagingService() : FirebaseMessagingService() {
 
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()){
-            Log.d(TAG,"onMessageReceived: Data Size:"+remoteMessage.data.size)
             for(key in remoteMessage.data.keys){
                 Log.d(TAG, "onMessageReceived: Key:"+key +" Data: " + remoteMessage.data.get(key))
             }
-            Log.d(TAG,"onMessageReceived: Data:"+remoteMessage.data.toString())
-            createWorker()
+            message = remoteMessage.data.values.first() //payload 중 첫번째 value
+            Log.d(TAG, "onMessageReceived: Data:$message")
+            if (message == "dataCollect") {
+                createDataCollectWorker()
+            }else if (message == "startTraining") {
+                startTraining()
+            }
 
         }
 
@@ -52,7 +56,11 @@ class MessagingService() : FirebaseMessagingService() {
         // message, here is where that should be initiated. See sendNotification method below.
     }
 
-    fun createWorker(){//init Periodic work
+    private fun startTraining() {
+        //TODO("Not yet implemented")
+    }
+
+    fun createDataCollectWorker(){//init Periodic work
 
         val uniqueWorkName = "DataCollectWorker"
 
