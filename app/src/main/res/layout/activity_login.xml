@@ -7,18 +7,19 @@
     tools:context=".activity.LoginActivity">
 
 
-    <TextView
-        style="@style/questions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/noto_sans"
-        android:text="로그인" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="200dp"
         >
+
+        <TextView
+            style="@style/questions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:text="로그인" />
         <LinearLayout
             android:layout_gravity="right"
             android:orientation="vertical"
@@ -27,7 +28,7 @@
 
             <TextView
                 style="@style/questions"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="100dp"
                 android:text="이메일"
                 android:textSize="22dp"
                 android:layout_width="match_parent"
@@ -97,13 +98,54 @@
                 android:visibility="gone"
                 />
 
+
+
         </LinearLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_autologin"
+            style="@style/questions"
+            android:layout_width="151dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="자동 로그인"
+            android:textSize="18dp" />
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/EditText"
+            android:text="@string/did_you_sign_up"
+            android:layout_width="0dp"
+            android:layout_weight="3.5"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            style="@style/EditText"
+            android:id="@+id/button_signup_onlogin"
+            android:text="넹"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/button_login"
         style="@style/nextButton"
         android:text="로그인 하기"
         />
+</LinearLayout>
 
 
 </FrameLayout>

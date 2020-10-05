@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingHorizontal="10dp"
-    android:layout_gravity="center"
+    android:foregroundGravity="center"
+    android:background="@android:color/transparent"
     tools:context=".activity.StressCollectDialog">
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="17dp"
         android:layout_marginTop="3dp"
-        android:text="오늘 하루는 어떠셨나요?"
+        android:text="질문에 응답해주세요"
         android:textColor="#000000"
         android:textSize="18dp" />
 
@@ -55,11 +56,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="17dp"
+                android:textSize="20dp"
                 android:layout_marginLeft="20dp"
                 android:textColor="#000000"
                 android:lineSpacingExtra="8sp"
-                android:text="중요한 일을 조절할 수 없다고 느낀 적이 얼마나 자주 있었습니까?
+                android:text="오늘의 스트레스는 어느정도 였나요?
 "
                 />
 

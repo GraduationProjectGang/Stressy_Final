@@ -2,10 +2,10 @@
     <string name="app_name">Stressy</string>
     <string name="channel_name">스트레스 측정</string>
     <string name="channel_description">스트레스 측정</string>
-    <string name="zero">거의\n없었다</string>
-    <string name="one">약간\n있었다</string>
-    <string name="two">조금\n있었다</string>
-    <string name="three">매우\n많았다</string>
+    <string name="zero">거의\n없었다\n0점</string>
+    <string name="one">약간\n있었다\n1점</string>
+    <string name="two">조금\n있었다\n2점</string>
+    <string name="three">매우\n많았다\n3점</string>
     <string name="four">4점</string>
     <string name="tuto">하루에 <b>2번</b> 스트레스 설문을 통해 스트레스 수치를 입력받습니다. <b>스마트폰 상태바에 알림이 뜨면</b> 설문을 진행해주시면 됩니다.</string>
     <string name="question">질문사항이 있으시다면?\n\n<b>2번</b> 스트레스 설문을 통해 스트레스 수치를 입력받습니다. <b>스마트폰 상태바에 알림이 뜨면</b> 설문을 진행해주시면 됩니다.</string>
@@ -35,4 +35,7 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
+    <string name="check_original_pw">사용자 확인을 위해\n비밀번호를 한번 더 입력해주세요</string>
+    <string name="check_withdraw">정말 탈퇴하시겠습니까?</string>
+    <string name="did_you_sign_up">아직 회원가입을 하지 않으셨나요?</string>
 </resources>

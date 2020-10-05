@@ -1,4 +1,4 @@
-package com.android.stressy.dataclass
+package com.android.stressy.dataclass.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

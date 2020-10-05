@@ -42,6 +42,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
+    implementation 'androidx.preference:preference-ktx:1.1.1'
 
     implementation "androidx.work:work-runtime-ktx:2.4.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

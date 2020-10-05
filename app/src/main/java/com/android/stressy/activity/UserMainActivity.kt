@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.provider.Settings
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -14,14 +13,12 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.work.Constraints
 import androidx.work.WorkManager
 import com.android.stressy.R
 import com.android.stressy.etc.DataCollectWorker
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_user_main.*
 import androidx.work.OneTimeWorkRequestBuilder as OneTimeWorkRequestBuilder1
 
@@ -38,11 +35,9 @@ class UserMainActivity : AppCompatActivity() {
         createWorker()
     }
     fun getRequestCode(){
-        if (intent.extras != null){
-            val notificationCode = intent!!.extras!!.getString("notification_code")
-            if (notificationCode == "111"){
-                startStressCollectDialog()
-            }
+        if (intent.extras != null){ //알림타고 들어온거면
+            val notificationCode = intent.extras!!.getString("notification_code")?.toIntOrNull()
+            startStressCollectDialog(notificationCode)
         }
 
     }
@@ -89,11 +84,9 @@ class UserMainActivity : AppCompatActivity() {
 
     fun init() {
         checkPermission()
-        initFirebase()
         initButtonAndText()
 
-
-        val prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+        val prefs = getPreferences(Context.MODE_PRIVATE)
         usercode.text =
             "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
         u_key = prefs.getString(getString(R.string.pref_previously_logined), "null")!!
@@ -172,46 +165,27 @@ class UserMainActivity : AppCompatActivity() {
     private fun initButtonAndText() {
         //설문 버튼
         button_survey.setOnClickListener {
-            startStressCollectDialog()
+            startStressCollectDialog(0)
         }
 
         //프로젝트 가이드 TextView
-        val mystring = "프로젝트 가이드 다시보기"
+        val mystring = "회원가입 하기"
         val content = SpannableString(mystring)
         content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
-        tutorialAgain.setText(content)
 
-        //        tutorialAgain.setOnClickListener {
-//            val intent = Intent(this, Tutorial1Activity::class.java)
-//            startActivity(intent)
-//        }
 
 
     }
-    fun startStressCollectDialog(){
-        val dialog = StressCollectDialog()
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        dialog.show(fragmentTransaction,"")
-        supportFragmentManager.executePendingTransactions()
+    fun startStressCollectDialog(code:Int?){
+//        val fragmentManager = supportFragmentManager
+//        val fragmentTransaction = fragmentManager.beginTransaction()
+//        fragmentTransaction.addToBackStack()
+        val bundle = bundleOf("notificationCode" to code)
+        val  dialog = StressCollectDialog();
+        dialog.arguments = bundle
+        dialog.show(supportFragmentManager, "dialog");
     }
-    fun initFirebase(){
-        FirebaseApp.initializeApp(applicationContext)
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("fcm", "getInstanceId failed", task.exception)
-                    return@OnCompleteListener
-                }
 
-                // Get new Instance ID token
-                val token = task.result?.token
-
-                // Log and toast
-                val msg = "token: " + token
-                Log.d("fcm", msg)
-            })
-
-    }
     fun sendEventGoogleAnalytics(id:String, name:String) {
         var bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID,id)

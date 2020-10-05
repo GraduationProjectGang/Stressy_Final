@@ -1,46 +1,43 @@
 package com.android.stressy.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.stressy.R
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 
 lateinit var u_key: String
 
 class SplashActivity : AppCompatActivity() {
     private val SPLASH_TIME_OUT:Long = 1000 // 일단짧게
+    val pref_auto_email = "mEmail"
+    val pref_auto_password = "mPassword"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         Handler().postDelayed({
-            // This method will be executed once the timer is over
-            // Start your app main activity
+            val prefs = getPreferences(Context.MODE_PRIVATE)
 
-//            val prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
-//
-//            //첫 실행이면 SignInActivity 실행
-//            var previouslyStarted = prefs.getBoolean(getString(R.string.pref_previously_started), false)
-//            if (!previouslyStarted) {
-//                val intent = Intent(this, SignUpActivity::class.java)
-//                startActivity(intent)
-//            }
-//            else {
-//                startActivity(
-//                    Intent(this,
-//                    UserMainActivity::class.java)
-//                )
-//            }
-            startActivity(
-                Intent(this,
-                    SignUpActivity::class.java)
-            )
+            //자동 로그인 정보
+            if (prefs.contains(pref_auto_email) && prefs.contains(pref_auto_password)){
+                Toast.makeText(this,"자동 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, UserMainActivity::class.java)
+                startActivity(intent)
+            }
+
+            //첫 실행이면 SignInActivity 실행
+            var previouslyStarted = prefs.getBoolean(getString(R.string.pref_previously_started), false)
+            if (prefs.getBoolean(getString(R.string.pref_previously_started),false)) {
+                val intent = Intent(this, SignUpActivity::class.java)
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(this, SignUpActivity::class.java)
+                startActivity(intent)
+            }
 
             // close this activity
             finish()

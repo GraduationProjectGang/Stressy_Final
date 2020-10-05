@@ -33,15 +33,14 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_sign_up1, container, false)
-        return rootView
+        return inflater.inflate(R.layout.fragment_sign_up1, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        init(view)
+        init()
     }
 
-    fun init(rootView:View){
+    fun init(){
         nextButton1.setOnClickListener {
             //if email is valid
             val emailInput = editText_email.text.toString()

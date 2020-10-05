@@ -23,7 +23,12 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.android.stressy.R
 import com.android.stressy.activity.u_key
-import com.android.stressy.dataclass.*
+import com.android.stressy.dataclass.CategoryForJson
+import com.android.stressy.dataclass.LocationData
+import com.android.stressy.dataclass.RotateVectorData
+import com.android.stressy.dataclass.UsageAppData
+import com.android.stressy.dataclass.db.CoroutineData
+import com.android.stressy.dataclass.db.CoroutineDatabase
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -178,7 +183,17 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
 
         //save data
         for (i in 0..4){
-            save(CoroutineData(mTimestamp,ifMoving,orientation,posture,std_posture,categorizedList[i].category,categorizedList[i].totalTimeInForeground))
+            save(
+                CoroutineData(
+                    mTimestamp,
+                    ifMoving,
+                    orientation,
+                    posture,
+                    std_posture,
+                    categorizedList[i].category,
+                    categorizedList[i].totalTimeInForeground
+                )
+            )
         }
 
         val dbObject = Room.databaseBuilder(
@@ -196,7 +211,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
 //        }
 //
 //    }
-    fun save(data:CoroutineData){
+    fun save(data: CoroutineData){
         val dbObject = Room.databaseBuilder(
             applicationContext,
             CoroutineDatabase::class.java, "coroutine"

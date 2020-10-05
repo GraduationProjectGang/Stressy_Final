@@ -1,6 +1,7 @@
 package com.android.stressy.activity.sign_up
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -8,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.android.stressy.R
 import com.android.stressy.activity.UserMainActivity
 import com.android.volley.Request
@@ -18,16 +18,7 @@ import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_sign_up4.*
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SignUp4Fragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SignUp4Fragment : androidx.fragment.app.Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -64,7 +55,7 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
 
         button_birthday.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
-                activity!!,
+                requireActivity(),
                 DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
                     y = i
                     m = i2+1
@@ -81,14 +72,14 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
 
     }
     fun addUserToDB(){
-        val bundle = arguments!!
+        val bundle = requireArguments()
         val userName = bundle.get("userName").toString()
         val userEmail = bundle.get("userEmail").toString()
         val userPassword = bundle.get("userPassword").toString()
         val userGender = bundle.get("userGender").toString().toInt()
 
         val url = "http://114.70.23.77:8002/v1/user/account/signup"
-        val queue = Volley.newRequestQueue(activity!!.applicationContext)
+        val queue = Volley.newRequestQueue(requireActivity().applicationContext)
         val stringRequest = object : StringRequest(
             Request.Method.POST,url,
             Response.Listener<String> { response ->
@@ -106,7 +97,12 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
         }
         queue.add(stringRequest)
 
-        val intent = Intent(activity!!, UserMainActivity::class.java)
+        //이거 맞나 회원가입 안했으면 회원가입하라고..,?ㅎ?ㅇ?ㅇㅎ/
+        val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(getString(R.string.pref_previously_started),true).apply()
+
+
+        val intent = Intent(requireActivity(), UserMainActivity::class.java)
         startActivity(intent)
     }
 }

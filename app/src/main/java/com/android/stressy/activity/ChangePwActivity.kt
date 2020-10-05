@@ -10,7 +10,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_my_page.*
 
-class MyPageActivity : AppCompatActivity() {
+class ChangePwActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
@@ -23,22 +23,16 @@ class MyPageActivity : AppCompatActivity() {
         val graphFragment = StressGraphFragment()
         fragmentTransaction.add(R.id.graphFragment, graphFragment).commit()
     }
-
     fun init(){
         button_change_password.setOnClickListener {
-            val  dialog = CheckPwDialog()
-            dialog.show(supportFragmentManager, "dialog")
+            changePassword()
         }
-        button_withdraw.setOnClickListener {
-            val dialog = WithdrawDialog()
-            dialog.show(supportFragmentManager,"withdraw")
-        }
+    }
+    fun checkOriginalPassword(pw:String):Boolean{
+        return true
     }
 
-    fun checkOriginalPassword(pw:String):Boolean{
-        return false
-    }
-    fun changePassword(user_email:String) :Boolean{
+    fun changePassword() :Boolean{
         val url = "http://114.70.23.77:8002/v1/user/account/changepw"
         val queue = Volley.newRequestQueue(applicationContext)
         val stringRequest = object : StringRequest(
@@ -50,7 +44,7 @@ class MyPageActivity : AppCompatActivity() {
         ){
             override fun getParams(): MutableMap<String, String>? {
                 val params = hashMapOf<String,String>()
-                params.put("user_email",user_email)
+//                params.put("user_email",user_email)
                 return params
             }
         }
