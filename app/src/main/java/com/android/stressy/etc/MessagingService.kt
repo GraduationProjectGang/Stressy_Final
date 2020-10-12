@@ -53,9 +53,6 @@ class MessagingService() : FirebaseMessagingService() {
         // message, here is where that should be initiated. See sendNotification method below.
     }
 
-
-
-
     override fun onNewToken(token: String) {//if new token created
         Log.d(TAG, "new token: $token")
         //save token on db

@@ -3,15 +3,15 @@ package com.android.stressy.dataclass.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.android.stressy.dataclass.PredictedStress
 
 @Dao
-interface CoroutineDataDao {
-    @Query(value = "SELECT * FROM coroutine")
-    fun getAll(): List<CoroutineData>
-
+interface PredictedStressDao {
+    @Query(value = "SELECT * FROM stressPredicted")
+    fun getAll(): List<PredictedStress>
 
     @Insert
-    fun insert(data: CoroutineData)
+    fun insert(data: PredictedStress)
 
 
 

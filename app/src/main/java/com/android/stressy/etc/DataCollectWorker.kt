@@ -155,8 +155,9 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         for (item in loc){
             ifMovingList.add(item.speed)
         }
+        var speedMax = 0.0.toFloat()
+        if (ifMovingList.size > 0) speedMax = ifMovingList.max()!!.toFloat()
 
-        val speedMax = ifMovingList.max()!!
         Log.d("savedata",speedMax.toString())
         Log.d("savedata",rVector.toString())
         Log.d("savadatasize",rVector.size.toString())
@@ -221,7 +222,6 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         dbObject.insert(data)
     }
 
-
     private fun getPosture(x_list: MutableList<Double>): Int {
         val bincount_x = intArrayOf(0,0,0,0)
         val posture_list =  mutableListOf<Int>()
@@ -277,6 +277,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         else if (degree > 120 && degree < 180) return 3
         else return 0
     }
+
     fun posture_y(degree: Double): Int{
         if ((degree >240 && degree < 300) || (degree >60 && degree < 120) ) return 2
         else if (degree > 270 || degree > 30 || (degree > 180 && degree < 210)) return 1
@@ -322,8 +323,6 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         val listAppType = object : TypeToken<List<CategoryForJson>>() {}.type
 
         val categoryJson: List<CategoryForJson> = gson.fromJson(inputAsString, listAppType)
-        Log.d("categorizing",categoryJson.toString())
-        Log.d("categorizing",categoryJson.size.toString())
         val categorizedList = arrayListOf<StatsForArray>()
         Log.d("cate usage",usageStats.toString())
         var idx = 0

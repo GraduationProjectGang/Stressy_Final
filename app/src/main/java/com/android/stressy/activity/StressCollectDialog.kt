@@ -20,7 +20,9 @@ import java.text.SimpleDateFormat
 
 class StressCollectDialog : DialogFragment() {
     val dateFormat = SimpleDateFormat("yyyyMMdd.HH:mm:ss")
-    lateinit var prefs: SharedPreferences
+    private val stressCollectRequest = 111
+
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,12 +38,6 @@ class StressCollectDialog : DialogFragment() {
         val height = resources.getDimensionPixelSize(R.dimen.pop_up_height)
         dialog!!.window!!.setLayout(width, height)
     }
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val dialog = Dialog(activity!!)
-//        dialog.setContentView(R.layout.dialog_stress_collect)
-//
-//        return dialog
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,11 +60,11 @@ class StressCollectDialog : DialogFragment() {
         }
         stressFinishBtn.setOnClickListener {
             if (stressScore == 9) {
-                Snackbar.make(it, "질문에 답해주세요", Snackbar.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "질문에 답해주세요", Toast.LENGTH_SHORT).show()
             } else {
 
                 Log.d("surveyscore", stressScore.toString())
-                Toast.makeText(activity!!, "감사합니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "감사합니다", Toast.LENGTH_SHORT).show()
 
 
                 var stCount = prefs.getInt(getString(R.string.stress_collect_count), 0)
@@ -82,11 +78,11 @@ class StressCollectDialog : DialogFragment() {
 //                edit.commit()
 
                 save(StressScoreData(timestamp,stressScore))
-                val noti = arguments!!.getInt("notificationCode")
-                if (noti == 111)
+                val noti = requireArguments().getInt("notificationCode")
+                if (noti == stressCollectRequest)
                     dismiss()
                 else{
-                    //todo
+                    dialog?.dismiss()
 
                 }
             }

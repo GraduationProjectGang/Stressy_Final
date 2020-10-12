@@ -1,6 +1,8 @@
 package com.android.stressy.activity
 
+import android.app.AlarmManager
 import android.app.AppOpsManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -14,21 +16,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.work.Constraints
-import androidx.work.WorkManager
 import com.android.stressy.R
-import com.android.stressy.etc.DataCollectWorker
+import com.android.stressy.etc.StressCollectAlarmReceiver
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_user_main.*
-import androidx.work.OneTimeWorkRequestBuilder as OneTimeWorkRequestBuilder1
+import java.util.*
+import kotlin.collections.ArrayList
 
 class UserMainActivity : AppCompatActivity() {
     val MULTIPLE_REQUEST = 1234
     lateinit var mFirebaseAnalytics: FirebaseAnalytics
+    val stressCollectRequest = 111
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +38,6 @@ class UserMainActivity : AppCompatActivity() {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         getRequestCode()
         init()
-//        createWorker()
-
     }
     fun getRequestCode(){
         if (intent.extras != null){ //알림타고 들어온거면
@@ -46,35 +46,11 @@ class UserMainActivity : AppCompatActivity() {
         }
 
     }
-    public fun createWorker() {//init Periodic work
-        val uniqueWorkName = "DataCollectWorker"
-        val constraints = Constraints.Builder()
-            .setRequiresCharging(false)
-            .build()
-
-        //20분 마다 반복
-        val collectRequest =
-            OneTimeWorkRequestBuilder1<DataCollectWorker>()
-                .setConstraints(constraints)
-                .addTag("DCWorker")
-                .build()
-
-        val workManager = WorkManager.getInstance(applicationContext)
-        workManager?.let {
-            it.enqueue(collectRequest)
-        }
-
-        Log.d("fcm", "request enqueued")
-    }
-
-    fun cancelWork() {
-        val workManager = WorkManager.getInstance(applicationContext)
-        workManager.cancelAllWorkByTag("DCWorker")
-    }
 
     fun init() {
         checkPermission()
         initButtonAndText()
+        setAlarm()
 
         val prefs = getPreferences(Context.MODE_PRIVATE)
         usercode.text =
@@ -93,6 +69,37 @@ class UserMainActivity : AppCompatActivity() {
             edit.commit()
 
 
+        }
+    }
+
+    private fun setAlarm() {
+        Log.d("setalarm","onusermain")
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()+10
+//            set(Calendar.HOUR_OF_DAY, 20)
+
+        }
+
+        Log.d("setalarm",calendar.toString())
+        Log.d("setalarm",(calendar.timeInMillis-System.currentTimeMillis()).toString())
+
+        val alarmIntent = Intent(this, StressCollectAlarmReceiver::class.java)
+        alarmIntent.putExtra("notificationCode",stressCollectRequest)
+
+        val alarmUp = PendingIntent.getBroadcast(this, stressCollectRequest,alarmIntent,
+            PendingIntent.FLAG_NO_CREATE) != null
+
+        if (alarmUp)
+            Log.d("setalarm","alarm is already active")
+        else{
+            Log.d("setalarm","alarm setting")
+            val pendingIntent = PendingIntent.getBroadcast(this, stressCollectRequest, alarmIntent, PendingIntent.FLAG_NO_CREATE)
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
         }
     }
 
@@ -121,7 +128,6 @@ class UserMainActivity : AppCompatActivity() {
             statsPermissionFragment.show(fragmentManager,"permission")
         }
     }
-
 
     fun ifStatsPermitted(): Boolean{
         var granted = false
@@ -207,7 +213,7 @@ class UserMainActivity : AppCompatActivity() {
 //        val fragmentTransaction = fragmentManager.beginTransaction()
 //        fragmentTransaction.addToBackStack()
         val bundle = bundleOf("notificationCode" to code)
-        val  dialog = StressCollectDialog();
+        val  dialog = StressCollectDialog()
         dialog.arguments = bundle
         dialog.show(supportFragmentManager, "dialog");
     }
@@ -218,5 +224,4 @@ class UserMainActivity : AppCompatActivity() {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,name)
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT,bundle)
     }
-
 }

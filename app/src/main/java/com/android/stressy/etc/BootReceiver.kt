@@ -5,10 +5,9 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Context.*
+import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.util.Log
-import com.android.stressy.etc.AlarmReceiver
 import java.util.*
 
 
@@ -25,7 +24,7 @@ class BootReceiver : BroadcastReceiver() {
             set(Calendar.HOUR_OF_DAY, time)
         }
         Log.d("alarmset","alarmsetat${time}")
-        val alarmIntent = Intent(context, AlarmReceiver::class.java)
+        val alarmIntent = Intent(context, StressCollectAlarmReceiver::class.java)
         alarmIntent.putExtra("time",time)
 
         val alarmUp = PendingIntent.getBroadcast(context, 10, alarmIntent,
