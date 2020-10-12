@@ -155,6 +155,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         for (item in loc){
             ifMovingList.add(item.speed)
         }
+
         val speedMax = ifMovingList.max()!!
         Log.d("savedata",speedMax.toString())
         Log.d("savedata",rVector.toString())
@@ -257,6 +258,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         }
         return orientation
     }
+
     fun calculate_std(list: MutableList<Double>): Double {
         var sum = 0.0
         var std = 0.0
@@ -280,6 +282,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         else if (degree > 270 || degree > 30 || (degree > 180 && degree < 210)) return 1
         else return 0
     }
+
     fun transfer(radian:Double):Double{
         val ret = (radian*(180/Math.PI))
         if (ret >= 0) return ret
@@ -302,17 +305,6 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         val FINANCE_STRING = "Finance"
         val BROWSER_STRING = "Browser"
 
-        val g2son = Gson()
-        val str = """{"appName": "KREAM", "category": "Shopping", "category_label": 9}"""
-        val strjson = g2son.fromJson(str, CategoryForJson::class.java)!!
-        Log.d("catete",strjson.toString())
-
-
-
-
-
-
-
         val inputStream = applicationContext.getResources().openRawResource(R.raw.category_labels2)
         val bufferedReader = BufferedInputStream(inputStream)
         var line = ""
@@ -331,6 +323,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
 
         val categoryJson: List<CategoryForJson> = gson.fromJson(inputAsString, listAppType)
         Log.d("categorizing",categoryJson.toString())
+        Log.d("categorizing",categoryJson.size.toString())
         val categorizedList = arrayListOf<StatsForArray>()
         Log.d("cate usage",usageStats.toString())
         var idx = 0
@@ -460,7 +453,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
 
     fun getAppUsageStats(time:Long): MutableList<UsageStats> {
         val cal = Calendar.getInstance()
-        cal.add(Calendar.MINUTE, -1)//1분간의 stats 파악
+        cal.add(Calendar.MINUTE, -15)//1분간의 stats 파악
         Log.d("dcworker",cal.toString())
 
         val usageStatsManager = applicationContext.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager

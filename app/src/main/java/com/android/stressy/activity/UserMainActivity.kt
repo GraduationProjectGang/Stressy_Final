@@ -18,7 +18,11 @@ import androidx.work.Constraints
 import androidx.work.WorkManager
 import com.android.stressy.R
 import com.android.stressy.etc.DataCollectWorker
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_user_main.*
 import androidx.work.OneTimeWorkRequestBuilder as OneTimeWorkRequestBuilder1
 
@@ -32,7 +36,8 @@ class UserMainActivity : AppCompatActivity() {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         getRequestCode()
         init()
-        createWorker()
+//        createWorker()
+
     }
     fun getRequestCode(){
         if (intent.extras != null){ //알림타고 들어온거면
@@ -42,9 +47,7 @@ class UserMainActivity : AppCompatActivity() {
 
     }
     public fun createWorker() {//init Periodic work
-
         val uniqueWorkName = "DataCollectWorker"
-
         val constraints = Constraints.Builder()
             .setRequiresCharging(false)
             .build()
@@ -56,24 +59,11 @@ class UserMainActivity : AppCompatActivity() {
                 .addTag("DCWorker")
                 .build()
 
-
         val workManager = WorkManager.getInstance(applicationContext)
         workManager?.let {
             it.enqueue(collectRequest)
         }
 
-//        workManager?.let {
-//            it.enqueueUniquePeriodicWork(uniqueWorkName, ExistingPeriodicWorkPolicy.KEEP, collectRequest)
-//            val statusLiveData = it.getWorkInfosForUniqueWorkLiveData(uniqueWorkName)
-//            statusLiveData.observe(this, androidx.lifecycle.Observer {
-//                Log.w("workstatus", "state: ${it[0].state}")
-//                if (it[0].state == WorkInfo.State.BLOCKED || it[0].state == WorkInfo.State.CANCELLED || it[0].state == WorkInfo.State.FAILED) {
-//                    val fbDatabase = FirebaseDatabase.getInstance()
-//                    val dbReference = fbDatabase.reference
-//                    dbReference.child("user").child(u_key).child("isRunning").setValue("false")
-//                }
-//            })
-//        }
         Log.d("fcm", "request enqueued")
     }
 
@@ -173,9 +163,45 @@ class UserMainActivity : AppCompatActivity() {
         val content = SpannableString(mystring)
         content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
 
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("fcm", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
 
+                // Get new Instance ID token
+                val token = task.result?.token.toString()
+                val prefs = getPreferences(Context.MODE_PRIVATE)
+                if (prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token)) != token) {
+                    Log.d("fcm:", "new token")
 
+                    //add to db
+                    val url = "http://114.70.23.77:8002/v1/user/fcm/newtoken"
+                    val queue = Volley.newRequestQueue(applicationContext)
+                    val stringRequest = object : StringRequest(
+                        Method.POST,url,
+                        com.android.volley.Response.Listener<String> { response ->
+                            Log.d("volvol", response) },
+                        com.android.volley.Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
+                    ){
+                        override fun getParams(): MutableMap<String, String>? {
+                            val params = hashMapOf<String,String>()
+                            params.put("fcm_token",token)
+                            return params
+                        }
+                    }
+                    queue.add(stringRequest)
+
+                    //add to sharedpreference
+                    val edit = prefs.edit() as SharedPreferences.Editor
+                    edit.putString("pref_fcm_token", token)
+                    edit.commit()
+                }
+
+            })
     }
+
     fun startStressCollectDialog(code:Int?){
 //        val fragmentManager = supportFragmentManager
 //        val fragmentTransaction = fragmentManager.beginTransaction()

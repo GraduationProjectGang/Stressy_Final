@@ -35,20 +35,30 @@
 
         </activity>
         <activity android:name=".activity.SplashActivity">
+
+        </activity>
+        <activity android:name=".activity.UserMainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.UserMainActivity" >
-
-        </activity>
         <activity android:name=".MainActivity" />
+
+        <service android:name=".etc.MessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="123456" />
         <meta-data
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />

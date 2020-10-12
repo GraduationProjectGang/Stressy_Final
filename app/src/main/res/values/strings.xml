@@ -11,6 +11,8 @@
     <string name="question">질문사항이 있으시다면?\n\n<b>2번</b> 스트레스 설문을 통해 스트레스 수치를 입력받습니다. <b>스마트폰 상태바에 알림이 뜨면</b> 설문을 진행해주시면 됩니다.</string>
     <string name="pref_previously_started">false</string>
     <string name="pref_previously_logined">null</string>
+    <string name="pref_fcm_token">null</string>
+
     <string name="stress_collect_count">0</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

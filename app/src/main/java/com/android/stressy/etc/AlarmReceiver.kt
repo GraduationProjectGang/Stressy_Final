@@ -56,7 +56,7 @@ class AlarmReceiver: BroadcastReceiver() {
         val cal = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         var addtime = 24
 
-        setAlarm(context, addtime)
+//        setAlarm(context, addtime)
 
 
 

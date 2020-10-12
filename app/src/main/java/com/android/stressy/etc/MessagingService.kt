@@ -10,19 +10,16 @@ import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.android.stressy.R
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import okhttp3.MediaType
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MessagingService() : FirebaseMessagingService() {
+    val TAG = "fcm onmessage"
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         var message = ""
-        val TAG = "fcm onmessage"
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: ${remoteMessage.from}")
@@ -31,10 +28,10 @@ class MessagingService() : FirebaseMessagingService() {
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()){
             for(key in remoteMessage.data.keys){
-                Log.d(TAG, "onMessageReceived: Key:"+key +" Data: " + remoteMessage.data.get(key))
+                Log.d(TAG, "fcmMes: Key:"+key +" Data: " + remoteMessage.data.get(key))
             }
             message = remoteMessage.data.values.first() //payload 중 첫번째 value
-            Log.d(TAG, "onMessageReceived: Data:$message")
+            Log.d(TAG, "fcmMes: Data:$message")
             if (message == "dataCollect") {
                 createDataCollectWorker()
             }else if (message == "startTraining") {
@@ -56,11 +53,37 @@ class MessagingService() : FirebaseMessagingService() {
         // message, here is where that should be initiated. See sendNotification method below.
     }
 
+
+
+
+    override fun onNewToken(token: String) {//if new token created
+        Log.d(TAG, "new token: $token")
+        //save token on db
+
+        val url = "http://114.70.23.77:8002/v1/user/fcm/newtoken"
+        val queue = Volley.newRequestQueue(applicationContext)
+        val stringRequest = object : StringRequest(
+            Request.Method.POST,url,
+            com.android.volley.Response.Listener<String> { response ->
+                Log.d("volvol", response) },
+            com.android.volley.Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
+        ){
+            override fun getParams(): MutableMap<String, String>? {
+                val params = hashMapOf<String,String>()
+                params.put("fcm_token",token)
+                return params
+            }
+        }
+        queue.add(stringRequest)
+
+    }
+
     private fun startTraining() {
         //TODO("Not yet implemented")
     }
 
     fun createDataCollectWorker(){//init Periodic work
+        Log.d(TAG, "fcmMes: datacollectWorker Created")
 
         val uniqueWorkName = "DataCollectWorker"
 
@@ -101,32 +124,7 @@ class MessagingService() : FirebaseMessagingService() {
 //                }
 //            })
 //        }
-        Log.d("fcm", "request enqueued")
-
-    }
-
-    override fun onNewToken(token: String) {//if new token created
-        super.onNewToken(token)
-        Log.i("fcm", "new token: " + token)
-        //save token on db
-        val requestBody = RequestBody.create(MediaType.parse("text/plain"),token)
-        val response = TokenService.create().submit(requestBody)
-        Log.d("fcm", "enqueued")
-
-        response.enqueue(object: Callback<ResponseBody> {
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                //TODO
-            }
-
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                //SharedPreference에도 저장
-                val pref = getSharedPreferences("pref", Context.MODE_PRIVATE)
-                val editor = pref.edit()
-                editor.putString("token", token)
-                editor.commit()
-            }
-        })
+        Log.d(TAG, "request enqueued")
     }
 
     fun sendNotification() {
