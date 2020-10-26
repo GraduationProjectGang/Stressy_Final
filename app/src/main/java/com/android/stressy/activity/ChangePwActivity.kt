@@ -18,7 +18,7 @@ class ChangePwActivity : AppCompatActivity() {
         makeGraphFragment()
     }
 
-    fun makeGraphFragment(){
+    fun makeGraphFragment() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val graphFragment = StressGraphFragment()
         fragmentTransaction.add(R.id.graphFragment, graphFragment).commit()
