@@ -60,16 +60,14 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
                     y = i
                     m = i2+1
                     d = i3
-                    textView_birth.text = "$y, $m,$d"
+                    textView_birth.text = "$y 년 $m 월 $d 일"
                     c.set(y,m,d)
                 },
                 y, m, d
             )
             datePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.white)
             datePickerDialog.show()
-
         }
-
     }
     fun addUserToDB(){
         val bundle = requireArguments()

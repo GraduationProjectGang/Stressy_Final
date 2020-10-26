@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = arrayOf(StressScoreData::class),version = 1)
 abstract class PredictedStressDatabase : RoomDatabase() {
-    abstract fun stressScoreDataDao(): StressScoreDataDao
+    abstract fun predictedStressDao(): StressScoreDataDao
 //    companion object{
 //        @JvmField
 //        val MIGRATION1_2 = DataCollectWorker.Migration1_2()

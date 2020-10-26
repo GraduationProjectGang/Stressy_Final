@@ -1,19 +1,23 @@
 package com.android.stressy.activity.sign_up
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import com.android.stressy.R
 import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.RequestFuture
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_sign_up1.*
+import org.json.JSONObject
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 
@@ -47,58 +51,82 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
             val passwordInput = editText_password.text.toString()
             val passwordInput2 = editText_password2.text.toString()
             var flag = true
+            var emailvalidflag = requestEmailCheck(emailInput)
 
             //EMAIL 체크
             if (!("@" in emailInput) && !("." in emailInput)){
                 flag = false
-                guide_email.visibility = TextView.VISIBLE
-            }else if(!requestEmailCheck(emailInput)) {
+                guide_email.text= getString(R.string.error_email)
+            }else if(!emailvalidflag) {
                 flag = false
-                guide_email.visibility = TextView.VISIBLE
                 guide_email.text = "이미 가입되어 있는 이메일입니다."
             }else{
-                guide_email.visibility = TextView.INVISIBLE
+                guide_email.text = null
             }
 
             //비번 체크
             if (isValidPassword(passwordInput) or (passwordInput.length <= 8)){
                 flag = false
-                guide_password.visibility = TextView.VISIBLE
+                guide_password.text = getString(R.string.guide_password)
             }else{
-                guide_password.visibility = TextView.INVISIBLE
+                guide_password.text = ""
             }
 
             if (passwordInput != passwordInput2){
                 flag = false
-                guide_password2.visibility = TextView.VISIBLE
-            }else
-                guide_password2.visibility = TextView.INVISIBLE
+                guide_password.text = getString(R.string.guide_password2)
+
+            }else{
+                guide_password.text = null
+            }
 
             if(flag) toSignUp2(emailInput,passwordInput)
         }
     }
+
     fun toSignUp2(userEmail:String, userPassword:String){
         var bundle = bundleOf("userEmail" to userEmail, "userPassword" to userPassword)
         view?.findNavController()?.navigate(R.id.action_signUp1Fragment_to_signUp2Fragment, bundle)
     }
     fun requestEmailCheck(user_email:String):Boolean{
         val url = "http://114.70.23.77:8002/v1/user/account/validemail"
-        val queue = Volley.newRequestQueue(activity!!.applicationContext)
-        val stringRequest = object : StringRequest(Request.Method.POST,url,
-            Response.Listener<String> {response ->
-                Log.d("volvol", response) },
-            Response.ErrorListener {error ->  Log.d("volvol", error.toString()) }
+        val queue = Volley.newRequestQueue(requireActivity())
+        var checkFlag = false
+        val param = mutableMapOf<String,String>()
+        param["user_email"] = user_email
+        val jsonObj = JSONObject(param as Map<*, *>)
 
-        ){
-            override fun getParams(): MutableMap<String, String>? {
-                val params = hashMapOf<String,String>()
-                params.put("user_email",user_email)
-                return params
-            }
-        }
-        queue.add(stringRequest)
-        return true
+        val myVolleyResponse = volley(requireActivity(), url, jsonObj )
+        Log.d("volvolvalidemail", myVolleyResponse.toString())
+        return checkFlag
     }
+
+    fun volley(context: Context, url:String, params: JSONObject):JSONObject{
+        val url = "http://114.70.23.77:8002/v1/user/account/validemail"
+        val queue = Volley.newRequestQueue(context)
+        var checkFlag = false
+        val param = mutableMapOf<String,String>()
+        var response = JSONObject()
+        val future = RequestFuture.newFuture<JSONObject>()
+        val request = JsonObjectRequest(Request.Method.POST,url,params,future,future)
+        queue.add(request)
+
+        try {
+            response = future.get(10, TimeUnit.SECONDS)//wait response
+        } catch (e: InterruptedException) {
+            Log.e("Retrieve cards api call interrupted.", e.toString())
+            future.onErrorResponse(VolleyError(e))
+        } catch (e: ExecutionException) {
+            Log.e("Retrieve cards api call failed.", e.toString())
+            future.onErrorResponse(VolleyError(e))
+        }
+
+
+        Log.d("volvolcheckFlag", checkFlag.toString())
+        return response
+
+    }
+
 
     fun isValidPassword(input:String):Boolean{
         val PASSWORD_PATTERN =

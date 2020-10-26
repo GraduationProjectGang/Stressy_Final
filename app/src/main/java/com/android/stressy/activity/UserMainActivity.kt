@@ -36,6 +36,15 @@ class UserMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_main)
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
+        setSupportActionBar(toolbar)
+        var toolbar = getSupportActionBar()?.apply {
+            setDisplayShowCustomEnabled(true)
+            setDisplayShowTitleEnabled(false)
+            setDisplayHomeAsUpEnabled(true)
+
+        }
+
         getRequestCode()
         init()
     }
@@ -53,9 +62,9 @@ class UserMainActivity : AppCompatActivity() {
         setAlarm()
 
         val prefs = getPreferences(Context.MODE_PRIVATE)
-        usercode.text =
-            "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
-        u_key = prefs.getString(getString(R.string.pref_previously_logined), "null")!!
+//        usercode.text =
+//            "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
+        val u_key = prefs.getString(getString(R.string.pref_previously_logined), "null")!!
 
 
         Log.w(
@@ -206,6 +215,11 @@ class UserMainActivity : AppCompatActivity() {
                 }
 
             })
+
+        button_mypage.setOnClickListener {
+            val intent = Intent(this, MyPageActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun startStressCollectDialog(code:Int?){

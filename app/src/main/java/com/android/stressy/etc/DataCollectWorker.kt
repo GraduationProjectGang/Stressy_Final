@@ -22,7 +22,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.android.stressy.R
-import com.android.stressy.activity.u_key
 import com.android.stressy.dataclass.CategoryForJson
 import com.android.stressy.dataclass.LocationData
 import com.android.stressy.dataclass.RotateVectorData
@@ -41,6 +40,8 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.Comparator
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     : CoroutineWorker(appContext, workerParams), SensorEventListener {
@@ -52,7 +53,6 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     val TAG_ROTATE = "rotateVectorTest"
     val TAG_COROUTINE = "coroutineWorkerTest"
     val TAG_USAGE = "usageTest"
-    val userKey = u_key
 
     //location variable
     private lateinit var locationRequest: LocationRequest
@@ -179,6 +179,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
 
         val posture = getPosture(x_list)
         val std_posture = calculate_std(x_list)
+
         val orientation = getOrientation(y_list)
 
         val categorizedList = appToIndex(usageStats)
@@ -266,9 +267,10 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
             sum += num
         val mean = sum/list.size
         for (num in list){
-            std += Math.pow(num-mean,2.0)
+            std += (num - mean).pow(2.0)
         }
-        return Math.sqrt(std/list.size-1)
+        std = sqrt(std/list.size-1)
+        return std
     }
 
     fun posture_x(degree: Double): Int{

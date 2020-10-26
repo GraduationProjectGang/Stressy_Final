@@ -54,13 +54,11 @@
                 style="@style/questions"
                 android:id="@+id/guide_email"
                 android:layout_marginTop="10dp"
-                android:text="@string/error_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textSize="17sp"
                 android:textColor="#EF5388"
-                android:visibility="invisible"
                 />
 
         </LinearLayout>
@@ -146,13 +144,11 @@
                 style="@style/questions"
                 android:id="@+id/guide_password2"
                 android:layout_marginTop="10dp"
-                android:text="@string/guide_password2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textSize="17sp"
                 android:textColor="#EF5388"
-                android:visibility="invisible"
                 />
 
         </LinearLayout>

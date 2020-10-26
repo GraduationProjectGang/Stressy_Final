@@ -10,13 +10,11 @@ interface PredictedStressDao {
     @Query(value = "SELECT * FROM stressPredicted")
     fun getAll(): List<PredictedStress>
 
+    @Query(value = "SELECT * FROM stressPredicted WHERE startTimestamp <= 1111212112 AND endTimestamp < 51515151512121")
+    fun getFromTo(tsFrom:Long, tsTo:Long): List<PredictedStress>
+
     @Insert
     fun insert(data: PredictedStress)
-
-
-
-
-
 
     //([item['ifMoving'],item['orientation'],item['posture'],item['std_posture'],temp['category'],temp['totalTimeInForeground']])
 }

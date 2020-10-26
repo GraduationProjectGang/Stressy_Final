@@ -19,15 +19,22 @@
             android:fontFamily="@font/noto_sans"
             android:text="귀하의 생년월일을\n입력해주세요." />
         <TextView
+
             android:id="@+id/textView_birth"
             android:layout_marginTop="200dp"
-            style="@style/EditText"
+            style="@style/questions"
+            android:layout_marginHorizontal="0dp"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_sans"
-            android:text="----년 --월 --일" />
+            android:text="- - - - 년     - - 월     - - 일" />
         <Button
             android:id="@+id/button_birthday"
+            android:layout_marginTop="30dp"
+            style="@style/nextButton"
+            android:background="#707070"
+            android:layout_marginHorizontal="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="생년월일 선택하기" />

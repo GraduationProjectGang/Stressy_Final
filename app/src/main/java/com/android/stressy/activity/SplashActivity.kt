@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.stressy.R
 
-lateinit var u_key: String
+//lateinit var u_key: String
 
 class SplashActivity : AppCompatActivity() {
     private val SPLASH_TIME_OUT:Long = 1000 // 일단짧게

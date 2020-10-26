@@ -10,7 +10,6 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.android.stressy.activity.u_key
 import com.android.stressy.dataclass.RotateVectorStress
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -26,7 +25,6 @@ class RVecWorker(appContext: Context, workerParams: WorkerParameters)
     val TAG_ROTATE = "rotateVectorTest"
     val TAG_COROUTINE = "coroutineWorkerTest"
     val TAG_USAGE = "usageTest"
-    val userKey = u_key
 
     //rotate vector variable
     private lateinit var sensorManager: SensorManager
@@ -94,9 +92,7 @@ class RVecWorker(appContext: Context, workerParams: WorkerParameters)
                     )
                 rVector.angleList = mutableListOrientationAngles
 
-                fbDatabase = FirebaseDatabase.getInstance()
-                dbReference = fbDatabase.reference
-                dbReference.child("user").child(userKey).child("rotationVecStress").push().setValue(rVector)
+
                 Log.d("rotationVecStress","pushed!!")
 
             }
