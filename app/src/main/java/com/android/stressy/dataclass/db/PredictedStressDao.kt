@@ -10,7 +10,7 @@ interface PredictedStressDao {
     @Query(value = "SELECT * FROM stressPredicted")
     fun getAll(): List<PredictedStress>
 
-    @Query(value = "SELECT * FROM stressPredicted WHERE startTimestamp <=  AND endTimestamp < 51515151512121")
+    @Query(value = "SELECT * FROM stressPredicted WHERE startTimestamp <= :tsFrom AND endTimestamp < :tsTo")
     fun getFromTo(tsFrom:Long, tsTo:Long): List<PredictedStress>
 
     @Insert
