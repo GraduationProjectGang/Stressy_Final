@@ -33,25 +33,25 @@
         <activity
             android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SignUpActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.SplashActivity">
 
         </activity>
         <activity android:name=".activity.UserMainActivity" >
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
 
         <service android:name=".etc.MessagingService">
-
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
         </service>
         <receiver
             android:name=".etc.StressCollectAlarmReceiver"

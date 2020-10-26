@@ -35,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             else {
-                val intent = Intent(this, SignUpActivity::class.java)
+                val intent = Intent(this, UserMainActivity::class.java)
                 startActivity(intent)
             }
 

@@ -106,7 +106,7 @@ class MainStressGraphFragment : Fragment() {
             this.data = barData
             legend.isEnabled = false
             setScaleEnabled(false)
-            setViewPortOffsets(100f, 0f, 0f, 40f)
+            setViewPortOffsets(200f, 0f, 0f, 40f)
 //            setLine(true)
             invalidate()
         }
@@ -125,9 +125,6 @@ class MainStressGraphFragment : Fragment() {
 //            val predictedData_rand = (2..4).random()
 //            dbObject.insert(PredictedStressData(timestamp_rand,predictedData_rand))
 //        }
-
-
-
         val timeStampArr = makeDateArray(0)
         val dataArr = mutableMapOf<String, Double>() //날짜, 점수 맵
         for (i in 0 until timeStampArr.size-1){
