@@ -99,7 +99,7 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
 
         val myVolleyResponse = volley(requireActivity(), url, jsonObj )
         Log.d("volvolvalidemail", myVolleyResponse.toString())
-        return checkFlag
+        return true
     }
 
     fun volley(context: Context, url:String, params: JSONObject):JSONObject{

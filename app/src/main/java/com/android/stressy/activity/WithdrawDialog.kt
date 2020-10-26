@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.android.stressy.R
 import com.android.volley.Request
@@ -39,6 +40,8 @@ class WithdrawDialog : DialogFragment() {
         button_withdraw_dialog.setOnClickListener {
             val user_id = "ksh04023@gmail.com"
             withdrawOnServer(user_id)
+            Toast.makeText(requireActivity(),"탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
+            requireActivity().finish()
         }
     }
 

@@ -71,33 +71,38 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
     }
     fun addUserToDB(){
         val bundle = requireArguments()
-        val userName = bundle.get("userName").toString()
-        val userEmail = bundle.get("userEmail").toString()
-        val userPassword = bundle.get("userPassword").toString()
-        val userGender = bundle.get("userGender").toString().toInt()
+        if (!bundle.isEmpty()){ //TODO
+            val userName = bundle.get("userName").toString()
+            val userEmail = bundle.get("userEmail").toString()
+            val userPassword = bundle.get("userPassword").toString()
+            val userGender = bundle.get("userGender").toString().toInt()
 
-        val url = "http://114.70.23.77:8002/v1/user/account/signup"
-        val queue = Volley.newRequestQueue(requireActivity().applicationContext)
-        val stringRequest = object : StringRequest(
-            Request.Method.POST,url,
-            Response.Listener<String> { response ->
-                Log.d("volvol", response) },
-            Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
-        ){
-            override fun getParams(): MutableMap<String, String>? {
-                val params = hashMapOf<String,String>()
-                params.put("user_name",userName)
-                params.put("user_pw",userPassword)
-                params.put("user_email",userEmail)
-                params.put("user_gender",userGender.toString())
-                return params
+            val url = "http://114.70.23.77:8002/v1/user/account/signup"
+            val queue = Volley.newRequestQueue(requireActivity().applicationContext)
+            val stringRequest = object : StringRequest(
+                Request.Method.POST,url,
+                Response.Listener<String> { response ->
+                    Log.d("volvol", response) },
+                Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
+            ){
+                override fun getParams(): MutableMap<String, String>? {
+                    val params = hashMapOf<String,String>()
+                    params.put("user_name",userName)
+                    params.put("user_pw",userPassword)
+                    params.put("user_email",userEmail)
+                    params.put("user_gender",userGender.toString())
+                    return params
+                }
             }
-        }
-        queue.add(stringRequest)
+            queue.add(stringRequest)
 
-        //이거 맞나 회원가입 안했으면 회원가입하라고..,?ㅎ?ㅇ?ㅇㅎ/
-        val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        prefs.edit().putBoolean(getString(R.string.pref_previously_started),true).apply()
+            //이거 맞나 회원가입 안했으면 회원가입하라고..,?ㅎ?ㅇ?ㅇㅎ/
+            val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
+            prefs.edit().putBoolean(getString(R.string.pref_previously_started),true).apply()
+        }
+
+
+
 
 
         val intent = Intent(requireActivity(), UserMainActivity::class.java)

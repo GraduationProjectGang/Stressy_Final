@@ -66,7 +66,6 @@ class StressCollectDialog : DialogFragment() {
                 Log.d("surveyscore", stressScore.toString())
                 Toast.makeText(requireActivity(), "감사합니다", Toast.LENGTH_SHORT).show()
 
-
                 var stCount = prefs.getInt(getString(R.string.stress_collect_count), 0)
                 //TODO:설문 인덱스 -> db AI로 수정
                 Log.w("SCA_COUNT", stCount.toString())
@@ -76,6 +75,7 @@ class StressCollectDialog : DialogFragment() {
 //                val edit = prefs.edit() as SharedPreferences.Editor
 //                edit.putInt(getString(R.string.stress_collect_count), stCount + 1)
 //                edit.commit()
+
 
                 save(StressScoreData(timestamp,stressScore))
                 val noti = requireArguments().getInt("notificationCode")
@@ -91,7 +91,7 @@ class StressCollectDialog : DialogFragment() {
     }
     fun save(data: StressScoreData){
         val dbObject = Room.databaseBuilder(
-            activity!!.applicationContext,
+            requireActivity().applicationContext,
             StressScoreDatabase::class.java, "stress"
         ).fallbackToDestructiveMigration().build().stressScoreDataDao()
 

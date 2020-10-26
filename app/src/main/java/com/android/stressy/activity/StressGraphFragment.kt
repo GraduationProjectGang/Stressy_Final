@@ -79,6 +79,8 @@ class StressGraphFragment : Fragment() {
             setDrawGridLines(false)
             granularity = 1f
             isGranularityEnabled = false
+            var dateString = arrayListOf("10/19","10/20","10/21","10/22","10/23","10/24","10/25")
+            valueFormatter = IndexAxisValueFormatter(dateString)
         }
 
         var stressDescription = arrayListOf<String>("","낮음","보통","높음","매우\n높음")
@@ -88,7 +90,7 @@ class StressGraphFragment : Fragment() {
 
             axisMinimum = 0.0f
             axisMaximum = 5.0f
-            setValueFormatter(IndexAxisValueFormatter(stressDescription))
+            valueFormatter = IndexAxisValueFormatter(stressDescription)
 
             val ll = LimitLine(week_average.toFloat(), "평균")
             ll.lineColor = Color.RED

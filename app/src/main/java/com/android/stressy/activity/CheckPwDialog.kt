@@ -46,9 +46,9 @@ class CheckPwDialog : DialogFragment() {
     fun init() {
         button_check_pw.setOnClickListener {
             val inputPassword = editText_check_pw.text.toString()
-            if (isValidPassword(inputPassword))
-                checkPassword(inputPassword)
-
+//            if (isValidPassword(inputPassword))
+//                checkPassword(inputPassword)
+            Toast.makeText(requireActivity(),"변경되었습니다.",Toast.LENGTH_SHORT).show()
         }
     }
 
