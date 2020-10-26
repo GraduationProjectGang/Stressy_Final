@@ -5,14 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".activity.StressGraphFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <com.github.mikephil.charting.charts.HorizontalBarChart
             android:id="@+id/mainBarChart"
             android:layout_width="match_parent"
-            android:layout_height="300dp"/>
-    </LinearLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"/>
 
 </FrameLayout>

@@ -9,6 +9,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_my_page.*
+import java.util.regex.Pattern
 
 class ChangePwActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,4 +52,6 @@ class ChangePwActivity : AppCompatActivity() {
         queue.add(stringRequest)
         return true
     }
+
+
 }

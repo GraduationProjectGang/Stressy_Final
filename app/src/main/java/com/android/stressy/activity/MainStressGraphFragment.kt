@@ -10,15 +10,18 @@ import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.android.stressy.R
 import com.android.stressy.dataclass.db.PredictedStressDatabase
-import com.github.mikephil.charting.charts.BarChart
+import com.android.stressy.etc.RoundedBarChartRenderer
 import com.github.mikephil.charting.charts.HorizontalBarChart
-import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.github.mikephil.charting.utils.ColorTemplate
+import kotlinx.android.synthetic.main.fragment_main_stress_graph.*
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,78 +41,76 @@ class MainStressGraphFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_main_stress_graph, container, false)
         var stressChart = rootView!!.findViewById(R.id.mainBarChart) as HorizontalBarChart
         makeDataToBarEntry()
-
-
-
-
         initChart(stressChart)
         return rootView
     }
 
     fun initChart(chart:HorizontalBarChart){
+//        val roundedBarChartRenderer = RoundedBarChartRenderer(
+//            chart,
+//            chart.getAnimator(),
+//            chart.getViewPortHandler()
+//        )
+//        roundedBarChartRenderer.setmRadius(20f)
+//        chart.setRenderer(roundedBarChartRenderer)
+
 
 //        val data = listOf<Int>(2,4,3,4,2,3,4)
-        val data = List(7) { (2..4).random() }
-        val week_average = data.average()
+        val data = listOf<Float>()
         val entries = arrayListOf<BarEntry>()
-        for (i in data.indices) {
-            val value = (Math.random() * 10).toFloat()
+        for (i in 0 until 4) {
             entries.add(
-                BarEntry(i.toFloat(), data[i].toFloat())
+                BarEntry(i.toFloat(), (3..15).random().toFloat())
             )
+            Log.d("chacha",entries[i].toString())
         }
         val dataSet = BarDataSet(entries,"dtd")
-        dataSet.apply {
-            color = resources.getColor(R.color.colorPrimary)
 
+        dataSet.apply {
+            setColor(R.color.colorPrimaryDark)
             setDrawValues(false)
-            valueTextSize = 13f
-            highLightColor = resources.getColor(R.color.colorPrimary)
+            valueTextSize = 10f
+            barBorderWidth = 1f
 
         }
-
-
+        chart.setExtraTopOffset((-2).toFloat());
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM)
         val dataSets = arrayListOf<IBarDataSet>(dataSet)
-        val lineData = BarData(dataSets)
+        val barData = BarData(dataSets)
         //barchart design
 
-        chart.xAxis.apply {
-            position = XAxis.XAxisPosition.BOTTOM
-            textSize = 14f
+        chart.axisLeft.apply {
+            setDrawGridLines(false)
+            isEnabled = false
+        }
+        chart.disableScroll()
+        chart.fitScreen()
+        chart.centerViewTo(chart.getXChartMax(),0f,YAxis.AxisDependency.RIGHT)
+        chart.axisRight.apply {
+            textSize = 12f
+            axisMinimum = 0.0f
             setDrawGridLines(false)
             granularity = 1f
             isGranularityEnabled = false
         }
-
-        chart.axisLeft.apply {
+        chart.xAxis.apply {
             granularity = 1f
-            textSize = 15f
-
+            textSize = 13f
             axisMinimum = 0.0f
-            axisMaximum = 5.0f
             setDrawGridLines(false)
-
-            var stressDescription = arrayListOf<String>("","낮음","보통","높음","매우\n높음")
+            var stressDescription = arrayListOf<String>("낮음","보통","높음","매우\n높음")
             setValueFormatter(IndexAxisValueFormatter(stressDescription))
-
-
-
         }
 
         chart.apply {
-            setBorderColor(Color.DKGRAY)
-            axisRight.isEnabled = false
-//            legend.apply {
-//                textSize = 12f
-//                verticalAlignment = Legend.LegendVerticalAlignment.TOP
-//            }
-        }
-
-        chart.run {
-            this.data = lineData
+            this.data = barData
+            legend.isEnabled = false
+            setScaleEnabled(false)
+            setViewPortOffsets(100f, 0f, 0f, 40f)
 //            setLine(true)
             invalidate()
         }
+
     }
 
     private fun makeDataToBarEntry(): ArrayList<Entry> = runBlocking{

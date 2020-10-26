@@ -9,53 +9,51 @@
     android:id="@+id/userMainLayout"
     tools:context=".activity.UserMainActivity">
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
 
-        <ImageView
-            android:layout_margin="8dp"
-            android:id="@+id/imageView2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_baseline_menu_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
 
-        <ImageView
-            android:id="@+id/emergency"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:foregroundGravity="center"
-            android:paddingRight="3dp"
-            android:src="@drawable/text_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.406"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
 
-        <ImageButton
-            android:id="@+id/button_mypage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:scaleType="fitCenter"
-            android:layout_marginStart="100dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_baseline_person_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/emergency"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/emergency"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:foregroundGravity="center"
+                android:paddingRight="3dp"
+                android:src="@drawable/text_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/button_menu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="8dp"
+                android:layout_marginStart="100dp"
+                android:background="@android:color/transparent"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/menu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/emergency"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tutorialAgain"
@@ -68,6 +66,7 @@
         android:textColor="#a8000000"
         android:textSize="14dp"
         tools:text="프로젝트 가이드" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_marginHorizontal="20dp"
@@ -76,7 +75,11 @@
         <ImageView
             android:src="@drawable/stressicon_4"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerInside"
             />
 
         <LinearLayout
@@ -106,35 +109,37 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="3dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="25dp"
-        android:background="@color/colorPrimaryDark" />
-
-
-
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="25dp"
+            android:background="@color/colorPrimaryDark" />
 
         <FrameLayout
             android:padding="5dp"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="10dp"
             android:id="@+id/mainStressGraph"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.3"
             />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
             android:orientation="vertical">
 
             <ImageView
                 android:layout_width="60dp"
-                android:layout_height="85dp"
+                android:layout_height="60dp"
                 android:layout_gravity="right"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/progress" />
 
@@ -144,8 +149,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="8sp"
-                android:text="오늘 하루는 어떠셨나요?"
-                android:textColor="#000000"
+                android:text="오늘 하루는 어땠나요?"
+                android:textColor="#B0000000"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -153,16 +158,14 @@
                 android:id="@+id/button_survey"
                 style="@style/TextStyleBold"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:layout_marginHorizontal="60dp"
                 android:layout_marginVertical="25dp"
-                android:layout_marginBottom="100dp"
                 android:background="@drawable/button_radius"
                 android:paddingHorizontal="15dp"
-                android:text="스트레스 설문 시작하기"
+                android:text="스트레스 설문 하기"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
-</LinearLayout>
-
+    </LinearLayout>
 </FrameLayout>

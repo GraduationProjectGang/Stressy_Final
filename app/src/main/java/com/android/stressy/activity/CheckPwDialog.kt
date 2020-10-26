@@ -15,6 +15,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.dialog_check_pw.*
+import java.util.regex.Pattern
 
 
 class CheckPwDialog : DialogFragment() {
@@ -45,7 +46,8 @@ class CheckPwDialog : DialogFragment() {
     fun init() {
         button_check_pw.setOnClickListener {
             val inputPassword = editText_check_pw.text.toString()
-            checkPassword(inputPassword)
+            if (isValidPassword(inputPassword))
+                checkPassword(inputPassword)
 
         }
     }
@@ -77,5 +79,15 @@ class CheckPwDialog : DialogFragment() {
         }
         queue.add(stringRequest)
         return true
+    }
+
+
+    fun isValidPassword(input:String):Boolean{
+        val PASSWORD_PATTERN =
+            "^(?=.*\\\\d)(?=.*[~`!@#\$%\\\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{8,}\$"
+        val pattern = Pattern.compile(PASSWORD_PATTERN)
+        val matcher = pattern.matcher(input)
+
+        return matcher.matches()
     }
 }

@@ -12,6 +12,11 @@ import android.provider.Settings
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -27,7 +32,7 @@ import kotlinx.android.synthetic.main.activity_user_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class UserMainActivity : AppCompatActivity() {
+class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     val MULTIPLE_REQUEST = 1234
     lateinit var mFirebaseAnalytics: FirebaseAnalytics
     val stressCollectRequest = 111
@@ -47,6 +52,8 @@ class UserMainActivity : AppCompatActivity() {
         getRequestCode()
         init()
     }
+
+
     fun getRequestCode(){
         if (intent.extras != null){ //알림타고 들어온거면
             val notificationCode = intent.extras!!.getString("notification_code")?.toIntOrNull()
@@ -79,6 +86,7 @@ class UserMainActivity : AppCompatActivity() {
 
         }
     }
+
     fun makeGraphFragment(){
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val graphFragment = MainStressGraphFragment()
@@ -170,9 +178,35 @@ class UserMainActivity : AppCompatActivity() {
             }
         }
     }
+    fun showPopup(v: View?) {
+        PopupMenu(this, v).apply {
+            // MainActivity implements OnMenuItemClickListener
+            setOnMenuItemClickListener(this@UserMainActivity)
+            inflate(R.menu.menu)
+            show()
+        }
+    }
+
+    private fun setOnMenuItemClickListener(item: MenuItem) {
+
+    }
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.mypage ->{
+                val intent = Intent(this, MyPageActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> false
+        }
+    }
 
     private fun initButtonAndText() {
         //설문 버튼
+        button_menu.setOnClickListener {
+            showPopup(it)
+
+        }
         button_survey.setOnClickListener {
             startStressCollectDialog(0)
         }
@@ -220,10 +254,7 @@ class UserMainActivity : AppCompatActivity() {
 
             })
 
-        button_mypage.setOnClickListener {
-            val intent = Intent(this, MyPageActivity::class.java)
-            startActivity(intent)
-        }
+
     }
 
     fun startStressCollectDialog(code:Int?){
@@ -242,4 +273,6 @@ class UserMainActivity : AppCompatActivity() {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,name)
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT,bundle)
     }
+
+
 }
