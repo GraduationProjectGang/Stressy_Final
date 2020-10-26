@@ -54,17 +54,17 @@ class CheckPwDialog : DialogFragment() {
     fun checkPassword(input:String) :Boolean{
         val url = "http://114.70.23.77:8002/v1/user/account/checkPw"
         val hashedInput = Hashing.calculateHash(input)
-        val queue = Volley.newRequestQueue(activity!!.applicationContext)
+        val queue = Volley.newRequestQueue(requireActivity().applicationContext)
         val stringRequest = object : StringRequest(
             Request.Method.POST,url,
             Response.Listener<String> { res ->
                 Log.d("volvol", res)
                 if (res == "200") {
-                    Toast.makeText(activity!!,"확인되었습니다.",Toast.LENGTH_SHORT).show()
-                    val intent = Intent(activity!!.applicationContext,ChangePwActivity::class.java)
+                    Toast.makeText(requireActivity(),"확인되었습니다.",Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireActivity().applicationContext,ChangePwActivity::class.java)
                     startActivity(intent)
                 }else{
-                    Toast.makeText(activity!!,"비밀번호가 틀렸습니다.",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(),"비밀번호가 틀렸습니다.",Toast.LENGTH_SHORT).show()
                 }
             },
             Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }

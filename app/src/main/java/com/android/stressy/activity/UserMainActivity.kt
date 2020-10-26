@@ -37,7 +37,6 @@ class UserMainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_main)
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        setSupportActionBar(toolbar)
         var toolbar = getSupportActionBar()?.apply {
             setDisplayShowCustomEnabled(true)
             setDisplayShowTitleEnabled(false)
@@ -60,7 +59,7 @@ class UserMainActivity : AppCompatActivity() {
         checkPermission()
         initButtonAndText()
         setAlarm()
-
+        makeGraphFragment()
         val prefs = getPreferences(Context.MODE_PRIVATE)
 //        usercode.text =
 //            "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
@@ -80,7 +79,11 @@ class UserMainActivity : AppCompatActivity() {
 
         }
     }
-
+    fun makeGraphFragment(){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val graphFragment = MainStressGraphFragment()
+        fragmentTransaction.add(R.id.mainStressGraph, graphFragment).commit()
+    }
     private fun setAlarm() {
         Log.d("setalarm","onusermain")
         val calendar: Calendar = Calendar.getInstance().apply {
@@ -134,6 +137,7 @@ class UserMainActivity : AppCompatActivity() {
         if (!ifStatsPermitted()){
             val fragmentManager = supportFragmentManager
             val statsPermissionFragment = StatsPermissionFragment()
+
             statsPermissionFragment.show(fragmentManager,"permission")
         }
     }

@@ -13,6 +13,7 @@ import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.RequestFuture
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_sign_up1.*
 import org.json.JSONObject
@@ -107,19 +108,33 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
         var checkFlag = false
         val param = mutableMapOf<String,String>()
         var response = JSONObject()
-        val future = RequestFuture.newFuture<JSONObject>()
-        val request = JsonObjectRequest(Request.Method.POST,url,params,future,future)
-        queue.add(request)
+//        val future = RequestFuture.newFuture<JSONObject>()
+//        val request = JsonObjectRequest(Request.Method.POST,url,params,future,future)
+//        queue.add(request)
+//
+//        try {
+//            response = future.get(10, TimeUnit.SECONDS)//wait response
+//        } catch (e: InterruptedException) {
+//            Log.e("Retrieve cards api call interrupted.", e.toString())
+//            future.onErrorResponse(VolleyError(e))
+//        } catch (e: ExecutionException) {
+//            Log.e("Retrieve cards api call failed.", e.toString())
+//            future.onErrorResponse(VolleyError(e))
+//        }
 
-        try {
-            response = future.get(10, TimeUnit.SECONDS)//wait response
-        } catch (e: InterruptedException) {
-            Log.e("Retrieve cards api call interrupted.", e.toString())
-            future.onErrorResponse(VolleyError(e))
-        } catch (e: ExecutionException) {
-            Log.e("Retrieve cards api call failed.", e.toString())
-            future.onErrorResponse(VolleyError(e))
+        val stringRequest = object : StringRequest(
+            Method.POST,url,
+            com.android.volley.Response.Listener<String> { response ->
+                Log.d("volvol", response) },
+            com.android.volley.Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
+        ){
+            override fun getParams(): MutableMap<String, String>? {
+                val params = hashMapOf<String,String>()
+                params.put("user_email",params.getValue("user_email"))
+                return params
+            }
         }
+        queue.add(stringRequest)
 
 
         Log.d("volvolcheckFlag", checkFlag.toString())

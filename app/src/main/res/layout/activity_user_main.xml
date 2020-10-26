@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,157 +9,126 @@
     android:id="@+id/userMainLayout"
     tools:context=".activity.UserMainActivity">
 
-    <LinearLayout
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9"
-        android:orientation="vertical">
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal">-->
+        android:layout_height="wrap_content">
 
-<!--            <ImageView-->
-<!--                android:id="@+id/imageView2"-->
-<!--                android:layout_width="40dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:layout_margin="8dp"-->
-<!--                android:src="@drawable/ic_baseline_menu_24"-->
-<!--                tools:layout_editor_absoluteX="6dp"-->
-<!--                tools:layout_editor_absoluteY="8dp" />-->
+        <ImageView
+            android:layout_margin="8dp"
+            android:id="@+id/imageView2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_menu_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/emergency"-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginStart="108dp"-->
-<!--                android:clickable="true"-->
-<!--                android:foregroundGravity="center"-->
-<!--                android:paddingRight="3dp"-->
-<!--                android:src="@drawable/text_logo"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.006"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/imageView2"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintVertical_bias="1.0" />-->
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/emergency"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            android:paddingRight="3dp"
+            android:src="@drawable/text_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.406"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
-            <ImageView
-                android:layout_margin="8dp"
-                android:id="@+id/imageView2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_baseline_menu_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/button_mypage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:scaleType="fitCenter"
+            android:layout_marginStart="100dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_baseline_person_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/emergency"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
-                android:id="@+id/emergency"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:foregroundGravity="center"
-                android:paddingRight="3dp"
-                android:src="@drawable/text_logo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.4"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tutorialAgain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="10dp"
+        android:gravity="right"
+        android:lineSpacingExtra="6sp"
+        android:textColor="#a8000000"
+        android:textSize="14dp"
+        tools:text="프로젝트 가이드" />
 
-            <ImageButton
-                android:id="@+id/button_mypage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="8dp"
-                android:scaleType="fitCenter"
-                android:layout_marginStart="100dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_baseline_person_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/emergency"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:id="@+id/tutorialAgain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginRight="10dp"
-            android:gravity="right"
-            android:lineSpacingExtra="6sp"
-            android:textColor="#a8000000"
-            android:textSize="14dp"
-            tools:text="프로젝트 가이드" />
+    <LinearLayout
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/stressicon_4"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            />
 
         <LinearLayout
-            android:layout_marginHorizontal="20dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/stressicon_4"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:text="스트레스 수준"
+                android:textStyle="bold"
+                android:textSize="17dp"
+                android:textColor="#535353"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 />
-
-            <LinearLayout
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_gravity="center_horizontal"
-                    android:text="스트레스 수준"
-                    android:textStyle="bold"
-                    android:textSize="17dp"
-                    android:textColor="#535353"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-                <TextView
-                    android:layout_gravity="center_horizontal"
-                    android:text="높음"
-                    android:layout_marginTop="4dp"
-                    android:textSize="40dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-            </LinearLayout>
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:text="높음"
+                android:layout_marginTop="4dp"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
         </LinearLayout>
+    </LinearLayout>
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="wrap_content"
-            android:layout_height="3dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="25dp"
-            android:background="@color/colorPrimaryDark" />
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="25dp"
+        android:background="@color/colorPrimaryDark" />
 
+
+
+
+        <FrameLayout
+            android:padding="5dp"
+            android:layout_marginVertical="20dp"
+            android:id="@+id/mainStressGraph"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            />
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="bottom"
             android:orientation="vertical">
 
             <ImageView
@@ -194,7 +163,6 @@
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
-    </LinearLayout>
-
-
 </LinearLayout>
+
+</FrameLayout>
