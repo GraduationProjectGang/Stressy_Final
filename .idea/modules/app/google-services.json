@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "711225202590",
+    "firebase_url": "https://stressy-final.firebaseio.com",
+    "project_id": "stressy-final",
+    "storage_bucket": "stressy-final.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711225202590:android:33a202697bb94d8a5da88f",
+        "android_client_info": {
+          "package_name": "com.android.stressy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "711225202590-hqdb0v1fs2bikqcj7fv9e7na2npqmd0c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.stressy",
+            "certificate_hash": "02f07e9e3ebe31361a1dd5a65eeb0241d6b4067b"
+          }
+        },
+        {
+          "client_id": "711225202590-frccg93g3e6r5b3tg7qpumikqsqm54e2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQbTDlnA_D2zaKf4pvSAXrh3iWSOcp3KQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "711225202590-frccg93g3e6r5b3tg7qpumikqsqm54e2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
