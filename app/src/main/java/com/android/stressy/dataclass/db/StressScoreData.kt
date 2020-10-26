@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "stress")
+@Entity(tableName = "stressScore")
 data class StressScoreData(
     @PrimaryKey val timestamp:Long,
     @ColumnInfo(name = "stressScore") val stressScore: Int

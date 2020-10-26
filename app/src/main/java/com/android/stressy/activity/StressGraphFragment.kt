@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -37,6 +38,9 @@ class StressGraphFragment : Fragment() {
         var stressChart = rootView!!.findViewById(R.id.stressGraph) as LineChart
         makeDataToBarEntry()
 
+
+
+
         initChart(stressChart)
         return rootView
     }
@@ -55,7 +59,7 @@ class StressGraphFragment : Fragment() {
         }
         val dataSet = LineDataSet(entries,"stress")
         dataSet.apply {
-            color = resources.getColor(Color.DKGRAY)
+            color = resources.getColor(R.color.colorPrimary)
             setLineWidth(2f)
             setCircleSize(5f)
             setDrawValues(false)
@@ -112,13 +116,38 @@ class StressGraphFragment : Fragment() {
         }
     }
 
-    private fun makeDataToBarEntry(): ArrayList<Entry> {
+    private fun makeDataToBarEntry(): ArrayList<Entry> = runBlocking{
         val dbObject = Room.databaseBuilder(
             requireContext(),
-            PredictedStressDatabase::class.java, "stress"
-        ).fallbackToDestructiveMigration().build().predictedStressDao()
+            PredictedStressDatabase::class.java, "stressPredicted"
+        ).fallbackToDestructiveMigration().allowMainThreadQueries().build().predictedStressDao()
+
+
+//        for (i in 0 until 10){
+//            val timestamp_rand = (1603173028..1603605028).random().toLong()
+//            val predictedData_rand = (2..4).random()
+//            dbObject.insert(PredictedStressData(timestamp_rand,predictedData_rand))
+//        }
+
+
 
         val timeStampArr = makeDateArray(0)
+        val dataArr = mutableMapOf<String, Double>() //날짜, 점수 맵
+        for (i in 0 until timeStampArr.size-1){
+            val getData = dbObject.getFromTo(timeStampArr[i],timeStampArr[i+1])//하루동안의 데이터 받아오기
+            var avg = 0.0
+            if (getData.isNotEmpty()){
+                val df = SimpleDateFormat("MM/dd")
+                val date = Date(timeStampArr[i])
+                val tempDate = df.format(date)
+                for (each in getData){
+                    avg += each.stressPredicted
+                }
+                avg /= getData.size
+            }
+            dataArr["tempDate"] = avg
+        }
+        Log.d("dateArr",dataArr.toString())
 
 
         val data = arrayListOf<Long>()
@@ -126,7 +155,7 @@ class StressGraphFragment : Fragment() {
         for (i in entries.indices){
             entries.add(Entry(i.toFloat(), data[i].toFloat()))
         }
-        return entries
+        return@runBlocking entries
     }
 
     fun makeDateArray(leftCount: Int): ArrayList<Long>{ //얼마만큼 왼쪽으로 swipe 하냐

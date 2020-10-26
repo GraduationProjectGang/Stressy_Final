@@ -6,7 +6,7 @@ import androidx.room.Query
 
 @Dao
 interface StressScoreDataDao {
-    @Query(value = "SELECT * FROM stress")
+    @Query(value = "SELECT * FROM stressScore")
     fun getAll(): List<StressScoreData>
 
     @Insert

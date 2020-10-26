@@ -5,13 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "stress")
+@Entity(tableName = "stressPredicted")
 data class PredictedStressData(
     @PrimaryKey val timestamp:Long,
-    @ColumnInfo(name = "startTimestamp") val startTimestamp:Long,
-    @ColumnInfo(name = "endTimestamp") val endTimestamp:Long,
     @ColumnInfo(name = "stressPredicted") val stressPredicted: Int
 ) {
-    constructor() : this(0,0,0,2) {
+    constructor() : this(0,2) {
     }
 }
