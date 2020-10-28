@@ -101,15 +101,30 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="15dp"
+                style="@style/EditText"
+                android:text="@string/did_you_sign_up"
+                android:layout_width="0dp"
+                android:layout_weight="3.5"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:textSize="15dp"
+                style="@style/EditText"
+                android:id="@+id/button_signup_onlogin"
+                android:text="넹"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_autologin"
-            style="@style/questions"
-            android:layout_width="151dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="자동 로그인"
-            android:textSize="18dp" />
 
 
 
@@ -119,33 +134,20 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            style="@style/EditText"
-            android:text="@string/did_you_sign_up"
-            android:layout_width="0dp"
-            android:layout_weight="3.5"
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_autologin"
+            style="@style/questions"
+            android:layout_width="151dp"
             android:layout_height="wrap_content"
-            />
-        <TextView
-            style="@style/EditText"
-            android:id="@+id/button_signup_onlogin"
-            android:text="넹"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="자동 로그인"
+            android:textSize="18dp" />
+        <Button
+            android:id="@+id/button_login"
+            style="@style/nextButton"
+            android:text="로그인 하기"
             />
     </LinearLayout>
-    <Button
-        android:id="@+id/button_login"
-        style="@style/nextButton"
-        android:text="로그인 하기"
-        />
-</LinearLayout>
 
 
 </FrameLayout>

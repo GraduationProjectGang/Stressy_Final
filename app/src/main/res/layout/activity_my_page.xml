@@ -16,11 +16,7 @@
         android:layout_height="wrap_content"
         android:text="My Page"
         />
-    <View
-        android:layout_width="150dp"
-        android:layout_height="5dp"
-        android:background="@color/colorPrimary"
-        />
+
     <FrameLayout
         android:padding="5dp"
         android:layout_marginVertical="20dp"

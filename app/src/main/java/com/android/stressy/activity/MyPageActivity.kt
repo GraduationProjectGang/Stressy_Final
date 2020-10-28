@@ -33,6 +33,10 @@ class MyPageActivity : AppCompatActivity() {
             val dialog = WithdrawDialog()
             dialog.show(supportFragmentManager,"withdraw")
         }
+        button_logout.setOnClickListener {
+            val dialog = LogoutDialog()
+            dialog.show(supportFragmentManager,"logout")
+        }
     }
 
     fun checkOriginalPassword(pw:String):Boolean{

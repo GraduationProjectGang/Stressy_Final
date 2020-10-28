@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.android.stressy.R
 import com.android.stressy.dataclass.db.PredictedStressDatabase
-import com.android.stressy.etc.RoundedBarChartRenderer
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -20,8 +19,6 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
-import kotlinx.android.synthetic.main.fragment_main_stress_graph.*
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.*
@@ -70,12 +67,17 @@ class MainStressGraphFragment : Fragment() {
             setColor(R.color.colorPrimaryDark)
             setDrawValues(false)
             valueTextSize = 10f
-            barBorderWidth = 1f
+//            barBorderWidth = 1f
 
         }
-        chart.setExtraTopOffset((-2).toFloat());
-        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM)
         val dataSets = arrayListOf<IBarDataSet>(dataSet)
+        val color1 = Color.parseColor("#9DAFD9")
+        val color2 = Color.parseColor("#6C88C6")
+        val color3 = Color.parseColor("#3B60B3")
+        val color4 = Color.parseColor("#0A38A0")
+        val colorArr = mutableListOf<Int>(color1,color2,color3,color4)
+        dataSet.colors = colorArr
+
         val barData = BarData(dataSets)
         //barchart design
 
@@ -83,32 +85,35 @@ class MainStressGraphFragment : Fragment() {
             setDrawGridLines(false)
             isEnabled = false
         }
-        chart.disableScroll()
-        chart.fitScreen()
-        chart.centerViewTo(chart.getXChartMax(),0f,YAxis.AxisDependency.RIGHT)
         chart.axisRight.apply {
             textSize = 12f
             axisMinimum = 0.0f
             setDrawGridLines(false)
-            granularity = 1f
-            isGranularityEnabled = false
+//            granularity = 1f
+//            isGranularityEnabled = false
         }
         chart.xAxis.apply {
             granularity = 1f
             textSize = 13f
-            axisMinimum = 0.0f
+            axisMinimum = -0.5f
+            setPosition(XAxis.XAxisPosition.BOTTOM)
             setDrawGridLines(false)
             var stressDescription = arrayListOf<String>("낮음","보통","높음","매우\n높음")
             setValueFormatter(IndexAxisValueFormatter(stressDescription))
         }
 
         chart.apply {
+            defaultFocusHighlightEnabled = false
             this.data = barData
             legend.isEnabled = false
+            disableScroll()
+            setExtraTopOffset((-2).toFloat())
+            centerViewTo(chart.getXChartMax(),0f,YAxis.AxisDependency.RIGHT)
             setScaleEnabled(false)
-            setViewPortOffsets(200f, 0f, 0f, 40f)
-//            setLine(true)
+//            setViewPortOffsets(200f, 0f, 0f, 40f)
+            animateY(1000)
             invalidate()
+
         }
 
     }

@@ -10,11 +10,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.stressy.R
-import com.android.stressy.etc.Hashing
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -32,7 +33,8 @@ class LoginActivity : AppCompatActivity() {
         val password = login_password.text.toString()
         val autoLogin = switch_autologin.isChecked
         button_login.setOnClickListener {
-            if (autoLogin){
+            Log.d("loglog","switch On")
+            if(switch_autologin.isChecked){
                 prefs_editor.putString(pref_auto_email,email)
                 prefs_editor.putString(pref_auto_password,password)
                 prefs_editor.apply()
@@ -40,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             login(email,password)
         }
 
-        val mystring = "프로젝트 가이드 다시보기"
+        val mystring = "회원가입"
         val content = SpannableString(mystring)
         content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
         button_signup_onlogin.setText(content)
@@ -48,17 +50,58 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this,SignUpActivity::class.java)
             startActivity(intent)
         }
+        //TODO
+        initFcmToken()
+    }
+    fun initFcmToken(){
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("fcm", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new Instance ID token
+                val token = task.result?.token.toString()
+                val prefs = getPreferences(Context.MODE_PRIVATE)
+                if (prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token)) != token) {
+                    Log.d("fcm:", "new token")
+
+                    //add to db
+                    val url = "http://114.70.23.77:8002/v1/user/fcm/newtoken"
+                    val queue = Volley.newRequestQueue(applicationContext)
+                    val stringRequest = object : StringRequest(
+                        Method.POST,url,
+                        Response.Listener<String> { response ->
+                            Log.d("volvol", response) },
+                        Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
+                    ){
+                        override fun getParams(): MutableMap<String, String>? {
+                            val params = hashMapOf<String,String>()
+                            params.put("fcm_token",token)
+                            return params
+                        }
+                    }
+                    queue.add(stringRequest)
+
+                    //add to sharedpreference
+                    val edit = prefs.edit() as SharedPreferences.Editor
+                    edit.putString("pref_fcm_token", token)
+                    edit.commit()
+                }
+
+            })
 
     }
-
     fun login(userEmail:String, userPassword:String) :Boolean{
-        val url = "http://114.70.23.77:8002/v1/user/account/login"
-        val hashedPassword = Hashing.calculateHash(userPassword)
+        Log.d("loglog",userEmail+userPassword)
+        val url = "http://114.70.23.77:8002/v1/user/account/auth"
+//        val hashedPassword = Hashing.calculateHash(userPassword)
         val queue = Volley.newRequestQueue(applicationContext)
         val stringRequest = object : StringRequest(
             Request.Method.POST,url,
             Response.Listener<String> { res ->
-                Log.d("volvol", res)
+                Log.d("loglog", res)
                 if (res == "200") {
                     Toast.makeText(applicationContext,"환영합니다.", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext,UserMainActivity::class.java)
@@ -67,12 +110,18 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext,"틀림", Toast.LENGTH_SHORT).show()
                 }
             },
-            Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
+            Response.ErrorListener { error ->  Log.d("loglog", error.toString()) }
         ){
             override fun getParams(): MutableMap<String, String>? {
                 val params = hashMapOf<String,String>()
                 params.put("user_email",userEmail)
-                params.put("user_pw",hashedPassword)
+                params.put("user_pw",userPassword)
+                return params
+            }
+
+            override fun getHeaders(): MutableMap<String, String> {
+                val params = hashMapOf<String,String>()
+                params["Content-Type"] = "application/json"
                 return params
             }
         }

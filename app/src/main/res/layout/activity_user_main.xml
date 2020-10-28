@@ -41,8 +41,9 @@
 
             <ImageButton
                 android:id="@+id/button_menu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
                 android:layout_margin="8dp"
                 android:layout_marginStart="100dp"
                 android:background="@android:color/transparent"
@@ -54,7 +55,19 @@
                 app:layout_constraintStart_toEndOf="@+id/emergency"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <TextView
+            style="@style/TextStyleNormal"
+            android:id="@+id/text_user_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="10dp"
+            android:lineSpacingExtra="8sp"
+            android:textColor="#B0000000"
+            android:gravity="right"
+            android:text="ksh04023@gmail.com님의 계정"
+            android:textSize="15dp"
+            android:textStyle="bold" />
     <TextView
         android:id="@+id/tutorialAgain"
         android:layout_width="match_parent"
@@ -131,7 +144,7 @@
             android:id="@+id/mainStressGraph"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"
+            android:layout_weight="1.5"
             />
 
         <LinearLayout
@@ -166,7 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginHorizontal="60dp"
-                android:layout_marginVertical="25dp"
+                android:layout_marginVertical="5dp"
                 android:background="@drawable/button_radius"
                 android:paddingHorizontal="15dp"
                 android:text="스트레스 설문 하기"

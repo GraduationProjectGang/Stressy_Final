@@ -164,6 +164,7 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
         }
         return granted
     }
+
     private fun getStatsPermission() {
         // 권한이 없을 경우 권한 요구 페이지 이동
         val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)

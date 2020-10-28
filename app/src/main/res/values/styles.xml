@@ -81,7 +81,7 @@
 
     <style name="questions">
         <item name="fontFamily">@font/noto_sans</item>
-        <item name="android:textSize">25dp</item>
+        <item name="android:textSize">24dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#3A3A3A</item>
         <item name="android:layout_marginTop">45dp</item>
@@ -116,6 +116,18 @@
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+    <style name="yesnoButton">
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:text">다음</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:layout_gravity">bottom</item>
     </style>
     <style name="genderButton">

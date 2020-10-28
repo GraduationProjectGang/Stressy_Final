@@ -10,12 +10,30 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            style="@style/questions"
+
+        <LinearLayout
+            android:gravity="top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans"
-            android:text="귀하의 성별을\n선택해주세요." />
+            android:orientation="vertical"
+            >
+            <TextView
+                style="@style/questions"
+                android:text="회원가입"
+                android:textSize="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                style="@style/questions"
+                android:textSize="20dp"
+                android:textColor="#717171"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="귀하의 성별을\n입력해주세요." />
+        </LinearLayout>
         <LinearLayout
             android:layout_marginTop="50dp"
             android:layout_gravity="bottom"

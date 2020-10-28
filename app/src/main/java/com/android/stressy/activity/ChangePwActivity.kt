@@ -9,21 +9,14 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_my_page.*
-import java.util.regex.Pattern
 
 class ChangePwActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
         init()
-        makeGraphFragment()
     }
 
-    fun makeGraphFragment() {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val graphFragment = StressGraphFragment()
-        fragmentTransaction.add(R.id.graphFragment, graphFragment).commit()
-    }
     fun init(){
         button_change_password.setOnClickListener {
             changePassword()

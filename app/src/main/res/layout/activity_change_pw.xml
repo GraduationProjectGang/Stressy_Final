@@ -1,103 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.MyPageActivity">
-
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_gravity="right"
-        android:orientation="vertical"
+        android:gravity="top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:textSize="22dp"
-            style="@style/questions"
-            android:layout_marginTop="10dp"
-            android:text="비밀번호"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/colorPrimaryDark"
-            />
-
-        <EditText
-            style="@style/EditText"
-            android:background="@android:color/transparent"
-            android:id="@+id/editText_password"
-            android:ems="10"
-            android:hint="@string/hint_password"
-            android:inputType="textPassword" />
-
-        <View
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginHorizontal="15dp"
-            android:background="@color/colorPrimary" />
-
-        <TextView
-            style="@style/questions"
-            android:id="@+id/guide_password"
-            android:layout_marginTop="10dp"
-            android:text="@string/guide_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:textSize="17sp"
-            android:textColor="#EF5388"
-            android:visibility="gone"
-            />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_gravity="right"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:textSize="22dp"
-            style="@style/questions"
-            android:layout_marginTop="10dp"
-            android:text="비밀번호 확인"
+        >
+        <LinearLayout
+            android:gravity="top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/colorPrimaryDark"
-            />
-        <EditText
-            style="@style/EditText"
-            android:background="@android:color/transparent"
-            android:id="@+id/editText_password2"
-            android:ems="10"
-            android:hint="@string/hint_password"
-            android:inputType="textPassword" />
+            android:orientation="vertical"
+            >
+            <TextView
+                style="@style/questions"
+                android:text="비밀번호 변경"
+                android:textSize="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
-        <View
-            android:layout_marginTop="5dp"
+            <TextView
+                style="@style/questions"
+                android:textSize="20dp"
+                android:textColor="#717171"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="변경할 비밀번호와\n비밀번호를 입력해주세요." />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_gravity="right"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginHorizontal="15dp"
-            android:background="@color/colorPrimary" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/questions"
-            android:id="@+id/guide_password2"
+            <TextView
+                android:textSize="22dp"
+                style="@style/questions"
+                android:layout_marginTop="10dp"
+                android:text="비밀번호"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+            <EditText
+                style="@style/EditText"
+                android:background="@android:color/transparent"
+                android:id="@+id/editText_password"
+                android:ems="10"
+                android:hint="@string/hint_password"
+                android:inputType="textPassword" />
+
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@color/colorPrimary" />
+
+            <TextView
+                style="@style/questions"
+                android:id="@+id/guide_password"
+                android:layout_marginTop="10dp"
+                android:text="@string/guide_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="17sp"
+                android:textColor="#EF5388"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
+        <LinearLayout
             android:layout_marginTop="10dp"
-            android:text="@string/guide_password2"
+            android:layout_gravity="right"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:textSize="17sp"
-            android:textColor="#EF5388"
-            android:visibility="invisible"
-            />
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:textSize="22dp"
+                style="@style/questions"
+                android:layout_marginTop="10dp"
+                android:text="비밀번호 확인"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                />
+            <EditText
+                style="@style/EditText"
+                android:background="@android:color/transparent"
+                android:id="@+id/editText_password2"
+                android:ems="10"
+                android:hint="@string/hint_password"
+                android:inputType="textPassword" />
+
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@color/colorPrimary" />
+
+            <TextView
+                style="@style/questions"
+                android:id="@+id/guide_password2"
+                android:layout_marginTop="10dp"
+                android:text="@string/guide_password2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="17sp"
+                android:textColor="#EF5388"
+                android:visibility="invisible"
+                />
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    <Button
+        android:foregroundGravity="bottom"
+        android:id="@+id/button_change"
+        android:text="변경하기"
+        style="@style/nextButton"
+        />
+
+
+</FrameLayout>

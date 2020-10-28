@@ -21,23 +21,17 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             val prefs = getPreferences(Context.MODE_PRIVATE)
 
-            //자동 로그인 정보
+            //자동 로그인 정보 확인
             if (prefs.contains(pref_auto_email) && prefs.contains(pref_auto_password)){
                 Toast.makeText(this,"자동 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, UserMainActivity::class.java)
                 startActivity(intent)
+            }else{
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
             }
 
             //첫 실행이면 SignInActivity 실행
-            var previouslyStarted = prefs.getBoolean(getString(R.string.pref_previously_started), false)
-            if (prefs.getBoolean(getString(R.string.pref_previously_started),false)) {
-                val intent = Intent(this, SignUpActivity::class.java)
-                startActivity(intent)
-            }
-            else {
-                val intent = Intent(this, UserMainActivity::class.java)
-                startActivity(intent)
-            }
 
             // close this activity
             finish()
