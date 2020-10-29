@@ -54,7 +54,7 @@ class StatsPermissionFragment : DialogFragment() {
     }
 
     private fun setDisplay() {
-        val w = requireActivity()!!.windowManager
+        val w = requireActivity().windowManager
         val d = w.defaultDisplay
         val metrics = DisplayMetrics()
         d.getMetrics(metrics)
@@ -110,11 +110,11 @@ class StatsPermissionFragment : DialogFragment() {
     }
 
     fun ifPermitted(): Boolean{
-        appOps = requireActivity()!!.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        appOps = requireActivity().getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
         mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,android.os.Process.myUid(), requireActivity()!!.getPackageName());
 
         if (mode == AppOpsManager.MODE_DEFAULT) {
-            granted = (requireActivity()!!.checkCallingOrSelfPermission(android.Manifest.permission.PACKAGE_USAGE_STATS) == PackageManager.PERMISSION_GRANTED)
+            granted = (requireActivity().checkCallingOrSelfPermission(android.Manifest.permission.PACKAGE_USAGE_STATS) == PackageManager.PERMISSION_GRANTED)
             Log.d("frafraif",granted.toString() + "1")
         } else {
             granted = (mode == AppOpsManager.MODE_ALLOWED)
