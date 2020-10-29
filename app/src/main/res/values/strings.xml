@@ -7,7 +7,7 @@
     <string name="two">조금\n있었다\n2점</string>
     <string name="three">매우\n많았다\n3점</string>
     <string name="four">4점</string>
-    <string name="tuto">하루에 <b>2번</b> 스트레스 설문을 통해 스트레스 수치를 입력받습니다. <b>스마트폰 상태바에 알림이 뜨면</b> 설문을 진행해주시면 됩니다.</string>
+    <string name="tuto">스트레스 설문을 통해 스트레스 수치를 입력받습니다. <b>스마트폰 상태바에 알림이 뜨면</b> 설문을 진행해주시면 됩니다.</string>
     <string name="question">질문사항이 있으시다면?\n\n<b>2번</b> 스트레스 설문을 통해 스트레스 수치를 입력받습니다. <b>스마트폰 상태바에 알림이 뜨면</b> 설문을 진행해주시면 됩니다.</string>
     <string name="pref_previously_started">false</string>
     <string name="pref_previously_logined">null</string>

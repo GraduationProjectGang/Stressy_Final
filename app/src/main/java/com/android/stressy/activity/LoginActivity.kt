@@ -128,6 +128,4 @@ class LoginActivity : AppCompatActivity() {
         queue.add(stringRequest)
         return true
     }
-
-
 }

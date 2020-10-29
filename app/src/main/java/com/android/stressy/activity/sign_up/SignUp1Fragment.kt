@@ -58,11 +58,13 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
             if (!("@" in emailInput) && !("." in emailInput)){
                 flag = false
                 guide_email.text= getString(R.string.error_email)
-            }else if(!emailvalidflag) {
-                flag = false
-                guide_email.text = "이미 가입되어 있는 이메일입니다."
             }else{
-                guide_email.text = null
+                if(!emailvalidflag) {
+                    flag = false
+                    guide_email.text = "이미 가입되어 있는 이메일입니다."
+                }else{
+                    guide_email.text = null
+                }
             }
 
             //비번 체크
@@ -84,18 +86,13 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
             if(flag) toSignUp2(emailInput,passwordInput)
         }
     }
-
-    fun toSignUp2(userEmail:String, userPassword:String){
-        var bundle = bundleOf("userEmail" to userEmail, "userPassword" to userPassword)
-        view?.findNavController()?.navigate(R.id.action_signUp1Fragment_to_signUp2Fragment, bundle)
-    }
     fun requestEmailCheck(user_email:String):Boolean{
         val url = "http://114.70.23.77:8002/v1/user/account/validemail"
         val queue = Volley.newRequestQueue(requireActivity())
         var checkFlag = false
         val param = mutableMapOf<String,String>()
         param["user_email"] = user_email
-        val jsonObj = JSONObject(param as Map<*, *>)
+        val jsonObj = JSONObject(param as Map<String, String>)
 
         val myVolleyResponse = volley(requireActivity(), url, jsonObj )
         Log.d("volvolvalidemail", myVolleyResponse.toString())
@@ -108,6 +105,8 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
         var checkFlag = false
         val param = mutableMapOf<String,String>()
         var response = JSONObject()
+        Log.d("volvol1",params.toString())
+
 //        val future = RequestFuture.newFuture<JSONObject>()
 //        val request = JsonObjectRequest(Request.Method.POST,url,params,future,future)
 //        queue.add(request)
@@ -125,11 +124,12 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
         val stringRequest = object : StringRequest(
             Method.POST,url,
             com.android.volley.Response.Listener<String> { response ->
-                Log.d("volvol", response) },
+                Log.d("volvol2", response) },
             com.android.volley.Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
         ){
             override fun getParams(): MutableMap<String, String>? {
                 val params = hashMapOf<String,String>()
+                Log.d("volvol",params.toString())
                 params.put("user_email",params.getValue("user_email"))
                 return params
             }
@@ -150,6 +150,10 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
         val matcher = pattern.matcher(input)
 
         return matcher.matches()
+    }
+    fun toSignUp2(userEmail:String, userPassword:String){
+        var bundle = bundleOf("userEmail" to userEmail, "userPassword" to userPassword)
+        view?.findNavController()?.navigate(R.id.action_signUp1Fragment_to_signUp2Fragment, bundle)
     }
 
 }

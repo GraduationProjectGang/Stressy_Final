@@ -95,6 +95,6 @@ class StressCollectDialog : DialogFragment() {
             StressScoreDatabase::class.java, "stress"
         ).fallbackToDestructiveMigration().build().stressScoreDataDao()
 
-        dbObject.insert(data)
+//        dbObject.insert(data)
     }
 }

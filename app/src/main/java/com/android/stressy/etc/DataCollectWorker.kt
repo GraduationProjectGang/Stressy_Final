@@ -5,6 +5,8 @@ import android.app.NotificationManager
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -14,20 +16,27 @@ import android.location.Location
 import android.os.Build
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.room.Room
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.android.stressy.R
+import com.android.stressy.activity.UserMainActivity
 import com.android.stressy.dataclass.CategoryForJson
 import com.android.stressy.dataclass.LocationData
 import com.android.stressy.dataclass.RotateVectorData
 import com.android.stressy.dataclass.UsageAppData
 import com.android.stressy.dataclass.db.CoroutineData
 import com.android.stressy.dataclass.db.CoroutineDatabase
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -81,25 +90,6 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
 
     var flag = false
 
-    private fun printCallStack() {
-        val sb = StringBuilder()
-        sb.append("==================================\n  CALL STACK\n==================================\n");
-
-        val e = Exception();
-        val steArr = e.stackTrace;
-        for (ste in steArr) {
-            sb.append("  ");
-            sb.append(ste.className);
-            sb.append(".");
-            sb.append(ste.methodName);
-            sb.append(" #");
-            sb.append(ste.lineNumber);
-            sb.append("\n");
-        }
-
-        Log.d("test", sb.toString());
-    }
-
 
     override suspend fun doWork(): Result = coroutineScope {
 //        readFileLineByLineUsingForEachLine("com/android/stressy/etc/categories.json")
@@ -109,10 +99,6 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
 
         mTimestamp = System.currentTimeMillis()//공통으로 쓰일 timestamp
         val iterationRange = 10
-
-        //debug
-        printCallStack()
-
         val usageStatsData = showAppUsageStats(getAppUsageStats(mTimestamp - 900000))
 
         initLocationParams()
@@ -221,8 +207,38 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         ).fallbackToDestructiveMigration().build().coroutineDataDao()
 
         dbObject.insert(data)
+
+        val countCoroutine = dbObject.countCoroutine()
+        if (countCoroutine % 100 == 0){
+            informServer(countCoroutine / 100)
+        }
     }
 
+    fun informServer(round: Int){
+        val url = "http://114.70.23.77:8002/v1/user/train/crt/inform"
+//        val hashedPassword = Hashing.calculateHash(userPassword)
+        val prefs = applicationContext.getSharedPreferences("pref",Context.MODE_PRIVATE)
+        val edit = prefs.edit() as SharedPreferences
+        val fcm_token = edit.getString("pref_fcm_token", null)
+        val queue = Volley.newRequestQueue(applicationContext)
+        val stringRequest = object : StringRequest(
+            Method.POST,url,
+            Response.Listener<String> { res ->
+                Log.d("loglog", res)
+            },
+        Response.ErrorListener { error ->  Log.d("loglog", error.toString()) }
+        ){
+            override fun getParams(): MutableMap<String, String>? {
+                val params = hashMapOf<String,String>()
+                if (fcm_token != null) {
+                    params.put("fcm_token", fcm_token)
+                }
+                params["roundInt"] = round.toString()
+                return params
+            }
+        }
+    queue.add(stringRequest)
+    }
     private fun getPosture(x_list: MutableList<Double>): Int {
         val bincount_x = intArrayOf(0,0,0,0)
         val posture_list =  mutableListOf<Int>()
