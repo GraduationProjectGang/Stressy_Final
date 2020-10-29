@@ -99,13 +99,13 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
         return true
     }
 
-    fun volley(context: Context, url:String, params: JSONObject):JSONObject{
+    fun volley(context: Context, url:String, inputJson: JSONObject):JSONObject{
         val url = "http://114.70.23.77:8002/v1/user/account/validemail"
         val queue = Volley.newRequestQueue(context)
         var checkFlag = false
         val param = mutableMapOf<String,String>()
         var response = JSONObject()
-        Log.d("volvol1",params.toString())
+        Log.d("volvol1",inputJson.toString())
 
 //        val future = RequestFuture.newFuture<JSONObject>()
 //        val request = JsonObjectRequest(Request.Method.POST,url,params,future,future)
@@ -129,8 +129,8 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
         ){
             override fun getParams(): MutableMap<String, String>? {
                 val params = hashMapOf<String,String>()
-                Log.d("volvol",params.toString())
-                params.put("user_email",params.getValue("user_email"))
+                Log.d("volvol",inputJson.toString())
+                params.put("user_email", inputJson["user_email"] as String)
                 return params
             }
         }
