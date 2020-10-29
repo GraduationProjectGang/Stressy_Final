@@ -1,5 +1,6 @@
 package com.android.stressy.activity
 
+import android.app.AlertDialog
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.PowerManager
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
@@ -16,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.android.stressy.R
 import kotlinx.android.synthetic.main.fragment_stats_permission.*
@@ -46,7 +49,7 @@ class StatsPermissionFragment : DialogFragment() {
                 requireActivity().finish()
             }else getPermission()
         }
-
+        addWhiteList()
         return rootView
     }
 
@@ -89,6 +92,21 @@ class StatsPermissionFragment : DialogFragment() {
         super.onActivityCreated(savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.setTitle("권한요청")
+    }
+    fun addWhiteList() {
+        val pm = requireActivity().getSystemService(Context.POWER_SERVICE) as PowerManager
+        var isWhite = false
+        isWhite = pm.isIgnoringBatteryOptimizations(requireActivity().packageName)
+
+        if (!isWhite) {
+            val setdialog = AlertDialog.Builder(requireActivity())
+            setdialog.setTitle("추가 설정이 필요합니다.")
+                .setMessage("어플을 문제없이 사용하기 위해서는 해당 어플을 \"배터리 사용량 최적화\" 목록에서 \"제외\"해야 합니다. 설정화면으로 이동하시겠습니까?")
+                .setPositiveButton("네") { _, _ -> startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) }
+                .setNegativeButton("아니오") { _, _ -> Toast.makeText(requireActivity(), "설정을 취소했습니다.", Toast.LENGTH_SHORT).show() }
+                .create()
+                .show()
+        }
     }
 
     fun ifPermitted(): Boolean{

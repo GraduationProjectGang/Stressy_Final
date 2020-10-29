@@ -101,9 +101,9 @@ class MainStressGraphFragment : Fragment() {
             var stressDescription = arrayListOf<String>("낮음","보통","높음","매우\n높음")
             setValueFormatter(IndexAxisValueFormatter(stressDescription))
         }
-
         chart.apply {
             defaultFocusHighlightEnabled = false
+            description.isEnabled = false
             this.data = barData
             legend.isEnabled = false
             disableScroll()
@@ -113,9 +113,7 @@ class MainStressGraphFragment : Fragment() {
 //            setViewPortOffsets(200f, 0f, 0f, 40f)
             animateY(1000)
             invalidate()
-
         }
-
     }
 
     private fun makeDataToBarEntry(): ArrayList<Entry> = runBlocking{

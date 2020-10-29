@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:id="@+id/tutorial2"
+    tools:context=".activity.Tutorial2Activity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="9"
+    android:orientation="vertical"
+    >
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:src="@drawable/text_logo"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:paddingRight="3dp"
+        android:layout_marginRight="5dp"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            style="@style/TextStyle"
+            android:textStyle="bold"
+            android:layout_width="382dp"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="9sp"
+            android:text="프로젝트 주제" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="357dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="5dp"
+            android:lineSpacingExtra="5sp"
+            android:paddingLeft="12dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="5dp"
+            android:textColor="#000000"
+            android:textSize="17dp"
+            android:text="개인 프라이버시를 보호하는\n협업 학습을 활용한\n스마트폰 사용 패턴 분석 및\n스트레스 예측" />
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="25dp"
+            android:background="@color/colorPrimaryDark" />
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:paddingHorizontal="10dp"
+            android:lineSpacingExtra="8sp"
+            android:scrollbars="vertical"
+            android:scrollbarSize="5dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:text="이 프로젝트는 대학생을 대상으로 한 연구입니다. 여러분의 스마트폰 사용 패턴과 스트레스 수준 설문조사 데이터를 2주 간 수집해 인공지능 모델을 구축하고, 추후에는 스마트폰 사용기록만으로 스트레스 수준을 예측하고자 합니다.\n\n
+
+스마트폰 사용 패턴 및 스트레스 척도 등의 private 한 데이터를 수집하는 과정에서 동형암호 기법을 사용하기 위한 방법론 연구를 중점으로 하고 있습니다.
+
+\n\n
+프로젝트 수행기간은 2020.03~2020.11 입니다."
+            android:textColor="#000000"
+            android:textSize="19dp"
+            />
+
+    </ScrollView>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+
+            <ImageView
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:layout_marginHorizontal="3dp"
+                android:src="@drawable/empty_swipe" />
+            <ImageView
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:layout_marginHorizontal="3dp"
+                android:src="@drawable/full_swipe" />
+            <ImageView
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:layout_marginHorizontal="3dp"
+                android:src="@drawable/empty_swipe" />
+
+            <ImageView
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:layout_marginHorizontal="3dp"
+                android:layout_weight="1"
+                android:src="@drawable/empty_swipe" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/nextButton2"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_radius"
+            android:text="다음"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp" />
+    </LinearLayout>
+</LinearLayout>

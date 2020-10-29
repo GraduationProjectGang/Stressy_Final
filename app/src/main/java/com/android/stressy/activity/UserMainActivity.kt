@@ -12,8 +12,6 @@ import android.provider.Settings
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
@@ -82,8 +80,14 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
             var edit = prefs.edit() as SharedPreferences.Editor
             edit.putBoolean(getString(R.string.pref_previously_started), true)
             edit.commit()
-
-
+        }
+        val mystring = "프로젝트 가이드 다시보기"
+        val content = SpannableString(mystring)
+        content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
+        tutorialAgain.setText(content)
+        tutorialAgain.setOnClickListener {
+            val intent = Intent(this, Tutorial1Activity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -212,7 +216,6 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
             startStressCollectDialog(0)
         }
 
-        //프로젝트 가이드 TextView
         val mystring = "회원가입 하기"
         val content = SpannableString(mystring)
         content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
@@ -257,6 +260,8 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
 
 
     }
+
+
 
     fun startStressCollectDialog(code:Int?){
 //        val fragmentManager = supportFragmentManager
