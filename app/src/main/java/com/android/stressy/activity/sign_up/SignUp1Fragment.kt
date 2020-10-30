@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import com.android.stressy.R
+import com.android.stressy.etc.VolleyCallback
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_sign_up1.*
@@ -22,7 +25,10 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class SignUp1Fragment : androidx.fragment.app.Fragment() {
-
+    lateinit var response:String
+    lateinit var code:String
+    lateinit var stringRequest:StringRequest
+    lateinit var url: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,6 +43,7 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
+        //TODO: sign up 도중 뒤로가기 방지 조치해야댐
     }
 
     fun init(){
@@ -81,66 +88,52 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
         }
     }
     fun requestEmailCheck(user_email:String):Boolean{
-        val url = "http://192.168.104.40:8002/v1/user/account/validemail"
-        val queue = Volley.newRequestQueue(requireActivity())
-        var checkFlag = false
-        val param = mutableMapOf<String,String>()
-        param["user_email"] = user_email
-        val jsonObj = JSONObject(param as Map<String, String>)
-
-        val myVolleyResponse = volley(requireActivity(), url, jsonObj )
-        Log.d("volvolvalidemail", myVolleyResponse.toString())
+        url = "http://192.168.104.40:8002/v1/user/account/validemail"
+        val mutableMap = mutableMapOf<String,String>()
+        mutableMap["user_email"] = user_email
+        volley(requireActivity(),url,mutableMap)
         return true
     }
 
-    fun volley(context: Context, url:String, inputJson: JSONObject): JSONObject? {
-        val url = "http://114.70.23.77:8002/v1/user/account/validemail"
+
+    fun volley(context: Context, url:String, inputJson: MutableMap<String,String>) {
         val queue = Volley.newRequestQueue(context)
-        var checkFlag = false
-        val param = mutableMapOf<String,String>()
-        var response: JSONObject? = null
-        Log.d("volvol1",inputJson.toString())
-
-//
-//        val future = RequestFuture.newFuture<JSONObject>()
-//        val request = JsonObjectRequest(Request.Method.POST,url,inputJson,future,future)
-//        queue.add(request)
-//        try {
-//            while (response == null) {
-//                try {
-//                    response = future.get(30,TimeUnit.SECONDS) // Block thread, waiting for response, timeout after 30 seconds
-//                } catch (e: InterruptedException) {
-//                    Thread.currentThread().interrupt()
-//                }
-//            }
-//        } catch (e: InterruptedException) {
-//            Log.e("Retrieve cards api call interrupted.", e.toString())
-//            future.onErrorResponse(VolleyError(e))
-//        } catch (e: ExecutionException) {
-//            Log.e("Retrieve cards api call failed.", e.toString())
-//            future.onErrorResponse(VolleyError(e))
-//        }
+        val request = object : JsonObjectRequest(
+            Method.POST,url,null,
+            Response.Listener<JSONObject> { response ->
+                Log.d("volvolres",response.toString())
+                doSomething()
+                if (response["code"] == "200"){
+                    code = "200"
+                    doSomething()
+                }
 
 
-        val stringRequest = object : StringRequest(
-            Method.POST,url,
-            com.android.volley.Response.Listener<String> { response ->
-                Log.d("volvol2", response) },
-            com.android.volley.Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
+            },
+            Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
         ){
-            override fun getParams(): MutableMap<String, String> {
-                val params = hashMapOf<String,String>()
-                Log.d("volvol",inputJson.toString())
-                params.put("user_email", inputJson["user_email"] as String)
-                return params
+            override fun getParams(): MutableMap<String, String>? {
+                return inputJson
             }
         }
-        queue.add(stringRequest)
-        Log.d("volvolresponse", response.toString())
+        queue.add(request)
 
-        return response
+    }
+    fun doSomething(){
+        Log.d("volvol","didsomething")
+    }
+    override fun onResume(){
+        super.onResume()
+        getStringRequest(object : VolleyCallback {
+            override fun onSuccess(result: String) {
+                response = result
+            }
+        })
     }
 
+    fun getStringRequest (callback: VolleyCallback){
+
+    }
     fun isValidPassword(input:String):Boolean{
         val PASSWORD_PATTERN =
             "^(?=.*\\\\d)(?=.*[~`!@#\$%\\\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{8,}\$"
