@@ -6,10 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import com.android.stressy.R
-import com.android.stressy.etc.VolleyCallback
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
@@ -29,6 +29,7 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
     lateinit var code:String
     lateinit var stringRequest:StringRequest
     lateinit var url: String
+    var validFlag = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,96 +50,70 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
     fun init(){
         nextButton1.setOnClickListener {
             //if email is valid
+            validFlag = true
             val emailInput = editText_email.text.toString()
+            Log.d("valval",emailInput)
+
             val passwordInput = editText_password.text.toString()
+            Log.d("valval",passwordInput)
             val passwordInput2 = editText_password2.text.toString()
-            var flag = true
-            var emailvalidflag = requestEmailCheck(emailInput)
+            Log.d("valval",passwordInput2)
 
             //EMAIL 체크
-            if (!("@" in emailInput) && !("." in emailInput)){
-                flag = false
+            guide_email.text= "" //초기화
+            if ("@" !in emailInput || "." !in emailInput){
+                validFlag = false
                 guide_email.text= getString(R.string.error_email)
             }else{
-                if(!emailvalidflag) {
-                    flag = false
-                    guide_email.text = "이미 가입되어 있는 이메일입니다."
-                }else{
-                    guide_email.text = null
-                }
+                requestEmailCheck(emailInput)
             }
-
             //비번 체크
-            if (isValidPassword(passwordInput) or (passwordInput.length <= 8)){
-                flag = false
+            guide_password.text = "" //초기화
+            Log.d("valval",passwordInput.length.toString())
+            if (!isValidPassword(passwordInput) or (passwordInput.length <= 8)){
+                validFlag = false
                 guide_password.text = getString(R.string.guide_password)
-            }else{
-                guide_password.text = ""
-            }
-
-            if (passwordInput != passwordInput2){
-                flag = false
+            }else if (passwordInput != passwordInput2){
+                    validFlag = false
                 guide_password.text = getString(R.string.guide_password2)
-
-            }else{
-                guide_password.text = null
             }
-
-            if(flag) toSignUp2(emailInput,passwordInput)
+            Log.d("valval validflag",validFlag.toString())
+            if(validFlag) toSignUp2(emailInput,passwordInput)
         }
     }
-    fun requestEmailCheck(user_email:String):Boolean{
-        url = "http://192.168.104.40:8002/v1/user/account/validemail"
-        val mutableMap = mutableMapOf<String,String>()
-        mutableMap["user_email"] = user_email
-        volley(requireActivity(),url,mutableMap)
-        return true
+    fun requestEmailCheck(user_email:String){
+        url = "http://114.70.23.77:8002/v1/user/account/validemail"
+        val jsonObject = JSONObject().put("user_email",user_email)
+        volley(requireActivity(),url,jsonObject)
     }
 
 
-    fun volley(context: Context, url:String, inputJson: MutableMap<String,String>) {
+    fun volley(context: Context, url:String, inputJson: JSONObject) {
         val queue = Volley.newRequestQueue(context)
         val request = object : JsonObjectRequest(
-            Method.POST,url,null,
+            Method.POST,url,inputJson,
             Response.Listener<JSONObject> { response ->
                 Log.d("volvolres",response.toString())
-                doSomething()
-                if (response["code"] == "200"){
-                    code = "200"
-                    doSomething()
+                val code = response.getString("code")
+                if ( code =="503"){
+                    Toast.makeText(requireContext(),"중복된 이메일입니다.",Toast.LENGTH_SHORT).show()
+                    validFlag = false
+                }else if (code == "500"){
+                    Toast.makeText(requireContext(),"Server error",Toast.LENGTH_SHORT).show()
+                    validFlag = false
                 }
-
-
             },
             Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
-        ){
-            override fun getParams(): MutableMap<String, String>? {
-                return inputJson
-            }
-        }
+        ){}
         queue.add(request)
 
     }
-    fun doSomething(){
-        Log.d("volvol","didsomething")
-    }
-    override fun onResume(){
-        super.onResume()
-        getStringRequest(object : VolleyCallback {
-            override fun onSuccess(result: String) {
-                response = result
-            }
-        })
-    }
 
-    fun getStringRequest (callback: VolleyCallback){
-
-    }
     fun isValidPassword(input:String):Boolean{
-        val PASSWORD_PATTERN =
-            "^(?=.*\\\\d)(?=.*[~`!@#\$%\\\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{8,}\$"
+        val PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@\$!%*#?&]).{8,15}.\$"
         val pattern = Pattern.compile(PASSWORD_PATTERN)
         val matcher = pattern.matcher(input)
+        Log.d("valval: matcher",matcher.matches().toString())
 
         return matcher.matches()
     }

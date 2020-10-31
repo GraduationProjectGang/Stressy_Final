@@ -25,17 +25,10 @@ class MyPageActivity : AppCompatActivity() {
     }
 
     fun init(){
-        button_change_password.setOnClickListener {
-            val  dialog = CheckPwDialog()
-            dialog.show(supportFragmentManager, "dialog")
-        }
-        button_withdraw.setOnClickListener {
-            val dialog = WithdrawDialog()
-            dialog.show(supportFragmentManager,"withdraw")
-        }
-        button_logout.setOnClickListener {
-            val dialog = LogoutDialog()
-            dialog.show(supportFragmentManager,"logout")
+
+        account_settings.setOnClickListener {
+            val modalBottomSheet = BottomSheetFragment()
+            modalBottomSheet.show(supportFragmentManager, BottomSheetFragment.TAG)
         }
     }
 

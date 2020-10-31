@@ -49,7 +49,6 @@ class StatsPermissionFragment : DialogFragment() {
                 requireActivity().finish()
             }else getPermission()
         }
-        addWhiteList()
         return rootView
     }
 
@@ -93,21 +92,7 @@ class StatsPermissionFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.setTitle("권한요청")
     }
-    fun addWhiteList() {
-        val pm = requireActivity().getSystemService(Context.POWER_SERVICE) as PowerManager
-        var isWhite = false
-        isWhite = pm.isIgnoringBatteryOptimizations(requireActivity().packageName)
 
-        if (!isWhite) {
-            val setdialog = AlertDialog.Builder(requireActivity())
-            setdialog.setTitle("추가 설정이 필요합니다.")
-                .setMessage("어플을 문제없이 사용하기 위해서는 해당 어플을 \"배터리 사용량 최적화\" 목록에서 \"제외\"해야 합니다. 설정화면으로 이동하시겠습니까?")
-                .setPositiveButton("네") { _, _ -> startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) }
-                .setNegativeButton("아니오") { _, _ -> Toast.makeText(requireActivity(), "설정을 취소했습니다.", Toast.LENGTH_SHORT).show() }
-                .create()
-                .show()
-        }
-    }
 
     fun ifPermitted(): Boolean{
         appOps = requireActivity().getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager

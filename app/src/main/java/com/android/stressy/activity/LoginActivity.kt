@@ -50,8 +50,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this,SignUpActivity::class.java)
             startActivity(intent)
         }
-        //TODO
-        initFcmToken()
+
     }
     fun initFcmToken(){
         FirebaseInstanceId.getInstance().instanceId
@@ -104,6 +103,7 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("loglog", res)
                 if (res == "200") {
                     Toast.makeText(applicationContext,"환영합니다.", Toast.LENGTH_SHORT).show()
+                    initFcmToken()
                     val intent = Intent(applicationContext,UserMainActivity::class.java)
                     startActivity(intent)
                 }else{

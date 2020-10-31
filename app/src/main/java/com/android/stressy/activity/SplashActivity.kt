@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.os.PowerManager
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,18 +31,6 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
             }else{
                 val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            }
-
-            //첫 실행이면 SignInActivity 실행
-
-            var previouslyStarted = prefs.getBoolean(getString(R.string.pref_previously_started), false)
-            if (prefs.getBoolean(getString(R.string.pref_previously_started),false)) {
-                val intent = Intent(this, SignUpActivity::class.java)
-                startActivity(intent)
-            }
-            else {
-                val intent = Intent(this, SignUpActivity::class.java)
                 startActivity(intent)
             }
 

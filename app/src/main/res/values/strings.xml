@@ -20,7 +20,7 @@
     <string name="hint_email">ex) sejiwon@naver.com</string>
     <string name="error_email">이메일을 형식에 맞게 입력해주세요.</string>
     <string name="hint_password">ex)********</string>
-    <string name="guide_password">비밀번호는 영문자, 숫자, 특수문자를 포함한\n8자리 이상 문자열이여야 합니다.</string>
+    <string name="guide_password">비밀번호는 영문자, 숫자, 특수문자를 포함한\n8자리 이상 15자리 이하의 문자열이여야 합니다.</string>
     <string name="guide_password2">비밀번호와 비밀번호 확인이 다릅니다.</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
@@ -42,8 +42,7 @@
     <string name="did_you_sign_up">아직 회원가입을 하지 않으셨나요?</string>
     <string name="ask_logout">로그아웃 하시겠습니까?</string>
 
-    <string-array
-        name="graph_description">
+    <string-array name="graph_description">
         <item>낮음</item>
         <item>보통</item>
         <item>높음</item>

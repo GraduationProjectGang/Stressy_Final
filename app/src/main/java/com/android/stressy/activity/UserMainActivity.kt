@@ -1,6 +1,7 @@
 package com.android.stressy.activity
 
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.AppOpsManager
 import android.app.PendingIntent
 import android.content.Context
@@ -8,6 +9,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.PowerManager
 import android.provider.Settings
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -15,17 +17,14 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import com.android.stressy.R
 import com.android.stressy.etc.StressCollectAlarmReceiver
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_user_main.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -62,6 +61,7 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
 
     fun init() {
         checkPermission()
+        addWhiteList()
         initButtonAndText()
         setAlarm()
         makeGraphFragment()
@@ -168,7 +168,21 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
         }
         return granted
     }
+    fun addWhiteList() {
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        var isWhite = false
+        isWhite = pm.isIgnoringBatteryOptimizations(packageName)
 
+        if (!isWhite) {
+            val setdialog = AlertDialog.Builder(this)
+            setdialog.setTitle("추가 설정이 필요합니다.")
+                .setMessage("어플을 문제없이 사용하기 위해서는 해당 어플을 \"배터리 사용량 최적화\" 목록에서 \"제외\"해야 합니다. 설정화면으로 이동하시겠습니까?")
+                .setPositiveButton("네") { _, _ -> startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) }
+                .setNegativeButton("아니오") { _, _ -> Toast.makeText(this, "설정을 취소했습니다.", Toast.LENGTH_SHORT).show() }
+                .create()
+                .show()
+        }
+    }
     private fun getStatsPermission() {
         // 권한이 없을 경우 권한 요구 페이지 이동
         val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
@@ -219,44 +233,6 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
         val mystring = "회원가입 하기"
         val content = SpannableString(mystring)
         content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
-
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("fcm", "getInstanceId failed", task.exception)
-                    return@OnCompleteListener
-                }
-
-                // Get new Instance ID token
-                val token = task.result?.token.toString()
-                val prefs = getPreferences(Context.MODE_PRIVATE)
-                if (prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token)) != token) {
-                    Log.d("fcm:", "new token")
-
-                    //add to db
-                    val url = "http://114.70.23.77:8002/v1/user/fcm/newtoken"
-                    val queue = Volley.newRequestQueue(applicationContext)
-                    val stringRequest = object : StringRequest(
-                        Method.POST,url,
-                        com.android.volley.Response.Listener<String> { response ->
-                            Log.d("volvol", response) },
-                        com.android.volley.Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
-                    ){
-                        override fun getParams(): MutableMap<String, String>? {
-                            val params = hashMapOf<String,String>()
-                            params.put("fcm_token",token)
-                            return params
-                        }
-                    }
-                    queue.add(stringRequest)
-
-                    //add to sharedpreference
-                    val edit = prefs.edit() as SharedPreferences.Editor
-                    edit.putString("pref_fcm_token", token)
-                    edit.commit()
-                }
-
-            })
 
 
     }
