@@ -58,20 +58,16 @@ class SignUp3Fragment : androidx.fragment.app.Fragment() {
                 Snackbar.make(it,"성별을 선택해 주세요.",Snackbar.LENGTH_SHORT).show()
             }
 
-            //true = female, false = male, 성별간 갈등 조장 아님^^
-            var gender  = flag_female
+            var gender  = ""
+            if (flag_female) gender = "female"
+            else gender = "male"
             toSignUp4(gender)
         }
 
     }
-    fun toSignUp4(userGender:Boolean){
+    fun toSignUp4(userGender:String){
         var bundle = arguments
-        var temp = 1
-        if (userGender)
-            temp = 1
-        else temp = 0
-
-        bundle!!.putInt("userGender", temp)
+        bundle!!.putString("userGender", userGender)
         view?.findNavController()?.navigate(R.id.action_signUp3Fragment_to_signUp4Fragment, bundle)
     }
 }

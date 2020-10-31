@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,9 +23,12 @@ import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.fragment_sign_up4.*
 import org.json.JSONObject
 import java.util.*
+import kotlin.properties.Delegates
 
 
 class SignUp4Fragment : androidx.fragment.app.Fragment() {
+    var endTime by Delegates.notNull<Long>()
+    var startTime by Delegates.notNull<Long>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -48,11 +53,15 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
         var d = c.get(Calendar.DAY_OF_MONTH)
 
         nextButton4.setOnClickListener {
-            val df = SimpleDateFormat("yyyy-MM-dd")
-            val bdString = df.format(c)
-            Log.d("volvol bd",bdString)
-            getFcmToken()
-            addUserToDB(bdString)
+//            val df = SimpleDateFormat("yyyy-MM-dd")
+            if (!textView_birth.text.toString().contains("-")){
+                Log.d("su4 buttonclick",y.toString()+m.toString()+d.toString())
+                val bdString = y.toString()+m.toString()+d.toString()
+                Log.d("su4 bdstring",bdString)
+                startTime = Calendar.getInstance().timeInMillis
+                getFcmToken(bdString)
+                val end = Calendar.getInstance().timeInMillis
+            }
         }
 
         button_birthday.setOnClickListener {
@@ -71,7 +80,49 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
             datePickerDialog.show()
         }
     }
-    fun getFcmToken(){
+
+    fun addUserToDB(bd:String, token:String) {
+        val bundle = requireArguments()
+        if (!bundle.isEmpty()) { //TODO
+            val userName = bundle.get("userName").toString()
+            val userEmail = bundle.get("userEmail").toString()
+            val userPassword = bundle.get("userPassword").toString()
+            val userGender = bundle.get("userGender").toString()
+
+
+            Log.d("su4 token in add", token)
+
+
+            val url = "http://114.70.23.77:8002/v1/user/account/signup"
+            val queue = Volley.newRequestQueue(requireActivity().applicationContext)
+            val stringRequest = object : StringRequest(
+                Method.POST, url,
+                Response.Listener<String> { response ->
+                    Log.d("su4: add res", response)
+                },
+                Response.ErrorListener { error -> Log.d("su4: error", error.toString()) }
+            ) {
+                override fun getParams(): MutableMap<String, String>? {
+                    val params = hashMapOf<String, String>()
+                    params["user_name"] = userName
+                    params["user_pw"] = userPassword
+                    params["user_email"] = userEmail
+                    params["user_gender"] = userGender
+                    params["user_bd"] = bd
+                    params["user_token"] = token
+                    return params
+                }
+            }
+            queue.add(stringRequest)
+            val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
+            prefs.edit().putBoolean(getString(R.string.pref_previously_started), true).apply()
+//        }
+
+            val intent = Intent(requireActivity(), UserMainActivity::class.java)
+            startActivity(intent)
+        }
+    }
+    fun getFcmToken(bdString:String){
         FirebaseInstanceId.getInstance().instanceId
             .addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -81,10 +132,12 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
 
                 // Get new Instance ID token
                 val token = task.result?.token.toString()
+                addUserToDB(bdString,token)
+
                 val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
-                val editor = prefs.edit()
+                prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token))
                 if (prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token)) != token) {
-                    Log.d("fcm:", "new token")
+                    Log.d("su4:", "new token")
                     //add to db
                     val url = "http://114.70.23.77:8002/v1/user/fcm/newtoken"
                     val queue = Volley.newRequestQueue(requireContext())
@@ -92,9 +145,6 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
                         Method.POST,url,
                         Response.Listener<String> { response ->
                             val jsonObject = JSONObject(response)
-                            val jwtToken = jsonObject.getString("jwtToken")
-                            editor.putString("user_jwt",jwtToken).apply()
-                            Log.d("jwtjwt",jwtToken)
                         },
                         Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
                     ){
@@ -107,50 +157,10 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
                     queue.add(stringRequest)
 
                     //add to sharedpreference
-                    val edit = prefs.edit() as SharedPreferences.Editor
+                    val edit = prefs.edit()
                     edit.putString("pref_fcm_token", token)
                     edit.commit()
                 }
-
             })
-
-
-    }
-    fun addUserToDB(bd:String){
-        val bundle = requireArguments()
-        if (!bundle.isEmpty()){ //TODO
-            val userName = bundle.get("userName").toString()
-            val userEmail = bundle.get("userEmail").toString()
-            val userPassword = bundle.get("userPassword").toString()
-            val userGender = bundle.get("userGender").toString().toInt()
-
-            val url = "http://114.70.23.77:8002/v1/user/account/signup"
-            val queue = Volley.newRequestQueue(requireActivity().applicationContext)
-            val stringRequest = object : StringRequest(
-                Request.Method.POST,url,
-                Response.Listener<String> { response ->
-                    Log.d("volvol", response) },
-                Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
-            ){
-                override fun getParams(): MutableMap<String, String>? {
-                    val params = hashMapOf<String,String>()
-                    params.put("user_name",userName)
-                    params.put("user_pw",userPassword)
-                    params.put("user_email",userEmail)
-                    params.put("user_gender",userGender.toString()) //나중에
-                    params.put("user_birthday",bd)
-                    return params
-                }
-            }
-            queue.add(stringRequest)
-
-            //이거 맞나 회원가입 안했으면 회원가입하라고..,?ㅎ?ㅇ?ㅇㅎ/
-            val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
-            prefs.edit().putBoolean(getString(R.string.pref_previously_started),true).apply()
-        }
-
-        val intent = Intent(requireActivity(), UserMainActivity::class.java)
-        startActivity(intent)
-        requireActivity().finish()
     }
 }

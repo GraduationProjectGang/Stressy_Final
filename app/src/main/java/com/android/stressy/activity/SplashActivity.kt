@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,12 +20,15 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             val prefs = getPreferences(Context.MODE_PRIVATE)
             val user_email = prefs.getString(pref_auto_email,"null")
             val user_pw = prefs.getString(pref_auto_password,"null")
             //자동 로그인 정보 확인
             if (prefs.contains(pref_auto_email) && prefs.contains(pref_auto_password)){
+//                val jwtToken = jsonObject.getString("jwtToken")
+//                editor.putString("user_jwt",jwtToken).apply()
+//                Log.d("jwtjwt",jwtToken)
                 Toast.makeText(this,"자동 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
                 Log.d("autolog",user_email+"  "+user_pw)
                 val intent = Intent(this, UserMainActivity::class.java)

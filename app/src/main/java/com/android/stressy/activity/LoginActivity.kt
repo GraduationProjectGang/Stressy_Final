@@ -12,11 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.stressy.R
 import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_login.*
+import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
     val pref_auto_email = "mEmail"
@@ -92,16 +94,20 @@ class LoginActivity : AppCompatActivity() {
             })
 
     }
+
     fun login(userEmail:String, userPassword:String) :Boolean{
         Log.d("loglog",userEmail+userPassword)
         val url = "http://114.70.23.77:8002/v1/user/account/auth"
 //        val hashedPassword = Hashing.calculateHash(userPassword)
         val queue = Volley.newRequestQueue(applicationContext)
-        val stringRequest = object : StringRequest(
-            Request.Method.POST,url,
-            Response.Listener<String> { res ->
-                Log.d("loglog", res)
-                if (res == "200") {
+        val jsonObject = JSONObject()
+        jsonObject.put("user_email",userEmail)
+        jsonObject.put("user_pw",userPassword)
+        val stringRequest = object : JsonObjectRequest(
+            Request.Method.POST,url,jsonObject,
+            Response.Listener<JSONObject> { res ->
+                Log.d("loglog", res.toString())
+                if (res.getString("code") == "200") {
                     Toast.makeText(applicationContext,"환영합니다.", Toast.LENGTH_SHORT).show()
                     initFcmToken()
                     val intent = Intent(applicationContext,UserMainActivity::class.java)
@@ -113,19 +119,15 @@ class LoginActivity : AppCompatActivity() {
             Response.ErrorListener { error ->  Log.d("loglog", error.toString()) }
         ){
             override fun getParams(): MutableMap<String, String>? {
-                val params = hashMapOf<String,String>()
-                params.put("user_email",userEmail)
-                params.put("user_pw",userPassword)
-                return params
-            }
-
-            override fun getHeaders(): MutableMap<String, String> {
-                val params = hashMapOf<String,String>()
-                params["Content-Type"] = "application/json"
+                val params = mutableMapOf<String,String>()
+                params["user_email"] = userEmail
+                params["user_pw"] = userPassword
                 return params
             }
         }
         queue.add(stringRequest)
         return true
     }
+
+
 }
