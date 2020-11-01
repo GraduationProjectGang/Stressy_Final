@@ -117,45 +117,5 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
             startActivity(intent)
         }
     }
-    fun getFcmToken(bdString:String){
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("fcm", "getInstanceId failed", task.exception)
-                    return@OnCompleteListener
-                }
 
-                // Get new Instance ID token
-                val token = task.result?.token.toString()
-                addUserToDB(bdString,token)
-
-                val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
-                prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token))
-                if (prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token)) != token) {
-                    Log.d("su4:", "new token")
-                    //add to db
-                    val url = "http://114.70.23.77:8002/v1/user/fcm/newtoken"
-                    val queue = Volley.newRequestQueue(requireContext())
-                    val stringRequest = object : StringRequest(
-                        Method.POST,url,
-                        Response.Listener<String> { response ->
-                            val jsonObject = JSONObject(response)
-                        },
-                        Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
-                    ){
-                        override fun getParams(): MutableMap<String, String>? {
-                            val params = hashMapOf<String,String>()
-                            params.put("fcm_token",token)
-                            return params
-                        }
-                    }
-                    queue.add(stringRequest)
-
-                    //add to sharedpreference
-                    val edit = prefs.edit()
-                    edit.putString("pref_fcm_token", token)
-                    edit.commit()
-                }
-            })
-    }
 }

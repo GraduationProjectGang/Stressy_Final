@@ -95,39 +95,5 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    fun login(userEmail:String, userPassword:String) :Boolean{
-        Log.d("loglog",userEmail+userPassword)
-        val url = "http://114.70.23.77:8002/v1/user/account/auth"
-//        val hashedPassword = Hashing.calculateHash(userPassword)
-        val queue = Volley.newRequestQueue(applicationContext)
-        val jsonObject = JSONObject()
-        jsonObject.put("user_email",userEmail)
-        jsonObject.put("user_pw",userPassword)
-        val stringRequest = object : JsonObjectRequest(
-            Request.Method.POST,url,jsonObject,
-            Response.Listener<JSONObject> { res ->
-                Log.d("loglog", res.toString())
-                if (res.getString("code") == "200") {
-                    Toast.makeText(applicationContext,"환영합니다.", Toast.LENGTH_SHORT).show()
-                    initFcmToken()
-                    val intent = Intent(applicationContext,UserMainActivity::class.java)
-                    startActivity(intent)
-                }else{
-                    Toast.makeText(applicationContext,"틀림", Toast.LENGTH_SHORT).show()
-                }
-            },
-            Response.ErrorListener { error ->  Log.d("loglog", error.toString()) }
-        ){
-            override fun getParams(): MutableMap<String, String>? {
-                val params = mutableMapOf<String,String>()
-                params["user_email"] = userEmail
-                params["user_pw"] = userPassword
-                return params
-            }
-        }
-        queue.add(stringRequest)
-        return true
-    }
-
 
 }
