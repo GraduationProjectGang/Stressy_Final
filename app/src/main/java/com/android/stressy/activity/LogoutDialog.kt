@@ -20,21 +20,16 @@ class LogoutDialog : DialogFragment() {
         return inflater.inflate(R.layout.dialog_withdraw, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
     fun init() {
         val pref_auto_email = "mEmail"
         val pref_auto_password = "mPassword"
         button_logout_no.setOnClickListener {
-            this.dismiss()
+//            this.dismiss()
         }
         button_logout_yes.setOnClickListener {
             Toast.makeText(requireActivity(),"로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()

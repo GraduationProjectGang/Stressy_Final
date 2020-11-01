@@ -38,40 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <Button
-                style="@style/nextButton"
-                android:id="@+id/button_change_password"
-                android:text="비밀번호 변경하기"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:textSize="15dp"
-                android:background="@drawable/button_radius_gray"
-                android:textColor="@android:color/black"
-                />
 
-            <Button
-                android:layout_marginVertical="10dp"
-                style="@style/nextButton"
-                android:id="@+id/button_withdraw"
-                android:text="탈퇴하기"
-                android:textSize="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:background="@drawable/button_radius_gray"
-                android:textColor="@android:color/black"
-                />
-            <Button
-                android:layout_margin="10dp"
-                style="@style/nextButton"
-                android:id="@+id/button_logout"
-                android:text="로그아웃"
-                android:textSize="18dp"
-                android:layout_gravity="bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
         </LinearLayout>
     </FrameLayout>
     <Button

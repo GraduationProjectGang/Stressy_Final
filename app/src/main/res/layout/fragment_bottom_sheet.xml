@@ -2,13 +2,45 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".activity.BottomSheetFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:layout_marginVertical="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            style="@style/bottom_sheet_view" />
+        <Button
+            style="@style/bottom_sheet"
+            android:id="@+id/button_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="로그아웃"
+            />
+        <View
+            style="@style/bottom_sheet_view"/>
+        <Button
+            android:layout_margin="3dp"
+            style="@style/bottom_sheet"
+            android:id="@+id/button_change_password"
+            android:text="비밀번호 변경하기"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <View
+            style="@style/bottom_sheet_view"/>
+        <Button
+            style="@style/bottom_sheet"
+            android:id="@+id/button_withdraw"
+            android:text="탈퇴하기"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <View
+            style="@style/bottom_sheet_view"/>
+    </LinearLayout>
 
 </FrameLayout>

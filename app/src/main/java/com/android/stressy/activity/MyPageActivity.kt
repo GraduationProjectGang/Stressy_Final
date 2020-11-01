@@ -35,6 +35,7 @@ class MyPageActivity : AppCompatActivity() {
     fun checkOriginalPassword(pw:String):Boolean{
         return false
     }
+
     fun changePassword(user_email:String) :Boolean{
         val url = "http://114.70.23.77:8002/v1/user/account/changepw"
         val queue = Volley.newRequestQueue(applicationContext)

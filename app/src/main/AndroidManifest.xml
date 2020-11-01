@@ -28,7 +28,10 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity android:name=".activity.MyPageActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.ChangePwActivity" />
@@ -37,11 +40,7 @@
         <activity android:name=".activity.Tutorial2Activity" />
 
         <activity android:name=".activity.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.UserMainActivity" >
 

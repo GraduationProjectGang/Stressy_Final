@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.android.stressy.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.activity_my_page.*
+import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
 
 /**
  * A simple [Fragment] subclass.
@@ -25,11 +25,13 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView =  inflater.inflate(R.layout.fragment_bottom_sheet, container, false)
-        init()
-        return rootView
+        return inflater.inflate(R.layout.fragment_bottom_sheet, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init()
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (requireDialog() as BottomSheetDialog).dismissWithAnimation = true

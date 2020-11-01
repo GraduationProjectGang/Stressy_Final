@@ -3,18 +3,13 @@ package com.android.stressy.activity.sign_up
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.icu.text.SimpleDateFormat
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.stressy.R
 import com.android.stressy.activity.UserMainActivity
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -116,7 +111,7 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
             queue.add(stringRequest)
             val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
             prefs.edit().putBoolean(getString(R.string.pref_previously_started), true).apply()
-//        }
+//          }
 
             val intent = Intent(requireActivity(), UserMainActivity::class.java)
             startActivity(intent)
