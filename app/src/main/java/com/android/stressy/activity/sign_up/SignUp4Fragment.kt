@@ -12,18 +12,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.stressy.R
 import com.android.stressy.activity.UserMainActivity
+import com.android.stressy.dataclass.BaseUrl
 import com.android.stressy.etc.LoginManager
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_sign_up4.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class SignUp4Fragment : androidx.fragment.app.Fragment() {
     val mPref = "my_pref"
-
+    val mutex = Mutex()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,15 +55,22 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
         val pw = bundle.get("userPassword").toString()
         val gender = bundle.get("userGender").toString()
 
+        val loginManager = LoginManager(requireActivity())
+
+
         nextButton4.setOnClickListener {
             val df = SimpleDateFormat("yyyyMMdd")
             val prefs = requireActivity().getSharedPreferences(mPref,Context.MODE_PRIVATE)
             if (!textView_birth.text.toString().contains("-")){ //if user edited
                 val bd = df.format(c.time)
-                Handler(Looper.getMainLooper()).postDelayed({
-                    LoginManager(requireActivity(),email,pw).login()
-                },2000)
-                addUserToDB(name, pw,email,gender,bd, prefs.getString("pref_fcm_token","null").toString())
+                var token = "null"
+                Log.d("su4:", "click")
+
+//                LoginManager(requireActivity(),email,pw).login()
+                while (token == "null"){
+
+                }
+                addUserToDB(name, pw,email,gender,bd, token)
             }
         }
 
@@ -77,10 +90,21 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
             datePickerDialog.show()
         }
     }
+    fun getToken(loginManager:LoginManager) = runBlocking {
+        GlobalScope.massiveRun{
+            mutex.withLock {
 
+            }
+        }
+    }
+
+    suspend fun CoroutineScope.massiveRun(action:suspend() -> Unit){
+        val token = loginManager.getFcmToken()
+        Log.d("su4:token",token)
+    }
     fun addUserToDB(name:String, pw:String,email:String,gender:String,bd:String, token:String) {
-//        val url = "http://114.70.23.77:8002/v1/user/account/signup"
-        val url = "http://192.168.104.40:8002/v1/user/account/signup"
+        val url = BaseUrl.url + "/user/account/signup"
+//        val url = "http://192.168.104.40:8002/v1/user/account/signup"
 
         val queue = Volley.newRequestQueue(requireActivity().applicationContext)
         val stringRequest = object : StringRequest(

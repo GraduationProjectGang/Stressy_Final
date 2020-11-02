@@ -164,7 +164,10 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         }
 
         val posture = getPosture(x_list)
-        val std_posture = calculate_std(x_list)
+        var std_posture = calculate_std(x_list)
+        if(std_posture == null){
+            std_posture = 0.0
+        }
 
         val orientation = getOrientation(y_list)
 

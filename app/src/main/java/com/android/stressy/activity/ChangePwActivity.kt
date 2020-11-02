@@ -30,11 +30,15 @@ class ChangePwActivity : AppCompatActivity() {
             passwordInput = editText_password.text.toString()
             val passwordInput2 = editText_password2.text.toString()
             guide_password.text = "" //초기화
-            Log.d("valval",passwordInput.length.toString())
+            Log.d("valval",passwordInput +" "+ passwordInput2)
             if (!isValidPassword(passwordInput) or (passwordInput.length <= 8)){
                 validFlag = false
+                Log.d("valval log1","false")
+
                 guide_password.text = getString(R.string.guide_password)
             }else if (passwordInput != passwordInput2){
+                Log.d("valval log2","false")
+
                 validFlag = false
                 guide_password.text = getString(R.string.guide_password2)
             }

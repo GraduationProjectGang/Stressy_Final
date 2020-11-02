@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
                 prefsEditor.putString(pref_auto_login,"false")
             }
             prefsEditor.apply()
-            LoginManager(applicationContext,email,password).login()
+            LoginManager(applicationContext).login(email,password)
         }
 
         val mystring = "회원가입"

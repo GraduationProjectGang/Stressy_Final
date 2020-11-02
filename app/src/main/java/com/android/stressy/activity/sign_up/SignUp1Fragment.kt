@@ -10,11 +10,20 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import com.android.stressy.R
+import com.android.stressy.dataclass.BaseUrl
+import com.android.stressy.etc.LoginManager
+import com.android.stressy.etc.LoginViewModel
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_sign_up1.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.json.JSONObject
 import java.util.regex.Pattern
 
@@ -25,11 +34,12 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class SignUp1Fragment : androidx.fragment.app.Fragment() {
-    lateinit var response:String
-    lateinit var code:String
-    lateinit var stringRequest:StringRequest
-    lateinit var url: String
     var validFlag = true
+    lateinit var loginManager : LoginManager
+    lateinit var loginViewModel : LoginViewModel
+    lateinit var emailInput :String
+    lateinit var passwordInput:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,30 +52,22 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
         return inflater.inflate(R.layout.fragment_sign_up1, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         init()
-        //TODO: sign up 도중 뒤로가기 방지 조치해야댐
     }
-
     fun init(){
-        nextButton1.setOnClickListener {
-            //if email is valid
+        nextButton1.setOnClickListener{
             validFlag = true
-            val emailInput = editText_email.text.toString()
-            Log.d("valval",emailInput)
-
-            val passwordInput = editText_password.text.toString()
-            Log.d("valval",passwordInput)
+            emailInput = editText_email.text.toString()
+            passwordInput = editText_password.text.toString()
             val passwordInput2 = editText_password2.text.toString()
-            Log.d("valval",passwordInput2)
 
             //EMAIL 체크
             guide_email.text= "" //초기화
             if ("@" !in emailInput || "." !in emailInput){
                 validFlag = false
                 guide_email.text= getString(R.string.error_email)
-            }else{
-                requestEmailCheck(emailInput)
             }
             //비번 체크
             guide_password.text = "" //초기화
@@ -74,19 +76,24 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
                 validFlag = false
                 guide_password.text = getString(R.string.guide_password)
             }else if (passwordInput != passwordInput2){
-                    validFlag = false
+                validFlag = false
                 guide_password.text = getString(R.string.guide_password2)
             }
             Log.d("valval validflag",validFlag.toString())
-            if(validFlag) toSignUp2(emailInput,passwordInput)
+
+
+
+            requestEmailCheck(emailInput)
+
         }
+
     }
+
     fun requestEmailCheck(user_email:String){
-        url = "http://114.70.23.77:8002/v1/user/account/validemail"
+        val url = BaseUrl.url + "/user/account/validemail"
         val jsonObject = JSONObject().put("user_email",user_email)
         volley(requireActivity(),url,jsonObject)
     }
-
 
     fun volley(context: Context, url:String, inputJson: JSONObject) {
         val queue = Volley.newRequestQueue(context)
@@ -94,19 +101,14 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
             Method.POST,url,inputJson,
             Response.Listener<JSONObject> { response ->
                 Log.d("volvolres",response.toString())
-                val code = response.getString("code")
-                if ( code =="503"){
-                    Toast.makeText(requireContext(),"중복된 이메일입니다.",Toast.LENGTH_SHORT).show()
-                    validFlag = false
-                }else if (code == "500"){
-                    Toast.makeText(requireContext(),"Server error",Toast.LENGTH_SHORT).show()
-                    validFlag = false
-                }
+                toSignUp2(emailInput,passwordInput)
             },
-            Response.ErrorListener { error ->  Log.d("volvol", error.toString()) }
+            Response.ErrorListener { error ->
+                Log.d("volvolerr", error.toString())
+                Toast.makeText(context,"중복된 이메일입니다.",Toast.LENGTH_SHORT).show()
+            }
         ){}
         queue.add(request)
-
     }
 
     fun isValidPassword(input:String):Boolean{
