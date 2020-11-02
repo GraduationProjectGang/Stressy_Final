@@ -2,27 +2,26 @@ package com.android.stressy.activity
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.stressy.R
-import com.android.volley.Request
+import com.android.stressy.etc.LoginManager
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_login.*
-import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
     val pref_auto_email = "mEmail"
     val pref_auto_password = "mPassword"
+    var pref_auto_login = "autoLoginFlag"
+    val mPref = "my_pref"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -30,18 +29,23 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        val prefs_editor = getPreferences(Context.MODE_PRIVATE).edit() as SharedPreferences.Editor
-        val email = login_email.text.toString()
-        val password = login_password.text.toString()
-        val autoLogin = switch_autologin.isChecked
+        val prefsEditor = getSharedPreferences(mPref,Context.MODE_PRIVATE).edit()
+
         button_login.setOnClickListener {
-            Log.d("loglog","switch On")
-            if(switch_autologin.isChecked){
-                prefs_editor.putString(pref_auto_email,email)
-                prefs_editor.putString(pref_auto_password,password)
-                prefs_editor.apply()
+            val email = login_email.text.toString()
+            val password = login_password.text.toString()
+            val autoLogin = switch_autologin.isChecked
+
+            if(autoLogin){
+                Log.d("loglog","switch On")
+                prefsEditor.putString(pref_auto_login,"true")
+                prefsEditor.putString(pref_auto_email,email)
+                prefsEditor.putString(pref_auto_password,password)
+            }else{
+                prefsEditor.putString(pref_auto_login,"false")
             }
-            login(email,password)
+            prefsEditor.apply()
+            LoginManager(applicationContext,email,password).login()
         }
 
         val mystring = "회원가입"
@@ -64,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
 
                 // Get new Instance ID token
                 val token = task.result?.token.toString()
-                val prefs = getPreferences(Context.MODE_PRIVATE)
+                val prefs = getSharedPreferences(mPref,Context.MODE_PRIVATE)
                 if (prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token)) != token) {
                     Log.d("fcm:", "new token")
 
@@ -86,14 +90,8 @@ class LoginActivity : AppCompatActivity() {
                     queue.add(stringRequest)
 
                     //add to sharedpreference
-                    val edit = prefs.edit() as SharedPreferences.Editor
-                    edit.putString("pref_fcm_token", token)
-                    edit.commit()
                 }
 
             })
-
     }
-
-
 }

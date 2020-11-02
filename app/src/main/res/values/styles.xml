@@ -131,7 +131,7 @@
     </style>
     <style name="bottom_sheet_view">
         <item name="android:background">@drawable/button_radius_gray</item>
-        <item name="android:layout_height">3dp</item>
+        <item name="android:layout_height">1.5dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginHorizontal">10dp</item>
     </style>

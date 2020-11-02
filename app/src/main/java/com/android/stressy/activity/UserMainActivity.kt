@@ -33,6 +33,7 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
     val MULTIPLE_REQUEST = 1234
     lateinit var mFirebaseAnalytics: FirebaseAnalytics
     val stressCollectRequest = 111
+    val mPref = "my_pref"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +66,7 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
         initButtonAndText()
         setAlarm()
         makeGraphFragment()
-        val prefs = getPreferences(Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences(mPref,Context.MODE_PRIVATE)
 //        usercode.text =
 //            "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
         val u_key = prefs.getString(getString(R.string.pref_previously_logined), "null")!!
