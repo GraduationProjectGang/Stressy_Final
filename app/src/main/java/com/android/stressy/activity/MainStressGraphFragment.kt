@@ -70,6 +70,7 @@ class MainStressGraphFragment : Fragment() {
 //            barBorderWidth = 1f
 
         }
+
         val dataSets = arrayListOf<IBarDataSet>(dataSet)
         val color1 = Color.parseColor("#9DAFD9")
         val color2 = Color.parseColor("#6C88C6")

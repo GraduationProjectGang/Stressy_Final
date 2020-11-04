@@ -19,7 +19,6 @@
 
     <FrameLayout
         android:padding="5dp"
-        android:layout_marginVertical="20dp"
         android:id="@+id/graphFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
