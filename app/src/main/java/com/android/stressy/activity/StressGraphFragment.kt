@@ -30,6 +30,7 @@ class StressGraphFragment : Fragment() {
     lateinit var timeStampArr: ArrayList<Long>
     lateinit var button_graph_left:Button
     lateinit var button_graph_right:Button
+    lateinit var ll:LimitLine
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -86,7 +87,7 @@ class StressGraphFragment : Fragment() {
         //barchart design
         chart.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM
-            textSize = 14f
+            textSize = 13f
             setDrawGridLines(false)
             granularity = 1f
             isGranularityEnabled = false
@@ -113,14 +114,16 @@ class StressGraphFragment : Fragment() {
 
             valueFormatter = IndexAxisValueFormatter(stressDescription)
 
-            val ll = LimitLine(week_average, "평균")
+            ll = LimitLine(week_average, "평균")
             ll.lineColor = Color.RED
             ll.lineWidth = 2f
             ll.textColor = Color.RED
             ll.textSize = 12f
             ll.enableDashedLine(1f,1f,1f)
-            addLimitLine(ll)
 
+
+            addLimitLine(ll)
+            setDrawLimitLinesBehindData(true)
         }
 
         chart.apply {
@@ -128,6 +131,7 @@ class StressGraphFragment : Fragment() {
             axisRight.isEnabled = false
             legend.isEnabled = false
             description.text = ""
+            notifyDataSetChanged()
         }
 
         chart.run {
@@ -145,8 +149,28 @@ class StressGraphFragment : Fragment() {
             StressPredictedDatabase::class.java, "stressPredicted"
         ).fallbackToDestructiveMigration().allowMainThreadQueries().build().stressPredictedDao()
 
+
+        //csv data 넣기
+//        val file = resources.openRawResource(R.raw.stresspredicted)
+//        val br = BufferedReader(InputStreamReader(file))
+//        for (line in br.lines()){
+//            val arr = line.split(",")
+//            val tempData = StressPredictedData(arr[0].toLong(),arr[1].toInt())
+//            dbObject.insert(tempData)
+//            Log.d("insert data",tempData.toString())
+//        }
+
+
+
+
+
+
+
         timeStampArr = makeDateArray(relativeDate)
-        val dataArr = arrayListOf<Float>() //날짜, 점수 맵
+        var dataArr = arrayListOf<Float>() //날짜, 점수 맵
+
+        val dataAll = dbObject.getAll()
+        Log.d("getdata",dataAll.size.toString())
 
         for (i in 0 until timeStampArr.size-1){
             val getData = dbObject.getFromTo(timeStampArr[i],timeStampArr[i+1])//하루동안의 데이터 받아오기
@@ -166,6 +190,15 @@ class StressGraphFragment : Fragment() {
             }
             dataArr.add(avg)
         }
+
+
+
+
+        ///temp로 랜덤 데이터
+        for (i in dataArr.indices){
+            dataArr[i] = Random().nextFloat() * (1..4).random()
+        }
+
 
         val entries = ArrayList<Entry>()
         for (i in dataArr.indices){
@@ -203,7 +236,6 @@ class StressGraphFragment : Fragment() {
 
         val timeFrom1 = df.format(calFrom.time).toString()
         val timeTo1 = df.format(calTo.time).toString()
-
 
         for (i in 0 until 8){
             timeStampArray.add(calFrom.timeInMillis)

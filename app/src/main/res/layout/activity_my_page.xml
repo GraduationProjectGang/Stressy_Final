@@ -11,12 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <TextView
+        android:layout_marginRight="10dp"
         style="@style/questions"
+        android:textSize="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="My Page"
         />
-
+    <TextView
+        android:text="스트레스 통계"
+        android:layout_marginTop="5dp"
+        style="@style/questions"
+        android:textSize="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <FrameLayout
         android:padding="5dp"
         android:id="@+id/graphFragment"
