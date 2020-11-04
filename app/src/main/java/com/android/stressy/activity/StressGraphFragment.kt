@@ -4,35 +4,32 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.android.stressy.R
-import com.android.stressy.dataclass.db.StressPredictedData
 import com.android.stressy.dataclass.db.StressPredictedDatabase
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.listener.ChartTouchListener
-import com.github.mikephil.charting.listener.OnChartGestureListener
-import kotlinx.coroutines.runBlocking
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class StressGraphFragment : Fragment(), OnChartGestureListener {
+class StressGraphFragment : Fragment() {
     var relativeDate = 0
     lateinit var chart : LineChart
     lateinit var timeStampArr: ArrayList<Long>
+    lateinit var button_graph_left:Button
+    lateinit var button_graph_right:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,15 +41,33 @@ class StressGraphFragment : Fragment(), OnChartGestureListener {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_stress_graph, container, false)
         chart = rootView!!.findViewById(R.id.stressGraph) as LineChart
+        button_graph_left = rootView.findViewById(R.id.button_graph_left) as Button
+        button_graph_right = rootView.findViewById(R.id.button_graph_right) as Button
         initChart(chart,makeDataToBarEntry(relativeDate))
-
+        initButton()
         return rootView
     }
-    fun setChartData(chart: LineChart,entries:ArrayList<Entry>){
+    fun initButton(){
 
+        button_graph_left.setOnClickListener {
+            relativeDate -= 1
+            initChart(chart,makeDataToBarEntry(relativeDate))
 
+        }
+        button_graph_right.setOnClickListener {
+            if (relativeDate < 0)
+                relativeDate += 1
+            initChart(chart,makeDataToBarEntry(relativeDate))
+        }
     }
+
     fun initChart(chart:LineChart,entries: ArrayList<Entry>){
+        var week_average = 0f
+        for (entry in entries){
+            week_average += entry.y
+        }
+        week_average /= entries.size
+
         val dataSet = LineDataSet(entries,"stress")
         dataSet.apply {
             color = resources.getColor(R.color.colorPrimary)
@@ -81,38 +96,40 @@ class StressGraphFragment : Fragment(), OnChartGestureListener {
             for (date in timeStampArr){
                 dateString.add(df.format(date))
             }
+            spaceMax = 0.4f
+            labelRotationAngle = -45f
             valueFormatter = IndexAxisValueFormatter(dateString)
         }
 
         val stressDescription = arrayListOf("","낮음","보통","높음","매우높음")
         chart.axisLeft.apply {
             granularity = 1f
-            textSize = 15f
+            textSize = 14f
+            val color1 = Color.parseColor("#3B60B3")
 
+            textColor = color1
             axisMinimum = 0.0f
             axisMaximum = 5.0f
+
             valueFormatter = IndexAxisValueFormatter(stressDescription)
-//
-//            val ll = LimitLine(week_average.toFloat(), "평균")
-//            ll.lineColor = Color.RED
-//            ll.lineWidth = 2f
-//            ll.textColor = Color.RED
-//            ll.textSize = 12f
-//
-//            addLimitLine(ll)
+
+            val ll = LimitLine(week_average, "평균")
+            ll.lineColor = Color.RED
+            ll.lineWidth = 2f
+            ll.textColor = Color.RED
+            ll.textSize = 12f
+            ll.enableDashedLine(1f,1f,1f)
+            addLimitLine(ll)
 
         }
 
         chart.apply {
             setBorderColor(Color.DKGRAY)
             axisRight.isEnabled = false
-//            legend.apply {
-//                textSize = 12f
-//                verticalAlignment = Legend.LegendVerticalAlignment.TOP
-//            }
+            legend.isEnabled = false
+            description.text = ""
         }
 
-        chart.onChartGestureListener = this
         chart.run {
             this.data = lineData
 //            setLine(true)
@@ -130,7 +147,6 @@ class StressGraphFragment : Fragment(), OnChartGestureListener {
 
         timeStampArr = makeDateArray(relativeDate)
         val dataArr = arrayListOf<Float>() //날짜, 점수 맵
-        Log.d("getdata",timeStampArr.size.toString())
 
         for (i in 0 until timeStampArr.size-1){
             val getData = dbObject.getFromTo(timeStampArr[i],timeStampArr[i+1])//하루동안의 데이터 받아오기
@@ -154,17 +170,10 @@ class StressGraphFragment : Fragment(), OnChartGestureListener {
         val entries = ArrayList<Entry>()
         for (i in dataArr.indices){
             entries.add(Entry(i.toFloat(), dataArr[i]))
+            Log.d("getdata",entries[i].toString())
+
         }
-//        return@runBlocking entries
         return entries
-    }
-    override fun onChartFling(me1: MotionEvent?, me2: MotionEvent?, velocityX: Float, velocityY: Float) {
-        if (velocityX > 0){
-            relativeDate -= 1
-        }else{
-            relativeDate += 1
-        }
-        setChartData(chart,makeDataToBarEntry(relativeDate))
     }
 
 
@@ -211,48 +220,5 @@ class StressGraphFragment : Fragment(), OnChartGestureListener {
         Log.d("calcal from",timeFrom)
         Log.d("calcal to",timeTo)
         return timeStampArray
-    }
-
-    override fun onChartGestureEnd(
-        me: MotionEvent?,
-        lastPerformedGesture: ChartTouchListener.ChartGesture?
-    ) {
-        Log.d("calcal graphhhhhhhh","onChartGestureEnd")
-
-    }
-
-
-
-    override fun onChartSingleTapped(me: MotionEvent?) {
-        Log.d("calcal graphhhhhhhh","onChartSingleTapped")
-
-    }
-
-    override fun onChartGestureStart(
-        me: MotionEvent?,
-        lastPerformedGesture: ChartTouchListener.ChartGesture?
-    ) {
-        Log.d("calcal graphhhhhhhh","onChartGestureStart")
-
-    }
-
-    override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
-        Log.d("calcal graphhhhhhhh","onChartScale")
-
-    }
-
-    override fun onChartLongPressed(me: MotionEvent?) {
-        Log.d("calcal graphhhhhhhh","onChartLongPressed")
-
-    }
-
-    override fun onChartDoubleTapped(me: MotionEvent?) {
-        Log.d("calcal graphhhhhhhh","onChartDoubleTapped")
-
-    }
-
-    override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
-        Log.d("calcal graphhhhhhhh","onChartTranslate")
-
     }
 }
