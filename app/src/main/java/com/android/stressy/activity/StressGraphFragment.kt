@@ -80,10 +80,13 @@ class StressGraphFragment : Fragment() {
             granularity = 1f
             isGranularityEnabled = false
             var dateString = arrayListOf("10/19","10/20","10/21","10/22","10/23","10/24","10/25")
+            val df = SimpleDateFormat("MM/dd")
+
+
             valueFormatter = IndexAxisValueFormatter(dateString)
         }
 
-        var stressDescription = arrayListOf<String>("","낮음","보통","높음","매우\n높음")
+        var stressDescription = arrayListOf<String>("","낮음","보통","높음","매우높음")
         chart.axisLeft.apply {
             granularity = 1f
             textSize = 15f
