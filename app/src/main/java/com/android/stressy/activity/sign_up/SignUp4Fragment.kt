@@ -4,8 +4,6 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +27,7 @@ import java.util.*
 
 class SignUp4Fragment : androidx.fragment.app.Fragment() {
     val mPref = "my_pref"
+    lateinit var loginManager:LoginManager
     val mutex = Mutex()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,8 +54,7 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
         val pw = bundle.get("userPassword").toString()
         val gender = bundle.get("userGender").toString()
 
-        val loginManager = LoginManager(requireActivity())
-
+        loginManager = LoginManager(requireActivity())
 
         nextButton4.setOnClickListener {
             val df = SimpleDateFormat("yyyyMMdd")
@@ -67,9 +65,19 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
                 Log.d("su4:", "click")
 
 //                LoginManager(requireActivity(),email,pw).login()
-                while (token == "null"){
+                val thread = Thread(Runnable {
+                    run {
+                        Log.d("su4 thread","in")
+                        token = loginManager.getFcmToken()
+                    }
+                })
+                thread.start()
+                Thread.sleep(1000)
+                thread.join()
 
-                }
+                Log.d("su4 thread","join")
+                Log.d("su4 token",token)
+
                 addUserToDB(name, pw,email,gender,bd, token)
             }
         }
@@ -90,6 +98,7 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
             datePickerDialog.show()
         }
     }
+
     fun getToken(loginManager:LoginManager) = runBlocking {
         GlobalScope.massiveRun{
             mutex.withLock {
@@ -102,7 +111,8 @@ class SignUp4Fragment : androidx.fragment.app.Fragment() {
         val token = loginManager.getFcmToken()
         Log.d("su4:token",token)
     }
-    fun addUserToDB(name:String, pw:String,email:String,gender:String,bd:String, token:String) {
+
+    private fun addUserToDB(name:String, pw:String, email:String, gender:String, bd:String, token:String) {
         val url = BaseUrl.url + "/user/account/signup"
 //        val url = "http://192.168.104.40:8002/v1/user/account/signup"
 
