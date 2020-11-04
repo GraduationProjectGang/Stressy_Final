@@ -34,17 +34,17 @@ class LoginManager(val mContext:Context) {
             Request.Method.POST,url,jsonObject,
             Response.Listener<JSONObject> { res ->
                 Log.d("logman:login res", res.toString())
-
                 if (res.getString("code") == "200") {
                     Toast.makeText(mContext,"환영합니다.", Toast.LENGTH_SHORT).show()
                     val intent = Intent(mContext, UserMainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     mContext.startActivity(intent)
-                }else{
-                    Toast.makeText(mContext,"틀림", Toast.LENGTH_SHORT).show()
                 }
             },
-            Response.ErrorListener { error ->  Log.d("logman", error.toString()) }
+            Response.ErrorListener { error ->
+                Log.d("logman", error.toString())
+                Toast.makeText(mContext,"이메일 또는 비밀번호가 잘못되었습니다.",Toast.LENGTH_SHORT).show()
+            }
         ){
 //            override fun getParams(): MutableMap<String, String> {
 //                val params = mutableMapOf<String,String>()
@@ -56,50 +56,6 @@ class LoginManager(val mContext:Context) {
         queue.add(jsonRequest)
     }
 
-    fun getFcmToken():String{
-        var token = ""
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("logman", "getInstanceId failed", task.exception)
-                    return@OnCompleteListener
-                }
 
-                // Get new Instance ID token
-                token = task.result?.token.toString()
-                val prefs = mContext.getSharedPreferences(mPref,Context.MODE_PRIVATE)
-                Log.d("logman:token",token)
-                Log.d("logman:original token",prefs.getString("pref_fcm_token",mContext.getString(R.string.pref_fcm_token)).toString())
-
-                if (prefs.getString("pref_fcm_token",mContext.getString(R.string.pref_fcm_token)) != token) {
-                    Log.d("logman", "new token")
-                    //add to db
-                    val url = BaseUrl.url + "/user/fcm/newtoken"
-                    val queue = Volley.newRequestQueue(mContext)
-                    val stringRequest = object : StringRequest(
-                        Method.POST,url,
-                        Response.Listener<String> { response ->
-                            val jsonObject = JSONObject(response)
-
-                            val jsonWebToken = jsonObject.getString("jwtToken")
-                            prefs.edit().putString("jsonWebToken",jsonWebToken).apply()
-                            Log.d("logman:jwt",jsonWebToken)
-                        },
-                        Response.ErrorListener { error ->  Log.d("logman:error", error.toString()) }
-                    ){
-                        override fun getParams(): MutableMap<String, String>? {
-                            val params = hashMapOf<String,String>()
-                            params["fcm_token"] = token
-                            return params
-                        }
-                    }
-                    queue.add(stringRequest)
-
-                    //add to sharedpreference
-                    prefs.edit().putString("pref_fcm_token", token).apply()
-                }
-            })
-        return token
-    }
 
 }

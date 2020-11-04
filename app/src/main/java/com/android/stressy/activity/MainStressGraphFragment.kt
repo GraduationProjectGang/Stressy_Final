@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.android.stressy.R
-import com.android.stressy.dataclass.db.PredictedStressDatabase
+import com.android.stressy.dataclass.db.StressPredictedDatabase
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -119,8 +119,8 @@ class MainStressGraphFragment : Fragment() {
     private fun makeDataToBarEntry(): ArrayList<Entry> = runBlocking{
         val dbObject = Room.databaseBuilder(
             requireContext(),
-            PredictedStressDatabase::class.java, "stressPredicted"
-        ).fallbackToDestructiveMigration().allowMainThreadQueries().build().predictedStressDao()
+            StressPredictedDatabase::class.java, "stressPredicted"
+        ).fallbackToDestructiveMigration().allowMainThreadQueries().build().stressPredictedDao()
 
 
 //        for (i in 0 until 10){
