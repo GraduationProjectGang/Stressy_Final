@@ -56,9 +56,11 @@ class StressGraphFragment : Fragment() {
 
         }
         button_graph_right.setOnClickListener {
-            if (relativeDate < 0)
+            if (relativeDate < 0){
                 relativeDate += 1
-            initChart(chart,makeDataToBarEntry(relativeDate))
+                initChart(chart,makeDataToBarEntry(relativeDate))
+            }
+
         }
     }
 
@@ -114,13 +116,13 @@ class StressGraphFragment : Fragment() {
 
             valueFormatter = IndexAxisValueFormatter(stressDescription)
 
+            removeAllLimitLines()
             ll = LimitLine(week_average, "평균")
             ll.lineColor = Color.RED
             ll.lineWidth = 2f
             ll.textColor = Color.RED
             ll.textSize = 12f
             ll.enableDashedLine(1f,1f,1f)
-
 
             addLimitLine(ll)
             setDrawLimitLinesBehindData(true)

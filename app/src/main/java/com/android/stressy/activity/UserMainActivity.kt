@@ -23,9 +23,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import com.android.stressy.R
+import com.android.stressy.dataclass.BaseUrl
 import com.android.stressy.etc.StressCollectAlarmReceiver
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_user_main.*
+import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -46,7 +53,7 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
             setDisplayHomeAsUpEnabled(true)
 
         }
-
+        getFcmToken()
         getRequestCode()
         init()
     }
@@ -59,7 +66,51 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
         }
 
     }
+    /////////TEMP//////////
+    fun getFcmToken():String{
+        var token = ""
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("logman", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
 
+                // Get new Instance ID token
+                token = task.result?.token.toString()
+                val prefs = getSharedPreferences(mPref,Context.MODE_PRIVATE)
+                Log.d("logman:token",token)
+                Log.d("logman:original token",prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token)).toString())
+
+                if (prefs.getString("pref_fcm_token",getString(R.string.pref_fcm_token)) != token) {
+                    Log.d("logman", "new token")
+                    //add to db
+                    val url = BaseUrl.url + "/user/fcm/newtoken"
+                    val queue = Volley.newRequestQueue(this)
+                    val stringRequest = object : StringRequest(
+                        Method.POST,url,
+                        Response.Listener<String> { response ->
+                            val jsonObject = JSONObject(response)
+                            val tokenId = jsonObject.getString("id")
+                            Log.d("su4:gettoken",response.toString())
+                        },
+                        Response.ErrorListener { error ->  Log.d("logman:error", error.toString()) }
+                    ){
+                        override fun getParams(): MutableMap<String, String>? {
+                            val params = hashMapOf<String,String>()
+                            params["user_email"] = "TEMP"
+                            params["fcm_token"] = token
+                            return params
+                        }
+                    }
+                    queue.add(stringRequest)
+
+                    //add to sharedpreference
+                    prefs.edit().putString("pref_fcm_token", token).apply()
+                }
+            })
+        return token
+    }
     fun init() {
         checkPermission()
         addWhiteList()
