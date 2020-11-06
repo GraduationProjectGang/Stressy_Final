@@ -59,7 +59,7 @@ dependencies {
     compileOnly 'com.google.android.wearable:wearable:2.5.0'
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-
+    implementation 'com.opencsv:opencsv:4.6'
     def fragment_version = '1.2.0-rc04'
     def nav_version = "2.2.0-rc04"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"

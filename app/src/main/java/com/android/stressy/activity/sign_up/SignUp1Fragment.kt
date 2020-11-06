@@ -82,8 +82,8 @@ class SignUp1Fragment : androidx.fragment.app.Fragment() {
             Log.d("valval validflag",validFlag.toString())
 
 
-
-            requestEmailCheck(emailInput)
+            if (validFlag)
+                requestEmailCheck(emailInput)
 
         }
 

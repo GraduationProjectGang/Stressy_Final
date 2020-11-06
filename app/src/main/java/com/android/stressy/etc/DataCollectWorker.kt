@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.hardware.Sensor
@@ -16,24 +15,20 @@ import android.location.Location
 import android.os.Build
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.room.Room
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.android.stressy.R
-import com.android.stressy.activity.UserMainActivity
 import com.android.stressy.dataclass.CategoryForJson
 import com.android.stressy.dataclass.LocationData
 import com.android.stressy.dataclass.RotateVectorData
 import com.android.stressy.dataclass.UsageAppData
 import com.android.stressy.dataclass.db.CoroutineData
 import com.android.stressy.dataclass.db.CoroutineDatabase
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -124,10 +119,6 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
             saveData(mTimestamp,rotateVecList, usageStatsData, locationList)
 
         }
-        //TODO: add to local db
-
-
-
         Result.success()
 
     }

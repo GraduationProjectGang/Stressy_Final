@@ -76,7 +76,23 @@ class MessagingService() : FirebaseMessagingService() {
     }
 
     private fun startTraining() {
-        //TODO("Not yet implemented")
+        Log.d(TAG, "fcmMes: training worker Created")
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(false)
+            .build()
+        val collectRequest =
+            OneTimeWorkRequestBuilder<TrainingWorker>()
+                .setConstraints(constraints)
+                .addTag("DCWorker")
+                .build()
+
+        val workManager = WorkManager.getInstance(this)
+        workManager?.let {
+            it.enqueue(collectRequest)
+        }
+
+        Log.d(TAG, "request enqueued")
+
     }
 
     fun createDataCollectWorker(){//init Periodic work
@@ -88,7 +104,6 @@ class MessagingService() : FirebaseMessagingService() {
             .setRequiresCharging(false)
             .build()
 
-        //20분 마다 반복
         val collectRequest =
             OneTimeWorkRequestBuilder<DataCollectWorker>()
                 .setConstraints(constraints)

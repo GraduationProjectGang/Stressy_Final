@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "stressPredicted")
-data class PredictedStressData(
+data class StressPredictedData(
     @PrimaryKey val timestamp:Long,
     @ColumnInfo(name = "stressPredicted") val stressPredicted: Int
 ) {
