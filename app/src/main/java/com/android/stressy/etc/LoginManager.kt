@@ -1,29 +1,27 @@
 package com.android.stressy.etc
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import com.android.stressy.R
 import com.android.stressy.activity.UserMainActivity
-import com.android.stressy.activity.sign_up.SignUp1Fragment
 import com.android.stressy.dataclass.BaseUrl
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
 import org.json.JSONObject
+import java.util.*
 
 class LoginManager(val mContext:Context) {
     val mPref = "my_pref"
 
     fun login(userEmail:String, userPassword:String){
         Log.d("logman",userEmail+" "+userPassword)
-        //http://10.0.2.2:8002/
         val url = BaseUrl.url + "/user/account/auth"
+        val prefs = mContext.getSharedPreferences(mPref,Context.MODE_PRIVATE)
 //        val url = "http://192.168.104.40:8002/v1/user/account/auth"
 //        val hashedPassword = Hashing.calculateHash(userPassword)
         val queue = Volley.newRequestQueue(mContext)
@@ -36,9 +34,16 @@ class LoginManager(val mContext:Context) {
                 Log.d("logman:login res", res.toString())
                 if (res.getString("code") == "200") {
                     Toast.makeText(mContext,"환영합니다.", Toast.LENGTH_SHORT).show()
+
+                    val jwt = res.getString("jwt")
+                    prefs.edit().putString("jwt",jwt).apply()
+                    val expireMin = res.getString("expiresIn").toInt()
+                    setJwtAlarmAt(expireMin)
+
                     val intent = Intent(mContext, UserMainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     mContext.startActivity(intent)
+
                 }
             },
             Response.ErrorListener { error ->
@@ -55,7 +60,22 @@ class LoginManager(val mContext:Context) {
         }
         queue.add(jsonRequest)
     }
+    fun setJwtAlarmAt(expireMin: Int) {
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            add(Calendar.MINUTE, expireMin)
+        }
 
+        Log.d("logman","jwt alarm set$expireMin")
+        val alarmIntent = Intent(mContext, JwtAlarmReceiver::class.java)
+        alarmIntent.putExtra("expiresIn",expireMin)
+
+
+        val pendingIntent =
+            PendingIntent.getBroadcast(mContext, expireMin, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pendingIntent)
+    }
 
 
 }

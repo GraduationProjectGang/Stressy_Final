@@ -12,18 +12,10 @@ import androidx.navigation.findNavController
 import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
 import com.android.stressy.etc.LoginManager
-import com.android.stressy.etc.LoginViewModel
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_sign_up1.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import org.json.JSONObject
 import java.util.regex.Pattern
 
@@ -35,8 +27,6 @@ private const val ARG_PARAM2 = "param2"
 
 class SignUp1Fragment : androidx.fragment.app.Fragment() {
     var validFlag = true
-    lateinit var loginManager : LoginManager
-    lateinit var loginViewModel : LoginViewModel
     lateinit var emailInput :String
     lateinit var passwordInput:String
 
