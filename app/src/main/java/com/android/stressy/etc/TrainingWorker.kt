@@ -27,13 +27,13 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 //            model.output()
 
 
-        generateKey()
+        val pk = generateKey()
 
         Log.d("trainingWorker", "working")
         Result.success()
     }
 
-    fun generateKey() {
+    fun generateKey() : String {
 
         val keygen = KeyPairBuilder()
         val keyPair = keygen.generateKeyPair()
@@ -48,6 +48,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         val prefs = applicationContext.getSharedPreferences("pref", Context.MODE_PRIVATE)
         prefs.edit().putString("prefs_paillier_privatekey", privateKey_str).apply()
 
+        return publicKey_str
     }
 
     private fun getData(): INDArray {
