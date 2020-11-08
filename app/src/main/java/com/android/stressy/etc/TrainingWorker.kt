@@ -1,6 +1,7 @@
 package com.android.stressy.etc
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.room.Room
 import androidx.work.CoroutineWorker
@@ -40,8 +41,12 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         val publicKey = keyPair.getPublicKey()
         val privateKey = keyPair.getPrivateKey()
 
+        // public str 이거를 JSON에 넣어주면 됨
         val publicKey_str = publicKey.toString()
         val privateKey_str = privateKey.toString()
+
+        val prefs = applicationContext.getSharedPreferences("pref", Context.MODE_PRIVATE)
+        prefs.edit().putString("prefs_paillier_privatekey", privateKey_str).apply()
 
     }
 

@@ -12,6 +12,7 @@
     <string name="pref_previously_started">false</string>
     <string name="pref_previously_logined">null</string>
     <string name="pref_fcm_token">null</string>
+    <string name="pref_paillier_privatekey">null</string>
 
     <string name="stress_collect_count">0</string>
     <!-- TODO: Remove or change this placeholder text -->
