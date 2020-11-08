@@ -13,7 +13,6 @@ import androidx.room.Room
 import com.android.stressy.R
 import com.android.stressy.dataclass.db.StressScoreData
 import com.android.stressy.dataclass.db.StressScoreDatabase
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.dialog_stress_collect.*
 import java.text.SimpleDateFormat
 
@@ -44,7 +43,7 @@ class StressCollectDialog : DialogFragment() {
         init()
     }
     fun init() {
-        prefs = PreferenceManager.getDefaultSharedPreferences(activity!!.baseContext)
+        prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity().baseContext)
 
         val key = prefs.getString(getString(R.string.pref_previously_logined), "null")
         var stressScore = 9
@@ -95,6 +94,6 @@ class StressCollectDialog : DialogFragment() {
             StressScoreDatabase::class.java, "stress"
         ).fallbackToDestructiveMigration().build().stressScoreDataDao()
 
-//        dbObject.insert(data)
+        dbObject.insert(data)
     }
 }

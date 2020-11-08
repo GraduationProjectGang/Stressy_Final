@@ -11,8 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.android.stressy.dataclass.RotateVectorStress
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -35,8 +33,6 @@ class RVecWorker(appContext: Context, workerParams: WorkerParameters)
     private val mutableListOrientationAngles = mutableListOf<String>()
 
     //firebase reference
-    lateinit var dbReference: DatabaseReference
-    lateinit var fbDatabase: FirebaseDatabase
     var mTimestamp:Long = 0
     val dateFormat = SimpleDateFormat("yyyyMMdd.HH:mm:ss")
 
@@ -65,8 +61,6 @@ class RVecWorker(appContext: Context, workerParams: WorkerParameters)
     override suspend fun doWork(): Result = coroutineScope {
         val iterationRange = 60
         mTimestamp = System.currentTimeMillis()//공통으로 쓰일 timestamp
-        fbDatabase = FirebaseDatabase.getInstance()
-        dbReference = fbDatabase.reference
         val index =  inputData?.getInt("index",0)
         val time =  inputData?.getLong("time",System.currentTimeMillis())
 

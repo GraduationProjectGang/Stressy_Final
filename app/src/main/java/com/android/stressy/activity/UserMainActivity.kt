@@ -22,30 +22,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.room.Room
 import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
+import com.android.stressy.dataclass.db.CoroutineData
+import com.android.stressy.dataclass.db.CoroutineDatabase
 import com.android.stressy.etc.StressCollectAlarmReceiver
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_user_main.*
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
-class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
+class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     val MULTIPLE_REQUEST = 1234
-    lateinit var mFirebaseAnalytics: FirebaseAnalytics
     val stressCollectRequest = 111
     val mPref = "my_pref"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_main)
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         var toolbar = getSupportActionBar()?.apply {
             setDisplayShowCustomEnabled(true)
@@ -53,12 +53,81 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
             setDisplayHomeAsUpEnabled(true)
 
         }
+        getData()
         getFcmToken()
         getRequestCode()
         init()
+
+
     }
 
+    fun getData() {
+        //csv data 넣기
+        val dbObject = Room.databaseBuilder(
+            applicationContext,
+            CoroutineDatabase::class.java, "coroutine"
+        ).allowMainThreadQueries().fallbackToDestructiveMigration().build().coroutineDataDao()
 
+//        dbObject.deleteAll()
+//        Log.d("ecec",dbObject.countCoroutine().toString())
+//        val file = resources.openRawResource(R.raw.coroutine)
+//        val br = BufferedReader(InputStreamReader(file))
+//        for (line in br.lines()){
+//            val arr = line.split(",")
+//            val data1 = arr[1].toLong()
+//            val data2 = arr[2].toDouble()
+//            val data3 = arr[3].toDouble()
+//            val data4 = arr[4].toDouble()
+//            var data5 = arr[5].toDoubleOrNull()
+//            if (data5 == null){
+//                data5 = 0.0
+//            }
+//            var data6 = arr[6].toDouble()
+//            val data7 = arr[7].toDouble()
+//            val tempData = CoroutineData(timestamp = data1,ifMoving = data2,orientation = data3,posture = data4,std_posture = data5,category = data6,totalTimeInForeground = data7)
+//            dbObject.insert(tempData)
+//        }
+
+
+        val data = dbObject.getAll()
+        Log.d("ecec",data.size.toString())
+        Log.d("ecec",data.get(0).toString())
+        val arr = mutableListOf<MutableList<CoroutineData>>()
+//        val temp_arr = listOf<List<Double>>()[5]
+        val timestampArr = mutableListOf<CoroutineData>()
+//        val tempArr = mutableListOf<CoroutineData>()
+        //timestamp별로 모아서 timestampArr에 넣기 -> 코루틴 개수만큼 생기겠지
+
+        var timestamp_this = 0.toLong()
+        var idx = 0
+        for (eachCoroutine in data){
+            if (eachCoroutine.timestamp == timestamp_this){
+                arr[idx].add(eachCoroutine)
+            }else{
+                arr.add(mutableListOf(eachCoroutine))
+                timestamp_this = eachCoroutine.timestamp
+            }
+        }
+        Log.d("ecec",arr.get(0).toString())
+
+        val doubleList = mutableListOf<List<Double>>()
+        for (eachCoroutine in arr){
+//            val coroutineData = doubleArray2D(5,6, )
+//            for (index in eachCoroutine.indices){
+//                val ed = eachCoroutine[index]
+//                coroutineData[index] = doubleArrayOf(ed.ifMoving,ed.orientation,ed.posture,ed.std_posture,ed.category,ed.totalTimeInForeground)
+//            }
+//            doubleList.add(coroutineData)
+        }
+
+    }
+    fun doubleArray2D(rows: Int, cols: Int, block: (i: Int, j: Int) -> Double): Array<DoubleArray>{
+        return Array(rows){ i ->
+            DoubleArray(cols){ j ->
+                block(i,j)
+            }
+        }
+    }
     fun getRequestCode(){
         if (intent.extras != null){ //알림타고 들어온거면
             val notificationCode = intent.extras!!.getString("notification_code")?.toIntOrNull()
@@ -184,6 +253,7 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
             android.Manifest.permission.ACCESS_COARSE_LOCATION,
             android.Manifest.permission.ACCESS_FINE_LOCATION,
             android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+
         )
         val rejectedPermissionList = ArrayList<String>()
 
@@ -300,13 +370,5 @@ class UserMainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener 
         dialog.arguments = bundle
         dialog.show(supportFragmentManager, "dialog");
     }
-
-    fun sendEventGoogleAnalytics(id:String, name:String) {
-        var bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID,id)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,name)
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT,bundle)
-    }
-
 
 }
