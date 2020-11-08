@@ -27,7 +27,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 //            model.output()
 
 
-        val pk = generateKey()
+        val pk = generateKey() // PK를 JSON에 실어서 보내면 됨
 
         Log.d("trainingWorker", "working")
         Result.success()
