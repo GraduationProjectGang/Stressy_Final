@@ -18,7 +18,7 @@ class JwtAlarmReceiver: BroadcastReceiver() {
         val prefs = context.getSharedPreferences(mPref,Context.MODE_PRIVATE)
         val old_jwt = JWT(prefs.getString("jwt","null").toString())
         val user_email = old_jwt.signature
-        
+
     }
 
 }

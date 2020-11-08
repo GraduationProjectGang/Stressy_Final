@@ -169,12 +169,12 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
             save(
                 CoroutineData(
                     mTimestamp,
-                    ifMoving,
-                    orientation,
-                    posture,
+                    ifMoving.toDouble(),
+                    orientation.toDouble(),
+                    posture.toDouble(),
                     std_posture,
-                    categorizedList[i].category,
-                    categorizedList[i].totalTimeInForeground
+                    categorizedList[i].category.toDouble(),
+                    categorizedList[i].totalTimeInForeground.toDouble()
                 )
             )
         }
@@ -250,7 +250,6 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         }
         return posture
     }
-
 
     fun getOrientation(y_list: MutableList<Double>):Int{
         val orientation_list =  mutableListOf<Int>()
@@ -535,7 +534,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(applicationContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(applicationContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(applicationContext, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED
+//            && ActivityCompat.checkSelfPermission(applicationContext, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
             Log.e(TAG_LOCATION, "permission get failed")
             return
