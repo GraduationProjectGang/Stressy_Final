@@ -1,15 +1,14 @@
 package com.android.stressy.etc
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.room.Room
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.android.stressy.paillier.KeyPairBuilder
 import com.android.stressy.R
 import com.android.stressy.dataclass.db.CoroutineData
 import com.android.stressy.dataclass.db.CoroutineDatabase
+import com.android.stressy.paillier.KeyPairBuilder
 import kotlinx.coroutines.coroutineScope
 import org.deeplearning4j.util.ModelSerializer
 import org.nd4j.linalg.api.ndarray.INDArray
