@@ -22,12 +22,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.room.Room
+import androidx.work.Constraints
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
-import com.android.stressy.dataclass.db.CoroutineData
-import com.android.stressy.dataclass.db.CoroutineDatabase
 import com.android.stressy.etc.StressCollectAlarmReceiver
+import com.android.stressy.etc.TrainingWorker
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -53,7 +54,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             setDisplayHomeAsUpEnabled(true)
 
         }
-        getData()
+        startTraining()
         getFcmToken()
         getRequestCode()
         init()
@@ -61,72 +62,25 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
 
     }
 
-    fun getData() {
-        //csv data 넣기
-        val dbObject = Room.databaseBuilder(
-            applicationContext,
-            CoroutineDatabase::class.java, "coroutine"
-        ).allowMainThreadQueries().fallbackToDestructiveMigration().build().coroutineDataDao()
 
-//        dbObject.deleteAll()
-//        Log.d("ecec",dbObject.countCoroutine().toString())
-//        val file = resources.openRawResource(R.raw.coroutine)
-//        val br = BufferedReader(InputStreamReader(file))
-//        for (line in br.lines()){
-//            val arr = line.split(",")
-//            val data1 = arr[1].toLong()
-//            val data2 = arr[2].toDouble()
-//            val data3 = arr[3].toDouble()
-//            val data4 = arr[4].toDouble()
-//            var data5 = arr[5].toDoubleOrNull()
-//            if (data5 == null){
-//                data5 = 0.0
-//            }
-//            var data6 = arr[6].toDouble()
-//            val data7 = arr[7].toDouble()
-//            val tempData = CoroutineData(timestamp = data1,ifMoving = data2,orientation = data3,posture = data4,std_posture = data5,category = data6,totalTimeInForeground = data7)
-//            dbObject.insert(tempData)
-//        }
+    private fun startTraining() {
+        Log.d("trtr", "fcmMes: training worker Created")
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(false)
+            .build()
+        val collectRequest =
+            OneTimeWorkRequestBuilder<TrainingWorker>()
+                .setConstraints(constraints)
+                .addTag("training")
+                .build()
 
-
-        val data = dbObject.getAll()
-        Log.d("ecec",data.size.toString())
-        Log.d("ecec",data.get(0).toString())
-        val arr = mutableListOf<MutableList<CoroutineData>>()
-//        val temp_arr = listOf<List<Double>>()[5]
-        val timestampArr = mutableListOf<CoroutineData>()
-//        val tempArr = mutableListOf<CoroutineData>()
-        //timestamp별로 모아서 timestampArr에 넣기 -> 코루틴 개수만큼 생기겠지
-
-        var timestamp_this = 0.toLong()
-        var idx = 0
-        for (eachCoroutine in data){
-            if (eachCoroutine.timestamp == timestamp_this){
-                arr[idx].add(eachCoroutine)
-            }else{
-                arr.add(mutableListOf(eachCoroutine))
-                timestamp_this = eachCoroutine.timestamp
-            }
-        }
-        Log.d("ecec",arr.get(0).toString())
-
-        val doubleList = mutableListOf<List<Double>>()
-        for (eachCoroutine in arr){
-//            val coroutineData = doubleArray2D(5,6, )
-//            for (index in eachCoroutine.indices){
-//                val ed = eachCoroutine[index]
-//                coroutineData[index] = doubleArrayOf(ed.ifMoving,ed.orientation,ed.posture,ed.std_posture,ed.category,ed.totalTimeInForeground)
-//            }
-//            doubleList.add(coroutineData)
+        val workManager = WorkManager.getInstance(this)
+        workManager?.let {
+            it.enqueue(collectRequest)
         }
 
-    }
-    fun doubleArray2D(rows: Int, cols: Int, block: (i: Int, j: Int) -> Double): Array<DoubleArray>{
-        return Array(rows){ i ->
-            DoubleArray(cols){ j ->
-                block(i,j)
-            }
-        }
+        Log.d("trtr", "request enqueued")
+
     }
     fun getRequestCode(){
         if (intent.extras != null){ //알림타고 들어온거면

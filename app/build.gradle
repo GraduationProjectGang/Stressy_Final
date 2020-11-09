@@ -30,7 +30,7 @@ android {
     }
     configurations {
         implementation.exclude module:'protobuf-java-util-shaded-351'
-        implementation.exclude module:'guava'
+//        implementation.exclude module:'guava'
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -82,6 +82,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
 //    implementation 'com.google.firebase:firebase-firestore-ktx:21.4.2'
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
     def fragment_version = '1.2.0-rc04'
     def nav_version = "2.2.0-rc04"

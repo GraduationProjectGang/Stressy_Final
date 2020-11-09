@@ -83,7 +83,7 @@ class MessagingService() : FirebaseMessagingService() {
         val collectRequest =
             OneTimeWorkRequestBuilder<TrainingWorker>()
                 .setConstraints(constraints)
-                .addTag("DCWorker")
+                .addTag("training")
                 .build()
 
         val workManager = WorkManager.getInstance(this)

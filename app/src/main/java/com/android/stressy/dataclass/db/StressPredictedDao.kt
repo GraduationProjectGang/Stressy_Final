@@ -15,5 +15,10 @@ interface StressPredictedDao {
     @Insert
     fun insert(data:StressPredictedData)
 
+    @Query(value = "SELECT COUNT(*) FROM stressPredicted")
+    fun countResult(): Int
+
+    @Query(value = "SELECT * FROM stressPredicted WHERE timestamp = :timestamp")
+    fun getDataFromTimestamp(): StressPredictedData
     //([item['ifMoving'],item['orientation'],item['posture'],item['std_posture'],temp['category'],temp['totalTimeInForeground']])
 }
