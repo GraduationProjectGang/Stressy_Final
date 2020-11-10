@@ -1,7 +1,6 @@
 package com.android.stressy.dataclass.db
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 
@@ -10,6 +9,9 @@ interface CoroutineDataDao {
     @Query(value = "SELECT * FROM coroutine")
     fun getAll(): List<CoroutineData>
 
+
+    @Query(value = "SELECT * FROM coroutine WHERE timestamp >= :tsFrom")
+    fun getFrom(tsFrom:Long): List<CoroutineData>
 
     @Insert
     fun insert(data: CoroutineData)

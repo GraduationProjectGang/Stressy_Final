@@ -19,12 +19,22 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
     val context = appContext
     val dataTimestamp = mutableListOf<Long>()
     val resultArray = mutableListOf<Int>()
-    
+    val mPref = "my_pref"
+    val prefs = context.getSharedPreferences(mPref,Context.MODE_PRIVATE)
+
     override suspend fun doWork(): Result = coroutineScope {
         val inputStream = context.resources.openRawResource(R.raw.stressy_final_model_2mall)
         val model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
 
+        val last_trained_timestamp = prefs.getLong("last_trained_timestamp",0)
+        val last_inferred_timestamp = prefs.getLong("last_inferred_timestamp",0)
+
+
+
+
         val trainData = getData()
+
+
 
         val pk = generateKey() // PK를 JSON에 실어서 보내면 됨
 
