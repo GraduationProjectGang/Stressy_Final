@@ -3,7 +3,7 @@ package com.android.stressy.dataclass.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = arrayOf(CoroutineData::class),version = 1)
+@Database(entities = arrayOf(CoroutineData::class),version = 2)
 abstract class CoroutineDatabase : RoomDatabase() {
     abstract fun coroutineDataDao(): CoroutineDataDao
 //    companion object{

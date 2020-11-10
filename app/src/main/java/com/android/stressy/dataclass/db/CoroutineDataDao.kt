@@ -10,8 +10,12 @@ interface CoroutineDataDao {
     fun getAll(): List<CoroutineData>
 
 
-    @Query(value = "SELECT * FROM coroutine WHERE timestamp >= :tsFrom")
+    @Query(value = "SELECT * FROM coroutine WHERE timestamp > :tsFrom")
     fun getFrom(tsFrom:Long): List<CoroutineData>
+
+
+    @Query(value = "SELECT * FROM coroutine WHERE timestamp > :tsFrom and timestamp <= :tsTo")
+    fun getFromTo(tsFrom:Long, tsTo:Long): List<CoroutineData>
 
     @Insert
     fun insert(data: CoroutineData)
@@ -22,6 +26,8 @@ interface CoroutineDataDao {
     @Query(value="SELECT COUNT(*) FROM coroutine")
     fun countCoroutine(): Int
 
+    @Query(value = "DELETE FROM coroutine WHERE timestamp = :timestamp")
+    fun deleteAt(timestamp:Long)
 
 
 

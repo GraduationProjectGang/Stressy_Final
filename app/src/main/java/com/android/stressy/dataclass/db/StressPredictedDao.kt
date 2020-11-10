@@ -21,6 +21,12 @@ interface StressPredictedDao {
     @Query(value = "SELECT COUNT(*) FROM stressPredicted")
     fun countResult(): Int
 
+    @Query(value = "DELETE FROM stressPredicted")
+    fun deleteAll()
+
+    @Query(value = "DELETE FROM stressPredicted WHERE timestamp = :timestamp")
+    fun deleteAt(timestamp:Long)
+
     @Query(value = "SELECT * FROM stressPredicted WHERE timestamp = :timestamp")
     fun getDataFromTimestamp(timestamp:Long): StressPredictedData
     //([item['ifMoving'],item['orientation'],item['posture'],item['std_posture'],temp['category'],temp['totalTimeInForeground']])
