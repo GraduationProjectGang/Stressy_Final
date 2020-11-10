@@ -6,16 +6,26 @@ import androidx.room.Room
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.android.stressy.R
+import com.android.stressy.dataclass.BaseUrl
 import com.android.stressy.dataclass.db.CoroutineData
 import com.android.stressy.dataclass.db.CoroutineDatabase
 import com.android.stressy.dataclass.db.StressPredictedDatabase
 import com.android.stressy.paillier.KeyPairBuilder
+import com.android.stressy.paillier.PublicKey
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import org.deeplearning4j.datasets.iterator.ExistingDataSetIterator
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener
 import org.deeplearning4j.util.ModelSerializer
+import org.json.JSONObject
+import org.nd4j.evaluation.classification.Evaluation
 import org.nd4j.linalg.dataset.DataSet
 import org.nd4j.linalg.factory.Nd4j
+import java.math.BigInteger
 
 
 class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
@@ -27,7 +37,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
     val prefs = context.getSharedPreferences(mPref,Context.MODE_PRIVATE)
 
     override suspend fun doWork(): Result = coroutineScope {
-        val inputStream = context.resources.openRawResource(R.raw.stressy_final_model_2mall)
+        val inputStream = context.resources.openRawResource(R.raw.stressy_final_model_nokeras)
         val model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
 
 //        val last_trained_timestamp = prefs.getLong("last_trained_timestamp",0)
@@ -39,7 +49,10 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         val labelData = getLabelFromTo(last_trained_timestamp,last_inferred_timestamp)
         val arrayDataSet = arrayListOf<DataSet>()
         for (idx in trainData.indices){
-            val dataSet = DataSet(Nd4j.createFromArray(trainData[idx]),Nd4j.createFromArray(labelData[idx]))
+            val tempTrain = arrayOf(trainData[idx])
+            val tempLabel = arrayOf(labelData[idx])
+            Log.d("tempdataset",tempTrain.contentDeepToString()+"    "+tempLabel.contentDeepToString())
+            val dataSet = DataSet(Nd4j.createFromArray(tempTrain),Nd4j.createFromArray(tempLabel))
             arrayDataSet.add(dataSet)
         }
 
@@ -49,17 +62,64 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
         val data_iter = ExistingDataSetIterator(arrayDataSet)
 
-        val nEpochs = 100
+        val nEpochs = 1
         model.setListeners(ScoreIterationListener(10))//Print score every 10 iterations and evaluate on test set every epoch
-        model.fit(data_iter,nEpochs)
+//        val weights = model
+        runModel(model,data_iter,nEpochs)
 
         val pk = generateKey() // PK를 JSON에 실어서 보내면 됨
+        val n = pk.getN()
+        val g = pk.getG()
+        val nSquared = pk.getnSquared()
+
+        sendData(n,g,nSquared)
+
 
         Log.d("trainingWorker", "working")
         Result.success()
     }
 
-    fun generateKey() : String {
+    fun sendData(n:BigInteger, g:BigInteger, nSquared:BigInteger){
+        //add to db
+        val url = BaseUrl.url + "/model/client/acknowledge"
+        val queue = Volley.newRequestQueue(context)
+        val stringRequest = object : StringRequest(
+            Method.POST,url,
+            Response.Listener<String> { response ->
+                val jsonObject = JSONObject(response)
+                val tokenId = jsonObject.getString("id")
+                Log.d("twVolley:response",response.toString())
+            },
+            Response.ErrorListener { error ->  Log.d("twVolley:error", error.toString()) }
+        ){
+            override fun getParams(): MutableMap<String, String>? {
+                val params = hashMapOf<String,String>()
+                params["pk_n"] = n.toString()
+                params["pk_g"] = g.toString()
+                params["pk_nSquared"] = nSquared.toString()
+                return params
+            }
+        }
+        queue.add(stringRequest)
+    }
+
+    fun runModel(model: MultiLayerNetwork, data_iter:ExistingDataSetIterator,nEpochs:Int) = runBlocking {
+        val start_time = System.currentTimeMillis()
+        model.fit(data_iter,nEpochs)
+        val eval = Evaluation(4)
+        data_iter.reset()
+        while(data_iter.hasNext()) {
+            val curData = data_iter.next()
+            val predicted = model.output(curData.features, true)
+            eval.eval(curData.labels, predicted)
+        }
+        val end_time = System.currentTimeMillis()
+
+        Log.d("model_eval", eval.stats())
+        Log.d("model_eval.time",(end_time-start_time).toString())
+    }
+
+    fun generateKey() : PublicKey {
 
         val keygen = KeyPairBuilder()
         val keyPair = keygen.generateKeyPair()
@@ -68,13 +128,14 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         val privateKey = keyPair.getPrivateKey()
 
         // public str 이거를 JSON에 넣어주면 됨
-        val publicKey_str = publicKey.toString()
-        val privateKey_str = privateKey.toString()
+        val lambda = privateKey.getLambda()
+        val mu = privateKey.getPreCalculatedDenominator()
 
         val prefs = applicationContext.getSharedPreferences("pref", Context.MODE_PRIVATE)
-        prefs.edit().putString("prefs_paillier_privatekey", privateKey_str).apply()
+        prefs.edit().putString("prefs_sk_lambda", lambda.toString()).apply()
+        prefs.edit().putString("prefs_sk_mu", mu.toString()).apply()
 
-        return publicKey_str
+        return publicKey
     }
 
     fun getDataFromTo(last_trained_timestamp:Long,last_inferred_timestamp:Long): Array<Array<DoubleArray>> {
@@ -109,7 +170,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
             arr.removeAt(0)
             var id = 0
 
-            val nMin = arrayOf(0.0,1.0,0.0,0.0,0.0,0.0)
+            val nMin = arrayOf(0.0,0.0,0.0,0.0,0.0,0.0)
             val nMax = arrayOf(1.00000000e+00, 2.00000000e+00, 3.00000000e+00, 3.10823229e+00,
                 1.40000000e+01, 4.26011840e+07)
 
@@ -150,7 +211,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
         return realData.toTypedArray()
     }
-    fun getLabelFromTo(last_trained_timestamp:Long,last_inferred_timestamp:Long):Array<Int>{
+    fun getLabelFromTo(last_trained_timestamp:Long,last_inferred_timestamp:Long):Array<DoubleArray>{
         val dbObject = Room.databaseBuilder(
             applicationContext,
             StressPredictedDatabase::class.java, "stressPredicted"
@@ -158,9 +219,11 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
 //        val data = dbObject.getAll()
         val data = dbObject.getFromTo(last_trained_timestamp,last_inferred_timestamp)
-        val labelArr = arrayListOf<Int>()
+        val labelArr = arrayListOf<DoubleArray>()
         for (each in data){
-            labelArr.add(each.stressPredicted)
+            val zeroLabel = arrayOf(0.0,0.0,0.0,0.0)
+            zeroLabel[each.stressPredicted] = 1.0
+            labelArr.add(zeroLabel.toDoubleArray())
         }
         return labelArr.toTypedArray()
     }

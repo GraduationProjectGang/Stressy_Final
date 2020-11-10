@@ -27,8 +27,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
+import com.android.stressy.etc.SendWeightWorker
 import com.android.stressy.etc.StressCollectAlarmReceiver
-import com.android.stressy.etc.TrainingWorker
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -69,7 +69,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             .setRequiresCharging(false)
             .build()
         val collectRequest =
-            OneTimeWorkRequestBuilder<TrainingWorker>()
+            OneTimeWorkRequestBuilder<SendWeightWorker>()
                 .setConstraints(constraints)
                 .addTag("training")
                 .build()
