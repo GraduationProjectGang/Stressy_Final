@@ -26,6 +26,7 @@ import org.nd4j.evaluation.classification.Evaluation
 import org.nd4j.linalg.dataset.DataSet
 import org.nd4j.linalg.factory.Nd4j
 import java.math.BigInteger
+import kotlin.properties.Delegates
 
 
 class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
@@ -35,18 +36,19 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
     val resultArray = mutableListOf<Int>()
     val mPref = "my_pref"
     val prefs = context.getSharedPreferences(mPref,Context.MODE_PRIVATE)
+    var new_last_trained_timestamp by Delegates.notNull<Long>()
 
     override suspend fun doWork(): Result = coroutineScope {
         val inputStream = context.resources.openRawResource(R.raw.stressy_final_model_nokeras)
         val model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
 
-//        val last_trained_timestamp = prefs.getLong("last_trained_timestamp",0)
-//        val last_inferred_timestamp = prefs.getLong("last_inferred_timestamp",Calendar.getInstance().timeInMillis)
-        val last_trained_timestamp = 0.toLong()
+        val last_trained_timestamp = prefs.getLong("last_trained_timestamp",0)
+        Log.d("trtr.last_trained",last_trained_timestamp.toString())
+//        val last_trained_timestamp = 0.toLong()
         val last_inferred_timestamp = 1604290504275.toLong()
 
         //stress설문 결과를 받아와서 코루틴이랑 매칭시킴
-        val labelData = getLabelFromTo(last_trained_timestamp,last_inferred_timestamp)
+        val labelData = getLabelFrom(last_trained_timestamp)
         val trainDataMap = mutableMapOf<Long,Array<Array<DoubleArray>>>()
         val timestampArr = labelData.keys.toTypedArray()
         Log.d("trtr.timestampArr",timestampArr.contentDeepToString())
@@ -67,32 +69,40 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
         for (idx in trainDataMap.keys){ //설문데이터 timestamp랑 코루틴이랑 비교,
             for (eachCoroutine in trainDataMap.get(idx)!!.iterator()){
-                val trainNd = Nd4j.create(eachCoroutine)
-                val labelNd = Nd4j.create(labelData[idx])
+                val trainNd = Nd4j.create(arrayOf(eachCoroutine))
+                val labelNd = Nd4j.create(arrayOf(labelData[idx]))
                 arrayDataSet.add(DataSet(trainNd,labelNd))
             }
         }
 
-//        Log.d("twtw.trainingdata",trainData.shapeInfoToString())
-//        Log.d("twtw.labeldata",labelData.shapeInfoToString())
+
+        if (arrayDataSet.isNotEmpty()){
+            Log.d("twtw.trainingdata", arrayDataSet.size.toString())
+            Log.d("twtw.trainingdata",arrayDataSet[0].toString())
 
 
-        val data_iter = ExistingDataSetIterator(arrayDataSet)
+            val data_iter = ExistingDataSetIterator(arrayDataSet)
 
-        val nEpochs = 1
-        model.setListeners(ScoreIterationListener(10))//Print score every 10 iterations and evaluate on test set every epoch
+            val nEpochs = 100
+            model.setListeners(ScoreIterationListener(10))//Print score every 10 iterations and evaluate on test set every epoch
 //        val weights = model
-        runModel(model,data_iter,nEpochs)
+            runModel(model,data_iter,nEpochs)
 
-        val pk = generateKey() // PK를 JSON에 실어서 보내면 됨
-        val n = pk.getN()
-        val g = pk.getG()
-        val nSquared = pk.getnSquared()
+            val pk = generateKey() // PK를 JSON에 실어서 보내면 됨
+            val n = pk.getN()
+            val g = pk.getG()
+            val nSquared = pk.getnSquared()
 
-        sendData(n,g,nSquared)
+            sendData(n,g,nSquared)
+//        prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
+            prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
+            Log.d("trainingWorker", "working")
+
+        }else{
+            Log.d("trainingworker", "NO DATA")
+        }
 
 
-        Log.d("trainingWorker", "working")
         Result.success()
     }
 
@@ -128,6 +138,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         while(data_iter.hasNext()) {
             val curData = data_iter.next()
             val predicted = model.output(curData.features, true)
+            Log.d("model_output",predicted.toString())
             eval.eval(curData.labels, predicted)
         }
         val end_time = System.currentTimeMillis()
@@ -160,6 +171,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
             applicationContext,
             CoroutineDatabase::class.java, "coroutine"
         ).allowMainThreadQueries().fallbackToDestructiveMigration().build().coroutineDataDao()
+
 
         val data = dbObject.getFromTo(last_trained_timestamp,last_inferred_timestamp)
 //        val data = dbObject.getAll()
@@ -226,20 +238,21 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
         return realData.toTypedArray()
     }
-    fun getLabelFromTo(last_trained_timestamp:Long,last_inferred_timestamp:Long):Map<Long,DoubleArray>{
+    fun getLabelFrom(last_trained_timestamp:Long):Map<Long,DoubleArray>{
         val dbObject = Room.databaseBuilder(
             applicationContext,
             StressScoreDatabase::class.java, "stressScore"
         ).allowMainThreadQueries().fallbackToDestructiveMigration().build().stressScoreDataDao()
 
 //        val data = dbObject.getAll()
-        val data = dbObject.getFromTo(last_trained_timestamp,last_inferred_timestamp)
+        val data = dbObject.getFromTo(last_trained_timestamp,System.currentTimeMillis())
         val labelArr = mutableMapOf<Long,DoubleArray>()
         for (each in data){
             val zeroLabel = arrayOf(0.0,0.0,0.0,0.0)
             zeroLabel[each.stressScore] = 1.0
             labelArr[each.timestamp] = zeroLabel.toDoubleArray()
         }
+        new_last_trained_timestamp = data.get(data.size-1).timestamp
         return labelArr
     }
 }

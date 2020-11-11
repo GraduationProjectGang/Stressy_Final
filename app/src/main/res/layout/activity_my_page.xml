@@ -6,77 +6,164 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.MyPageActivity">
+
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_marginRight="10dp"
-            style="@style/questions"
-            android:textSize="24dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Page"
-            />
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimary" />
+
+            <TextView
+                style="@style/questions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="10dp"
+                android:text="My Page"
+                android:textSize="24dp" />
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/questions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:text="스트레스 통계"
+            android:textSize="17dp" />
+
+        <TextView
+            style="@style/questions"
+            android:textStyle="normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="1dp"
+            android:textColor="#8E8E8E"
+            android:text="Stressy가 예측한 스트레스 지수입니다."
+            android:textSize="15dp" />
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorPrimaryDark" />
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:scrollbarThumbVertical="@drawable/scrollbar">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:text="스트레스 통계"
-                    android:layout_marginTop="5dp"
                     style="@style/questions"
-                    android:textSize="17dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="시간 별 통계"
+                    android:textSize="17dp" />
+                <TextView
+                    style="@style/questions"
+                    android:textColor="#D0454545"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Hourly Statistics"
+                    android:textSize="14dp" />
+            </LinearLayout>
                 <FrameLayout
-                    android:padding="5dp"
-                    android:id="@+id/graphFragment"
+                    android:id="@+id/hourlyGraph"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:padding="5dp" />
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorPrimaryDark" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/questions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="주 별 통계"
+                    android:textSize="17dp" />
+                <TextView
+                    style="@style/questions"
+                    android:textColor="#D0454545"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Weekly Statistics"
+                    android:textSize="14dp" />
+            </LinearLayout>
                 <FrameLayout
-                    android:padding="5dp"
-                    android:id="@+id/graphFragment2"
+                    android:id="@+id/weeklyGraph"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:padding="5dp" />
+
                 <TextView
                     android:id="@+id/tutorialAgain"
-                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="13dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:text="프로젝트 가이드 다시보기"
-                    android:textSize="15dp"/>
+                    android:textSize="15dp" />
+
                 <Button
-                    android:layout_margin="10dp"
-                    style="@style/nextButton"
                     android:id="@+id/account_settings"
-                    android:text="계정 설정"
-                    android:textSize="18dp"
-                    android:layout_gravity="bottom"
+                    style="@style/nextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:layout_gravity="bottom"
+                    android:layout_margin="10dp"
+                    android:text="계정 설정"
+                    android:textSize="18dp" />
             </LinearLayout>
         </ScrollView>
+
         <FrameLayout
             android:id="@+id/bottomSheet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-            <LinearLayout
-                android:gravity="bottom"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
 
-            </LinearLayout>
         </FrameLayout>
     </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -20,10 +20,10 @@ class MyPageActivity : AppCompatActivity() {
     fun makeGraphFragment(){
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val graphFragment = StressGraphFragment()
-        fragmentTransaction.add(R.id.graphFragment, graphFragment)
+        fragmentTransaction.add(R.id.weeklyGraph, graphFragment)
         val fragmentTransaction2 = supportFragmentManager.beginTransaction()
-        val graphFragment2 = StressGraphFragment()
-        fragmentTransaction.add(R.id.graphFragment2, graphFragment2).commit()
+        val graphFragment2 = HourlyStressGraphFragment()
+        fragmentTransaction.add(R.id.hourlyGraph, graphFragment2).commit()
     }
 
     fun init(){

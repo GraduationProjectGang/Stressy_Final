@@ -12,6 +12,10 @@ interface StressPredictedDao {
     @Query(value = "SELECT * FROM stressPredicted WHERE timestamp >= :tsFrom AND timestamp < :tsTo")
     fun getFromTo(tsFrom:Long, tsTo:Long): List<StressPredictedData>
 
+    @Query(value = "SELECT COUNT(*) FROM stressPredicted WHERE timestamp == :timestamp")
+    fun ifExist(timestamp:Long): Int
+
+
     @Query(value = "SELECT * FROM stressPredicted WHERE timestamp >= :tsFrom")
     fun getFrom(tsFrom:Long): List<StressPredictedData>
 

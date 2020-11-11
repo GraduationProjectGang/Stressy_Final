@@ -156,7 +156,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
 
         val posture = getPosture(x_list)
         var std_posture = calculate_std(x_list)
-        if(std_posture == null){
+        if(std_posture.isNaN()){
             std_posture = 0.0
         }
 

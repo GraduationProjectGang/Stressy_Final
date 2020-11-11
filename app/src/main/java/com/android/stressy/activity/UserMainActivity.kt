@@ -22,21 +22,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.room.Room
 import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
+import com.android.stressy.dataclass.db.StressPredictedDatabase
 import com.android.stressy.etc.*
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.github.mikephil.charting.data.BarEntry
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_user_main.*
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
 class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     val MULTIPLE_REQUEST = 1234
@@ -56,7 +61,28 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         init()
     }
 
+    fun init() = runBlocking {
+        checkPermission()
+        addWhiteList()
+        initButtonAndText()
+        setAlarm()
+        makeGraphFragment()
+        val prefs = getSharedPreferences(mPref,Context.MODE_PRIVATE)
+//        usercode.text =
+//            "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
+        val u_key = prefs.getString(getString(R.string.pref_previously_logined), "null")!!
 
+
+        Log.w(
+            "UMA_worker",
+            prefs.getBoolean(getString(R.string.pref_previously_started), false).toString())
+
+        if (!prefs.getBoolean(getString(R.string.pref_previously_started), false)) {
+            var edit = prefs.edit() as SharedPreferences.Editor
+            edit.putBoolean(getString(R.string.pref_previously_started), true)
+            edit.commit()
+        }
+    }
 
     fun getRequestCode(){
         if (intent.extras != null){ //알림타고 들어온거면
@@ -114,33 +140,12 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         return token
     }
 
-    fun init() {
-        checkPermission()
-        addWhiteList()
-        initButtonAndText()
-        setAlarm()
-        makeGraphFragment()
-        val prefs = getSharedPreferences(mPref,Context.MODE_PRIVATE)
-//        usercode.text =
-//            "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
-        val u_key = prefs.getString(getString(R.string.pref_previously_logined), "null")!!
-
-
-        Log.w(
-            "UMA_worker",
-            prefs.getBoolean(getString(R.string.pref_previously_started), false).toString())
-
-        if (!prefs.getBoolean(getString(R.string.pref_previously_started), false)) {
-            var edit = prefs.edit() as SharedPreferences.Editor
-            edit.putBoolean(getString(R.string.pref_previously_started), true)
-            edit.commit()
-        }
-    }
-
     fun makeGraphFragment(){
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val graphFragment = MainStressGraphFragment()
+        val data = makeDataToBarEntry()
+        val graphFragment = MainStressGraphFragment(data)
         fragmentTransaction.add(R.id.mainStressGraph, graphFragment).commit()
+
     }
     private fun setAlarm(){
         val stressCollectRequest = 111
@@ -254,9 +259,84 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         }
     }
 
-    private fun setOnMenuItemClickListener(item: MenuItem) {
+    private fun makeDataToBarEntry(): ArrayList<BarEntry> = runBlocking{
+        val dbObject = Room.databaseBuilder(
+            applicationContext,
+            StressPredictedDatabase::class.java, "stressPredicted"
+        ).fallbackToDestructiveMigration().allowMainThreadQueries().build().stressPredictedDao()
+
+
+//        for (i in 0 until 10){
+//            val timestamp_rand = (1603173028..1603605028).random().toLong()
+//            val predictedData_rand = (2..4).random()
+//            dbObject.insert(PredictedStressData(timestamp_rand,predictedData_rand))
+//        }
+
+        val timeStampArr = arrayListOf<Long>()
+        val midNightCal = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY,0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        var zero = 0.0
+        var one = 0.0
+        var two = 0.0
+        var three = 0.0
+
+        //지난 자정부터 데이터 받아오기
+        val getData = dbObject.getFromTo(midNightCal.timeInMillis,System.currentTimeMillis())
+        Log.d("mainfrag",getData.size.toString())
+        if (getData.isNotEmpty()){
+            for (data in getData){
+                val predicted = data.stressPredicted
+                if (predicted == 0) zero++
+                else if (predicted == 1) one++
+                else if (predicted == 2) two++
+                else if (predicted == 3) three++
+            }
+        }
+        var dataArr = doubleArrayOf(zero, one, two, three)
+        val imageArr = dataArr.average()
+        setImageAndDescription(imageArr)
+        Log.d("mainfrag.dataarr",dataArr.contentToString())
+
+        val entries = ArrayList<BarEntry>()
+        for (i in dataArr.indices){
+            entries.add(BarEntry(i.toFloat(), dataArr[i].toFloat()))
+            Log.d("mainfrag",i.toFloat().toString()+"    " +dataArr[i].toFloat().toString())
+
+        }
+        return@runBlocking entries
+    }
+
+    private fun setImageAndDescription(imageArr:Double) {
+
+        if (imageArr < 1.0){
+            stressImage.setImageResource(R.drawable.stressicon_1)
+            stressDescription.text = "낮음"
+        }
+        else if (imageArr < 2.0 && imageArr>= 1.0){
+            stressImage.setImageResource(R.drawable.stressicon_2)
+            stressDescription.text = "보통"
+
+        }
+        else if (imageArr < 3.0 && imageArr>= 2.0){
+            stressImage.setImageResource(R.drawable.stressicon_3)
+            stressDescription.text = "높음"
+
+        }
+        else if (imageArr < 4.0 && imageArr>= 3.0){
+            stressImage.setImageResource(R.drawable.stressicon_4)
+            stressDescription.text = "매우\n높음"
+            stressDescription.textSize = 25f
+
+        }
+
 
     }
+
     override fun onMenuItemClick(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.mypage ->{
@@ -298,6 +378,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             }
             Log.d("trtr", "InferenceWorker enqueued")
         }
+
 
         trainingWorker.setOnClickListener {
             val collectRequest =
