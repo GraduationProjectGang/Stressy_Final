@@ -8,6 +8,9 @@ import androidx.room.PrimaryKey
 data class HighAppData (
     @PrimaryKey(autoGenerate = true) val id:Int,
     @ColumnInfo(name = "cate") val cate: Int
-){
 
+){
+    constructor(
+        cate: Int
+    ) : this(0,cate)
 }

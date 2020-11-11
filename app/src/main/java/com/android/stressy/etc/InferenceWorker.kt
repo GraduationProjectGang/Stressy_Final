@@ -98,7 +98,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         ).fallbackToDestructiveMigration().build().highAppDataDao()
 
         for (app in highApp){
-            dbObject.insert(app)
+            dbObject.insert(HighAppData(0,app))
         }
     }
 

@@ -27,8 +27,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
-import com.android.stressy.etc.StressCollectAlarmReceiver
-import com.android.stressy.etc.TrainingWorker
+import com.android.stressy.etc.*
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -52,33 +51,12 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
         }
-
-        startTraining()
         getFcmToken()
         getRequestCode()
         init()
-
-
     }
 
 
-    private fun startTraining() {
-        Log.d("trtr", "fcmMes: training worker Created")
-        val constraints = Constraints.Builder()
-            .setRequiresCharging(false)
-            .build()
-        val collectRequest =
-            OneTimeWorkRequestBuilder<TrainingWorker>()
-                .setConstraints(constraints)
-                .addTag("training")
-                .build()
-
-        val workManager = WorkManager.getInstance(this)
-        workManager?.let {
-            it.enqueue(collectRequest)
-        }
-        Log.d("trtr", "request enqueued")
-    }
 
     fun getRequestCode(){
         if (intent.extras != null){ //알림타고 들어온거면
@@ -304,7 +282,60 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         val content = SpannableString(mystring)
         content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
 
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(false)
+            .build()
 
+        inferenceWorker.setOnClickListener {
+            val collectRequest =
+                OneTimeWorkRequestBuilder<InferenceWorker>()
+                    .setConstraints(constraints)
+                    .addTag("inferring")
+                    .build()
+            val workManager = WorkManager.getInstance(this)
+            workManager?.let {
+                it.enqueue(collectRequest)
+            }
+            Log.d("trtr", "InferenceWorker enqueued")
+        }
+
+        trainingWorker.setOnClickListener {
+            val collectRequest =
+                OneTimeWorkRequestBuilder<TrainingWorker>()
+                    .setConstraints(constraints)
+                    .addTag("inferring")
+                    .build()
+            val workManager = WorkManager.getInstance(this)
+            workManager?.let {
+                it.enqueue(collectRequest)
+            }
+            Log.d("trtr", "TrainingWorker enqueued")
+        }
+
+        sendweight.setOnClickListener {
+            val collectRequest =
+                OneTimeWorkRequestBuilder<SendWeightWorker>()
+                    .setConstraints(constraints)
+                    .addTag("inferring")
+                    .build()
+            val workManager = WorkManager.getInstance(this)
+            workManager?.let {
+                it.enqueue(collectRequest)
+            }
+            Log.d("trtr", "SendWeightWorker enqueued")
+        }
+        datacollectworker.setOnClickListener {
+            val collectRequest =
+                OneTimeWorkRequestBuilder<DataCollectWorker>()
+                    .setConstraints(constraints)
+                    .addTag("inferring")
+                    .build()
+            val workManager = WorkManager.getInstance(this)
+            workManager?.let {
+                it.enqueue(collectRequest)
+            }
+            Log.d("trtr", "SendWeightWorker enqueued")
+        }
     }
 
 

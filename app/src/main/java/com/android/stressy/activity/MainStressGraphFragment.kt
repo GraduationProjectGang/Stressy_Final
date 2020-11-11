@@ -16,7 +16,6 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import kotlinx.coroutines.runBlocking
@@ -37,12 +36,12 @@ class MainStressGraphFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main_stress_graph, container, false)
         var stressChart = rootView!!.findViewById(R.id.mainBarChart) as HorizontalBarChart
-        makeDataToBarEntry()
-        initChart(stressChart)
+        val entries = makeDataToBarEntry()
+        initChart(stressChart, entries)
         return rootView
     }
 
-    fun initChart(chart:HorizontalBarChart){
+    fun initChart(chart:HorizontalBarChart, entries:ArrayList<BarEntry>){
 //        val roundedBarChartRenderer = RoundedBarChartRenderer(
 //            chart,
 //            chart.getAnimator(),
@@ -53,14 +52,14 @@ class MainStressGraphFragment : Fragment() {
 
 
 //        val data = listOf<Int>(2,4,3,4,2,3,4)
-        val data = listOf<Float>()
-        val entries = arrayListOf<BarEntry>()
-        for (i in 0 until 4) {
-            entries.add(
-                BarEntry(i.toFloat(), (3..15).random().toFloat())
-            )
-            Log.d("chacha",entries[i].toString())
-        }
+
+//        val entries = arrayListOf<BarEntry>()
+//        for (i in 0 until 4) {
+//            entries.add(
+//                BarEntry(i.toFloat(), (3..15).random().toFloat())
+//            )
+//            Log.d("chacha",entries[i].toString())
+//        }
         val dataSet = BarDataSet(entries,"dtd")
 
         dataSet.apply {
@@ -117,7 +116,7 @@ class MainStressGraphFragment : Fragment() {
         }
     }
 
-    private fun makeDataToBarEntry(): ArrayList<Entry> = runBlocking{
+    private fun makeDataToBarEntry(): ArrayList<BarEntry> = runBlocking{
         val dbObject = Room.databaseBuilder(
             requireContext(),
             StressPredictedDatabase::class.java, "stressPredicted"
@@ -149,9 +148,9 @@ class MainStressGraphFragment : Fragment() {
 
 
         val data = arrayListOf<Long>()
-        val entries = ArrayList<Entry>()
+        val entries = ArrayList<BarEntry>()
         for (i in entries.indices){
-            entries.add(Entry(i.toFloat(), data[i].toFloat()))
+            entries.add(BarEntry(i.toFloat(), data[i].toFloat()))
         }
         return@runBlocking entries
     }

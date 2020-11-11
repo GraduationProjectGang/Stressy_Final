@@ -178,6 +178,12 @@
                 android:layout_gravity="bottom"
                 android:orientation="horizontal">
                 <Button
+                    android:text="datacollect"
+                    android:id="@+id/datacollectworker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                <Button
                     android:text="inference"
                     android:id="@+id/inferenceWorker"
                     android:layout_width="wrap_content"
