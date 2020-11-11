@@ -1,19 +1,20 @@
 package com.android.stressy.etc
 
 
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity.NOTIFICATION_SERVICE
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.android.stressy.R
 import com.android.stressy.activity.UserMainActivity
+import java.util.*
 
 class StressCollectAlarmReceiver: BroadcastReceiver() {
     val stressCollectRequest = 111
@@ -21,19 +22,18 @@ class StressCollectAlarmReceiver: BroadcastReceiver() {
         Log.d("setalarm","received")
         val CHANNEL_ID = "$context.packageName-${R.string.app_name}"
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = R.string.channel_name
-            val mChannel = NotificationChannel(CHANNEL_ID, name.toString(), NotificationManager.IMPORTANCE_HIGH)
-            mChannel.description = R.string.channel_description.toString()
-            val notificationManager = context?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(mChannel)
-        }
+        val name = R.string.channel_name
+        val mChannel = NotificationChannel(CHANNEL_ID, name.toString(), NotificationManager.IMPORTANCE_HIGH)
+        mChannel.description = R.string.channel_description.toString()
+        val notificationManager = context?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(mChannel)
 
-        val intent = Intent(context, UserMainActivity::class.java)
-        intent.putExtra("notification_code",stressCollectRequest)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val clickIntent = Intent(context, UserMainActivity::class.java)
+        clickIntent.putExtra("notificationCode",stressCollectRequest)
+
+        clickIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         val pendingIntent = PendingIntent.getActivity(context, stressCollectRequest,
-            intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            clickIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(context!!, CHANNEL_ID).apply {
             setSmallIcon(R.drawable.full_swipe)
@@ -48,5 +48,33 @@ class StressCollectAlarmReceiver: BroadcastReceiver() {
             notify(stressCollectRequest, builder.build())
             Log.d("alal","notified")
         }
+
+        val cal = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        var addtime = 0
+        if (cal>21 || cal < 8) {
+            Log.d("alarmset","10")
+            addtime = 10
+        }else{
+            addtime = 2
+            Log.d("alarmset","2")
+
+        }
+        setAlarm(context,addtime)
+    }
+    fun setAlarm(context:Context, addtime: Int) {
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            add(Calendar.HOUR_OF_DAY, addtime)
+        }
+        val alarmIntent = Intent(context, StressCollectAlarmReceiver::class.java)
+
+        alarmIntent.putExtra("notificationCode",stressCollectRequest)
+
+        val pendingIntent = PendingIntent.getBroadcast(context, stressCollectRequest, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT )
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis, pendingIntent
+        )
     }
 }

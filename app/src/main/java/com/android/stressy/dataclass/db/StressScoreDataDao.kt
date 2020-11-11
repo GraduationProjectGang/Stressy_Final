@@ -12,6 +12,12 @@ interface StressScoreDataDao {
     @Insert
     fun insert(data: StressScoreData)
 
+    @Query(value = "SELECT COUNT(*) FROM stressScore")
+    fun getCount():Int
+
+    @Query(value = "SELECT * FROM stressScore WHERE timestamp >= :tsFrom AND timestamp < :tsTo")
+    fun getFromTo(tsFrom:Long, tsTo:Long): List<StressScoreData>
+
 
 
 

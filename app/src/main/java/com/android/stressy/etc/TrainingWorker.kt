@@ -9,7 +9,7 @@ import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
 import com.android.stressy.dataclass.db.CoroutineData
 import com.android.stressy.dataclass.db.CoroutineDatabase
-import com.android.stressy.dataclass.db.StressPredictedDatabase
+import com.android.stressy.dataclass.db.StressScoreDatabase
 import com.android.stressy.paillier.KeyPairBuilder
 import com.android.stressy.paillier.PublicKey
 import com.android.volley.Response
@@ -42,18 +42,35 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
 //        val last_trained_timestamp = prefs.getLong("last_trained_timestamp",0)
 //        val last_inferred_timestamp = prefs.getLong("last_inferred_timestamp",Calendar.getInstance().timeInMillis)
-        val last_trained_timestamp = 1604231101275.toLong()
+        val last_trained_timestamp = 0.toLong()
         val last_inferred_timestamp = 1604290504275.toLong()
 
-        val trainData = getDataFromTo(last_trained_timestamp,last_inferred_timestamp)
+        //stress설문 결과를 받아와서 코루틴이랑 매칭시킴
         val labelData = getLabelFromTo(last_trained_timestamp,last_inferred_timestamp)
+        val trainDataMap = mutableMapOf<Long,Array<Array<DoubleArray>>>()
+        val timestampArr = labelData.keys.toTypedArray()
+        Log.d("trtr.timestampArr",timestampArr.contentDeepToString())
+
+        //지난 설문 timestamp ~ 이번 설문 까지 label을 그 사이의 코루틴 라벨로 지정
+        for (idx in 1 until timestampArr.size){
+            trainDataMap[timestampArr[idx]] = getDataFromTo(timestampArr[idx-1],timestampArr[idx])
+        }
+
         val arrayDataSet = arrayListOf<DataSet>()
-        for (idx in trainData.indices){
-            val tempTrain = arrayOf(trainData[idx])
-            val tempLabel = arrayOf(labelData[idx])
-            Log.d("tempdataset",tempTrain.contentDeepToString()+"    "+tempLabel.contentDeepToString())
-            val dataSet = DataSet(Nd4j.createFromArray(tempTrain),Nd4j.createFromArray(tempLabel))
-            arrayDataSet.add(dataSet)
+//        for (idx in trainData.indices){
+//            val tempTrain = arrayOf(trainData[idx])
+//            val tempLabel = arrayOf(labelData[idx])
+//            Log.d("tempdataset",tempTrain.contentDeepToString()+"    "+tempLabel.contentDeepToString())
+//            val dataSet = DataSet(Nd4j.createFromArray(tempTrain),Nd4j.createFromArray(tempLabel))
+//            arrayDataSet.add(dataSet)
+//        }
+
+        for (idx in trainDataMap.keys){ //설문데이터 timestamp랑 코루틴이랑 비교,
+            for (eachCoroutine in trainDataMap.get(idx)!!.iterator()){
+                val trainNd = Nd4j.create(eachCoroutine)
+                val labelNd = Nd4j.create(labelData[idx])
+                arrayDataSet.add(DataSet(trainNd,labelNd))
+            }
         }
 
 //        Log.d("twtw.trainingdata",trainData.shapeInfoToString())
@@ -180,14 +197,12 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
                 for (index in eachCoroutine.indices){//5,6, index = 5번
                     val ed = eachCoroutine[index]
                     var cd = doubleArrayOf(ed.ifMoving,ed.orientation,ed.posture,ed.std_posture,ed.category,ed.totalTimeInForeground)
-                    Log.d("trtrnormnotyet",cd.contentToString())
 
                     //normalize [-1,1]
                     for(idx in cd.indices){
                         val rd = (cd[idx] - nMin[idx]) * 2 / (nMax[idx] - nMin[idx]) - 1
                         cd[idx] = rd
                     }
-                    Log.d("trtrnormedd",cd.contentToString())
 
                     coroutineData.add(cd)
                 }
@@ -211,21 +226,21 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
         return realData.toTypedArray()
     }
-    fun getLabelFromTo(last_trained_timestamp:Long,last_inferred_timestamp:Long):Array<DoubleArray>{
+    fun getLabelFromTo(last_trained_timestamp:Long,last_inferred_timestamp:Long):Map<Long,DoubleArray>{
         val dbObject = Room.databaseBuilder(
             applicationContext,
-            StressPredictedDatabase::class.java, "stressPredicted"
-        ).allowMainThreadQueries().fallbackToDestructiveMigration().build().stressPredictedDao()
+            StressScoreDatabase::class.java, "stressScore"
+        ).allowMainThreadQueries().fallbackToDestructiveMigration().build().stressScoreDataDao()
 
 //        val data = dbObject.getAll()
         val data = dbObject.getFromTo(last_trained_timestamp,last_inferred_timestamp)
-        val labelArr = arrayListOf<DoubleArray>()
+        val labelArr = mutableMapOf<Long,DoubleArray>()
         for (each in data){
             val zeroLabel = arrayOf(0.0,0.0,0.0,0.0)
-            zeroLabel[each.stressPredicted] = 1.0
-            labelArr.add(zeroLabel.toDoubleArray())
+            zeroLabel[each.stressScore] = 1.0
+            labelArr[each.timestamp] = zeroLabel.toDoubleArray()
         }
-        return labelArr.toTypedArray()
+        return labelArr
     }
 }
 

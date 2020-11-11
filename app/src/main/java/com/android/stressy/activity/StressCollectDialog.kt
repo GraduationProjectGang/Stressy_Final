@@ -1,8 +1,6 @@
 package com.android.stressy.activity
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,8 +18,6 @@ import java.text.SimpleDateFormat
 class StressCollectDialog : DialogFragment() {
     val dateFormat = SimpleDateFormat("yyyyMMdd.HH:mm:ss")
     private val stressCollectRequest = 111
-
-    private lateinit var prefs: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +39,10 @@ class StressCollectDialog : DialogFragment() {
         init()
     }
     fun init() {
-        prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity().baseContext)
-
-        val key = prefs.getString(getString(R.string.pref_previously_logined), "null")
         var stressScore = 9
+        val noti = requireArguments().getInt("notificationCode")
+        Log.d("setalarm.noti",noti.toString())
+        Toast.makeText(requireContext(),noti.toString(), Toast.LENGTH_SHORT).show()
 
         stressRadio1.setOnCheckedChangeListener { radioGroup, i ->
             //radiobutton 값 받아서 input에 저장
@@ -63,11 +59,8 @@ class StressCollectDialog : DialogFragment() {
             } else {
 
                 Log.d("surveyscore", stressScore.toString())
-                Toast.makeText(requireActivity(), "감사합니다", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireActivity(), "감사합니다", Toast.LENGTH_SHORT).show()
 
-                var stCount = prefs.getInt(getString(R.string.stress_collect_count), 0)
-                //TODO:설문 인덱스 -> db AI로 수정
-                Log.w("SCA_COUNT", stCount.toString())
 
                 val timestamp = System.currentTimeMillis()
 
@@ -75,14 +68,21 @@ class StressCollectDialog : DialogFragment() {
 //                edit.putInt(getString(R.string.stress_collect_count), stCount + 1)
 //                edit.commit()
 
+                val dbObject = Room.databaseBuilder(
+                    requireActivity().applicationContext,
+                    StressScoreDatabase::class.java, "stressScore"
+                ).allowMainThreadQueries().fallbackToDestructiveMigration().build().stressScoreDataDao()
 
-                save(StressScoreData(timestamp,stressScore))
-                val noti = requireArguments().getInt("notificationCode")
-                if (noti == stressCollectRequest)
+                dbObject.insert(StressScoreData(timestamp,stressScore))
+                val count = dbObject.getCount()
+                if (noti == stressCollectRequest){
                     dismiss()
-                else{
+                    requireActivity().finish()
+                    Toast.makeText(requireContext(),"noti1 ${noti} $count",Toast.LENGTH_SHORT).show()
+                }else{
                     dialog?.dismiss()
-
+//                    dismiss()
+                    Toast.makeText(requireContext(),"noti2 ${noti} $count",Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -91,9 +91,9 @@ class StressCollectDialog : DialogFragment() {
     fun save(data: StressScoreData){
         val dbObject = Room.databaseBuilder(
             requireActivity().applicationContext,
-            StressScoreDatabase::class.java, "stress"
-        ).fallbackToDestructiveMigration().build().stressScoreDataDao()
+            StressScoreDatabase::class.java, "stressScore"
+        ).allowMainThreadQueries().fallbackToDestructiveMigration().build().stressScoreDataDao()
+//        Toast.makeText(requireContext(),dbObject.getCount(),Toast.LENGTH_SHORT).show()
 
-        dbObject.insert(data)
     }
 }

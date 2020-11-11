@@ -27,8 +27,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
-import com.android.stressy.etc.SendWeightWorker
 import com.android.stressy.etc.StressCollectAlarmReceiver
+import com.android.stressy.etc.TrainingWorker
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -41,7 +41,6 @@ import kotlin.collections.ArrayList
 
 class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     val MULTIPLE_REQUEST = 1234
-    val stressCollectRequest = 111
     val mPref = "my_pref"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,8 +51,8 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             setDisplayShowCustomEnabled(true)
             setDisplayShowTitleEnabled(false)
             setDisplayHomeAsUpEnabled(true)
-
         }
+
         startTraining()
         getFcmToken()
         getRequestCode()
@@ -69,7 +68,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             .setRequiresCharging(false)
             .build()
         val collectRequest =
-            OneTimeWorkRequestBuilder<SendWeightWorker>()
+            OneTimeWorkRequestBuilder<TrainingWorker>()
                 .setConstraints(constraints)
                 .addTag("training")
                 .build()
@@ -78,17 +77,20 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         workManager?.let {
             it.enqueue(collectRequest)
         }
-
         Log.d("trtr", "request enqueued")
-
     }
+
     fun getRequestCode(){
         if (intent.extras != null){ //알림타고 들어온거면
-            val notificationCode = intent.extras!!.getString("notification_code")?.toIntOrNull()
-            startStressCollectDialog(notificationCode)
+            val notificationCode = intent.extras!!.getInt("notificationCode")
+            Log.d("setalarm.main",notificationCode.toString())
+            if (notificationCode == 111)
+                startStressCollectDialog(notificationCode)
         }
     }
+
     /////////TEMP//////////
+
     fun getFcmToken():String{
         var token = ""
         FirebaseInstanceId.getInstance().instanceId
@@ -164,10 +166,12 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         fragmentTransaction.add(R.id.mainStressGraph, graphFragment).commit()
     }
     private fun setAlarm() {
+        val stressCollectRequest = 111
+
         Log.d("setalarm","onusermain")
         val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()+10
-//            set(Calendar.HOUR_OF_DAY, 20)
+            timeInMillis = System.currentTimeMillis()+6000
+//            set(Calendar.HOUR_OF_DAY, 1)
 
         }
 
@@ -176,21 +180,19 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
 
         val alarmIntent = Intent(this, StressCollectAlarmReceiver::class.java)
         alarmIntent.putExtra("notificationCode",stressCollectRequest)
-
         val alarmUp = PendingIntent.getBroadcast(this, stressCollectRequest,alarmIntent,
             PendingIntent.FLAG_NO_CREATE) != null
 
         if (alarmUp)
             Log.d("setalarm","alarm is already active")
         else{
-            Log.d("setalarm","alarm setting")
-            val pendingIntent = PendingIntent.getBroadcast(this, stressCollectRequest, alarmIntent, PendingIntent.FLAG_NO_CREATE)
-            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManager.setAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                pendingIntent
-            )
+        Log.d("setalarm","alarm setting")
+        val pendingIntent = PendingIntent.getBroadcast(this, stressCollectRequest, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT )
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis, pendingIntent
+        )
         }
     }
 
