@@ -155,14 +155,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             edit.putBoolean(getString(R.string.pref_previously_started), true)
             edit.commit()
         }
-        val mystring = "프로젝트 가이드 다시보기"
-        val content = SpannableString(mystring)
-        content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
-        tutorialAgain.setText(content)
-        tutorialAgain.setOnClickListener {
-            val intent = Intent(this, Tutorial1Activity::class.java)
-            startActivity(intent)
-        }
+
     }
 
     fun makeGraphFragment(){
