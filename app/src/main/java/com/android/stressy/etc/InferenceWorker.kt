@@ -6,10 +6,7 @@ import androidx.room.Room
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.android.stressy.R
-import com.android.stressy.dataclass.db.CoroutineData
-import com.android.stressy.dataclass.db.CoroutineDatabase
-import com.android.stressy.dataclass.db.StressPredictedData
-import com.android.stressy.dataclass.db.StressPredictedDatabase
+import com.android.stressy.dataclass.db.*
 import com.opencsv.CSVParserBuilder
 import com.opencsv.CSVReaderBuilder
 import kotlinx.coroutines.coroutineScope
@@ -41,6 +38,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
 
         Log.d("trtr",model.summary())
 
+
         val highResultApp: MutableSet<Int> = mutableSetOf()
 
 //        val rd = (cd[idx] - nMin[idx]) * 2 / (nMax[idx] - nMin[idx]) - 1
@@ -59,14 +57,13 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
                     }
                 }
             }
-            
+
             //TODO : 코루틴 DB에 highResultApp 추가좀 ㅠㅠ 하고 UserMainActivity에 불러와서 텍뷰에띄우면될듯
 
             resultArray.add(resultLabel)
         }
         saveData()
-
-
+        saveHighResultApp(highResultApp)
 
 //        val training_data = getData()
 //        val label_data = getLabel()
@@ -94,16 +91,25 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         Result.success()
     }
 
+    fun saveHighResultApp(highApp: MutableSet<Int>){
+        val dbObject = Room.databaseBuilder(
+            context,
+            HighAppDatabase::class.java, "highApp"
+        ).fallbackToDestructiveMigration().build().highAppDataDao()
+
+        for (app in highApp){
+            dbObject.insert(app)
+        }
+    }
 
     fun getData(): ArrayList<INDArray> {
         val data_all = ArrayList<INDArray>()
-
         val csvReader = CSVReaderBuilder(InputStreamReader(context.resources.openRawResource(R.raw.trainingdata_all)))
             .withCSVParser(CSVParserBuilder().withSeparator(',').build())
             .build()
 
         val dataArr = arrayListOf<Array<DoubleArray>>()
-// Read the rest
+        // Read the rest
 
         val nMin = arrayOf(0.0,1.0,0.0,0.0,0.0,0.0)
         val nMax = arrayOf(1.00000000e+00, 2.00000000e+00, 3.00000000e+00, 3.10823229e+00,

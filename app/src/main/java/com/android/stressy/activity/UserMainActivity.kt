@@ -135,6 +135,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             })
         return token
     }
+
     fun init() {
         checkPermission()
         addWhiteList()
@@ -149,15 +150,13 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
 
         Log.w(
             "UMA_worker",
-            prefs.getBoolean(getString(R.string.pref_previously_started), false).toString()
-        )
+            prefs.getBoolean(getString(R.string.pref_previously_started), false).toString())
 
         if (!prefs.getBoolean(getString(R.string.pref_previously_started), false)) {
             var edit = prefs.edit() as SharedPreferences.Editor
             edit.putBoolean(getString(R.string.pref_previously_started), true)
             edit.commit()
         }
-
     }
 
     fun makeGraphFragment(){
@@ -165,14 +164,13 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         val graphFragment = MainStressGraphFragment()
         fragmentTransaction.add(R.id.mainStressGraph, graphFragment).commit()
     }
-    private fun setAlarm() {
+    private fun setAlarm(){
         val stressCollectRequest = 111
 
         Log.d("setalarm","onusermain")
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()+6000
 //            set(Calendar.HOUR_OF_DAY, 1)
-
         }
 
         Log.d("setalarm",calendar.toString())
@@ -186,13 +184,13 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         if (alarmUp)
             Log.d("setalarm","alarm is already active")
         else{
-        Log.d("setalarm","alarm setting")
-        val pendingIntent = PendingIntent.getBroadcast(this, stressCollectRequest, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT )
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis, pendingIntent
-        )
+            Log.d("setalarm","alarm setting")
+            val pendingIntent = PendingIntent.getBroadcast(this, stressCollectRequest, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT )
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis, pendingIntent
+            )
         }
     }
 
@@ -238,6 +236,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         }
         return granted
     }
+
     fun addWhiteList() {
         val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
         var isWhite = false
@@ -253,6 +252,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                 .show()
         }
     }
+
     private fun getStatsPermission() {
         // 권한이 없을 경우 권한 요구 페이지 이동
         val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
