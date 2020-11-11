@@ -41,14 +41,30 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
 
         Log.d("trtr",model.summary())
 
+        val highResultApp: MutableSet<Int> = mutableSetOf()
+
+//        val rd = (cd[idx] - nMin[idx]) * 2 / (nMax[idx] - nMin[idx]) - 1
+        //
+
         for (each in data){
             val input = each.reshape(1,6,5)
             val result = model.output(input)
             val resultLabel = Nd4j.argMax(result,1).getInt(0)
+
+            if (resultLabel >= 2) {
+                for (i in 0..5) {
+                    val appLabel = (each.getDouble(0, i, 4) + 1) * 7
+                    if (appLabel != 0.0) {
+                        highResultApp.add(appLabel.toInt())
+                    }
+                }
+            }
+            
+            //TODO : 코루틴 DB에 highResultApp 추가좀 ㅠㅠ 하고 UserMainActivity에 불러와서 텍뷰에띄우면될듯
+
             resultArray.add(resultLabel)
         }
         saveData()
-
 
 
 
@@ -172,6 +188,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         Log.d("csvread.label",labelArr.toString())
         return labelArr.toTypedArray()
     }
+
     fun putData(){
         val dbObject = Room.databaseBuilder(
             context,
@@ -216,14 +233,9 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
 
         val countResult = dbObject.countResult()
         if (countResult % 100 == 0){
-            informServer(countResult / 100)
+//            informServer(countResult / 100)
         }
     }
-
-    private fun informServer(i: Int) {
-        //TODO
-    }
-
 
     fun getDataFrom(last_inferred_timestamp:Long):Array<INDArray> {
         val dbObject = Room.databaseBuilder(
