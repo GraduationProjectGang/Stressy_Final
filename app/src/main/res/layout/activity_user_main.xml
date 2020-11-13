@@ -180,32 +180,33 @@
                 android:layout_gravity="bottom"
                 android:orientation="horizontal">
                 <Button
-                    android:text="datacollect"
+                    android:text="dc"
                     android:id="@+id/datacollectworker"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     />
                 <Button
-                    android:text="inference"
+                    android:text="if"
                     android:id="@+id/inferenceWorker"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     />
                 <Button
-                    android:text="training"
+                    android:text="tr"
                     android:id="@+id/trainingWorker"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     />
                 <Button
-                    android:text="sendweight"
+                    android:text="sw"
                     android:id="@+id/sendweight"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     />
                 <!--     temp for test worker       -->
 
                 <ImageView
+                    android:layout_marginLeft="100dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="right"

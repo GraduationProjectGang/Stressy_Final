@@ -41,7 +41,6 @@ import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
 
 class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     val MULTIPLE_REQUEST = 1234
@@ -286,7 +285,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         var three = 0.0
 
         //지난 자정부터 데이터 받아오기
-        val getData = dbObject.getFromTo(midNightCal.timeInMillis,System.currentTimeMillis())
+        val getData = dbObject.getFrom(midNightCal.timeInMillis)
         Log.d("mainfrag",getData.size.toString())
         if (getData.isNotEmpty()){
             for (data in getData){
@@ -298,8 +297,15 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             }
         }
         var dataArr = doubleArrayOf(zero, one, two, three)
-        val imageArr = dataArr.average()
-        setImageAndDescription(imageArr)
+        var avg = 0.0
+        var size = 0
+        if (getData.isNotEmpty())
+            size = getData.size
+        for (scoreCount in dataArr.indices){
+            avg += scoreCount*dataArr[scoreCount]
+        }
+        avg /= size
+        setImageAndDescription(avg)
         Log.d("mainfrag.dataarr",dataArr.contentToString())
 
         val entries = ArrayList<BarEntry>()
@@ -311,23 +317,23 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         return@runBlocking entries
     }
 
-    private fun setImageAndDescription(imageArr:Double) {
+    private fun setImageAndDescription(avg:Double) {
 
-        if (imageArr < 1.0){
+        if (avg < 1.0){
             stressImage.setImageResource(R.drawable.stressicon_1)
             stressDescription.text = "낮음"
         }
-        else if (imageArr < 2.0 && imageArr>= 1.0){
+        else if (avg < 2.0 && avg>= 1.0){
             stressImage.setImageResource(R.drawable.stressicon_2)
             stressDescription.text = "보통"
 
         }
-        else if (imageArr < 3.0 && imageArr>= 2.0){
+        else if (avg < 3.0 && avg>= 2.0){
             stressImage.setImageResource(R.drawable.stressicon_3)
             stressDescription.text = "높음"
 
         }
-        else if (imageArr < 4.0 && imageArr>= 3.0){
+        else if (avg < 4.0 && avg>= 3.0){
             stressImage.setImageResource(R.drawable.stressicon_4)
             stressDescription.text = "매우\n높음"
             stressDescription.textSize = 25f

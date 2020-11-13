@@ -39,7 +39,10 @@
         <activity android:name=".activity.Tutorial2Activity" />
 
         <activity android:name=".activity.SplashActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.UserMainActivity" >
             <intent-filter>

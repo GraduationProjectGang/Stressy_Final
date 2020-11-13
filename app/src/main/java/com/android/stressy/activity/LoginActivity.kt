@@ -55,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
         button_signup_onlogin.setOnClickListener {
             val intent = Intent(this,SignUpActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }

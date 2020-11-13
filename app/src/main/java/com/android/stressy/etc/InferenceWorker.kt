@@ -10,6 +10,7 @@ import com.android.stressy.dataclass.db.*
 import com.opencsv.CSVParserBuilder
 import com.opencsv.CSVReaderBuilder
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import org.deeplearning4j.util.ModelSerializer
 import org.nd4j.linalg.api.ndarray.INDArray
 import org.nd4j.linalg.factory.Nd4j
@@ -31,10 +32,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         val last_inferred_timestamp = prefs.getLong("last_inferred_timestamp",0)
         Log.d("trtr.last_inferred",last_inferred_timestamp.toString())
 
-        val data = getDataFrom(0)
-        Log.d("trtr",data[0].shapeInfoToString())
-
-
+        val data = getDataFrom(last_inferred_timestamp)
         Log.d("trtr",model.summary())
 
 
@@ -44,6 +42,8 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         //
 
         for (each in data){
+            Log.d("trtr",each.shapeInfoToString())
+
             val input = each.reshape(1,6,5)
             val result = model.output(input)
             val resultLabel = Nd4j.argMax(result,1).getInt(0)
@@ -214,25 +214,23 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
             }
         }
 
-        val arr = dbObject.getAll().forEach {Log.d("trtr.stresspredicted",it.toString()) }
-
         val countResult = dbObject.countResult()
         if (countResult % 100 == 0){
 //            informServer(countResult / 100)
         }
     }
 
-    fun getDataFrom(last_inferred_timestamp:Long):Array<INDArray> {
+    fun getDataFrom(last_inferred_timestamp:Long):Array<INDArray> = runBlocking{
         val dbObject = Room.databaseBuilder(
             applicationContext,
             CoroutineDatabase::class.java, "coroutine"
         ).allowMainThreadQueries().fallbackToDestructiveMigration().build().coroutineDataDao()
 
-        val data = dbObject.getFrom(last_inferred_timestamp)
-//        val data = dbObject.getAll()
+//        val data = dbObject.getFrom(last_inferred_timestamp)
+        val data = dbObject.getAll()
         if (data.isNotEmpty()){
             prefs.edit().putLong("last_inferred_timestamp",data.get(data.size-1).timestamp).apply() //마지막 데이터 timestamp 받아오기
-            Log.d("trtr.last_timestamp",data.get(data.size-1).timestamp.toString())
+            Log.d("trtr.last_inferred_timestamp",data.get(data.size-1).timestamp.toString())
 
         }
 
@@ -296,7 +294,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
 
         }
 
-        return realData.toTypedArray()
+        return@runBlocking realData.toTypedArray()
     }
 
     }

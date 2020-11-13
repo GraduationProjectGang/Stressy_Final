@@ -24,7 +24,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class StressGraphFragment : Fragment() {
+class WeeklyStressGraphFragment : Fragment() {
     var relativeDate = 0
     lateinit var chart : LineChart
     lateinit var timeStampArr: ArrayList<Long>
@@ -40,7 +40,7 @@ class StressGraphFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_stress_graph, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_weekly_stress_graph, container, false)
         chart = rootView!!.findViewById(R.id.stressGraph) as LineChart
         button_graph_left = rootView.findViewById(R.id.button_graph_left) as Button
         button_graph_right = rootView.findViewById(R.id.button_graph_right) as Button
@@ -204,7 +204,7 @@ class StressGraphFragment : Fragment() {
 
         val entries = ArrayList<Entry>()
         for (i in dataArr.indices){
-            entries.add(Entry(i.toFloat(), dataArr[i]))
+            entries.add(Entry(i.toFloat(), dataArr[i] + 1))
             Log.d("getdata2",entries[i].toString())
 
         }

@@ -57,13 +57,15 @@
             android:text="Stressy가 예측한 스트레스 지수입니다."
             android:textSize="15dp" />
         <View
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@color/colorPrimaryDark" />
+            android:background="#52454545" />
         <ScrollView
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbarThumbVertical="@drawable/scrollbar">
@@ -87,14 +89,7 @@
                     android:layout_marginTop="5dp"
                     android:text="시간 별 통계"
                     android:textSize="17dp" />
-                <TextView
-                    style="@style/questions"
-                    android:textColor="#D0454545"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="Hourly Statistics"
-                    android:textSize="14dp" />
+
             </LinearLayout>
                 <FrameLayout
                     android:id="@+id/hourlyGraph"
@@ -103,13 +98,15 @@
                     android:padding="5dp" />
                 <View
                     android:id="@+id/view"
+                    android:layout_marginTop="40dp"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@color/colorPrimaryDark" />
+                    android:background="#52454545" />
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -121,14 +118,15 @@
                     android:layout_marginTop="5dp"
                     android:text="주 별 통계"
                     android:textSize="17dp" />
-                <TextView
-                    style="@style/questions"
-                    android:textColor="#D0454545"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="Weekly Statistics"
-                    android:textSize="14dp" />
+
+<!--                <TextView-->
+<!--                    style="@style/questions"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="30dp"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:text="Weekly"-->
+<!--                    android:textColor="#D0454545"-->
+<!--                    android:textSize="14dp" />-->
             </LinearLayout>
                 <FrameLayout
                     android:id="@+id/weeklyGraph"
@@ -137,6 +135,7 @@
                     android:padding="5dp" />
 
                 <TextView
+                    android:layout_marginTop="50dp"
                     android:id="@+id/tutorialAgain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

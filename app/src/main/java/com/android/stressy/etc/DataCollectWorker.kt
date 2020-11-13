@@ -203,9 +203,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         dbObject.insert(data)
 
         val countCoroutine = dbObject.countCoroutine()
-        if (countCoroutine % 100 == 0){
-            informServer(countCoroutine / 100)
-        }
+        Log.d("cd:countcoroutine",countCoroutine.toString())
     }
 
     fun informServer(round: Int){
