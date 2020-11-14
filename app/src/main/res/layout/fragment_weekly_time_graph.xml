@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.WeeklyStressGraphFragment">
+    tools:context=".activity.WeeklyTimeGraphFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/stressGraph"
+            android:id="@+id/hourlyStressGraph"
             android:layout_width="match_parent"
             android:layout_height="280dp"/>
         <LinearLayout
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/button_graph_left"
+                android:id="@+id/button_weekly_time_left"
                 style="@style/graphButton"
                 android:text="이전"
                 android:layout_height="40dp"
@@ -29,7 +29,7 @@
                 android:background="@drawable/button_radius_gray_left"
                 />
             <Button
-                android:id="@+id/button_graph_right"
+                android:id="@+id/button_weekly_time_right"
                 style="@style/graphButton"
                 android:layout_height="40dp"
                 android:text="다음"

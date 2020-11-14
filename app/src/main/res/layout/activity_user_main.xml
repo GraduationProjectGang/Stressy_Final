@@ -10,10 +10,10 @@
     tools:context=".activity.UserMainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:orientation="vertical"
+        />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -55,25 +55,27 @@
                 app:layout_constraintStart_toEndOf="@+id/emergency"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <TextView
-            style="@style/TextStyleNormal"
-            android:id="@+id/text_user_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginRight="10dp"
-            android:lineSpacingExtra="8sp"
-            android:textColor="#B0000000"
-            android:gravity="right"
-            android:text="ksh04023@gmail.com님의 계정"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            style="@style/TextStyleNormal"-->
+<!--            android:id="@+id/text_user_email"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="3dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:lineSpacingExtra="8sp"-->
+<!--            android:textColor="#B0000000"-->
+<!--            android:gravity="right"-->
+<!--            android:text="ksh04023@gmail.com님의 계정"-->
+<!--            android:textSize="15dp"-->
+<!--            android:textStyle="bold" />-->
 
     </LinearLayout>
+
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <LinearLayout
@@ -121,36 +123,50 @@
 
         </LinearLayout>
 
-        <TextView
-            style="@style/questions"
-            android:text="스트레스가 높을 때 가장 많이 사용한 앱"
-            android:layout_marginVertical="4dp"
-            android:textSize="17dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            style="@style/questions"
-            android:gravity="center_horizontal"
-            android:textColor="@color/colorPrimary"
-            android:text="EXAMPLE"
-            android:layout_marginVertical="2dp"
-            android:textSize="17dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
+<!--        <TextView-->
+<!--            style="@style/questions"-->
+<!--            android:text="스트레스가 높을 때 가장 많이 사용한 앱"-->
+<!--            android:layout_marginVertical="4dp"-->
+<!--            android:textSize="17dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            style="@style/questions"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:textColor="@color/colorPrimary"-->
+<!--            android:text="EXAMPLE"-->
+<!--            android:layout_marginVertical="2dp"-->
+<!--            android:textSize="17dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            />-->
 
         <View
             android:id="@+id/view"
             android:layout_width="wrap_content"
-            android:layout_height="1.5dp"
+            android:layout_height="1dp"
             android:layout_gravity="center"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:background="@color/colorPrimaryDark" />
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="#52454545" />
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:scrollbarThumbVertical="@drawable/scrollbar">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <TextView
-            android:text="오늘 나의 스트레스 통계"
+            android:text="오늘 시간대 별 스트레스 통계"
             style="@style/questions"
             android:textSize="18dp"
             android:layout_marginTop="15dp"
@@ -160,11 +176,26 @@
         <FrameLayout
             android:padding="5dp"
             android:layout_marginVertical="10dp"
+            android:id="@+id/mainTimeGraph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <View
+            android:id="@+id/view3"
+            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="#52454545" />
+        <FrameLayout
             android:id="@+id/mainStressGraph"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
-            />
+            android:layout_height="wrap_content"
+            android:padding="5dp" />
+    </LinearLayout>
+    </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -175,8 +206,7 @@
 <!--     temp for test worker       -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:orientation="horizontal">
                 <Button
@@ -205,14 +235,14 @@
                     />
                 <!--     temp for test worker       -->
 
-                <ImageView
-                    android:layout_marginLeft="100dp"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="right"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/progress" />
+<!--                <ImageView-->
+<!--                    android:layout_marginLeft="100dp"-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:layout_gravity="right"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:src="@drawable/progress" />-->
             </LinearLayout>
             <!--     temp for test worker       -->
 
@@ -241,5 +271,6 @@
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
-    </LinearLayout>
+        </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -67,7 +67,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         addWhiteList()
         initButtonAndText()
         setAlarm()
-        makeGraphFragment()
+        getGraphData()
         val prefs = getSharedPreferences(mPref,Context.MODE_PRIVATE)
 //        usercode.text =
 //            "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
@@ -141,11 +141,6 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         return token
     }
 
-    fun makeGraphFragment(){
-        val data = makeDataToBarEntry()
-
-
-    }
     private fun setAlarm(){
         val stressCollectRequest = 111
 
@@ -258,7 +253,25 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         }
     }
 
-    private fun makeDataToBarEntry(): DoubleArray = runBlocking{
+//    fun runInference() = runBlocking{
+//        Log.d("trtr", "fcmMes: training worker Created")
+//        val constraints = Constraints.Builder()
+//            .setRequiresCharging(false)
+//            .build()
+//        val collectRequest =
+//            OneTimeWorkRequestBuilder<InferenceWorker>()
+//                .setConstraints(constraints)
+//                .addTag("training")
+//                .build()
+//
+//        val workManager = WorkManager.getInstance(applicationContext)
+//        workManager?.let {
+//            it.enqueue(collectRequest)
+//        }
+//    }
+    private fun getGraphData(): DoubleArray = runBlocking{
+//        runInference()
+
         val dbObject = Room.databaseBuilder(
             applicationContext,
             StressPredictedDatabase::class.java, "stressPredicted"
@@ -309,17 +322,19 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         Log.d("mainfrag.dataarr",dataArr.contentToString())
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        val graphFragment = MainTimeStressGraphFragment()
+        val graphFragment2 = MainStressGraphFragment()
         val bundle = Bundle()
         bundle.putDoubleArray("data",dataArr)
-        val graphFragment = MainStressGraphFragment()
-        graphFragment.arguments = bundle
-        fragmentTransaction.add(R.id.mainStressGraph, graphFragment).commit()
+        graphFragment2.arguments = bundle
+        fragmentTransaction.add(R.id.mainTimeGraph, graphFragment)
+        fragmentTransaction.add(R.id.mainStressGraph, graphFragment2).commit()
 
         return@runBlocking dataArr
     }
 
     private fun setImageAndDescription(avg:Double) {
-
         if (avg < 1.0){
             stressImage.setImageResource(R.drawable.stressicon_1)
             stressDescription.text = "낮음"

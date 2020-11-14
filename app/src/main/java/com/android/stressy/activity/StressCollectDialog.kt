@@ -28,10 +28,10 @@ class StressCollectDialog : DialogFragment() {
     }
 
     override fun onResume() {
-        super.onResume()
         val width = resources.getDimensionPixelSize(R.dimen.pop_up_width)
         val height = resources.getDimensionPixelSize(R.dimen.pop_up_height)
         dialog!!.window!!.setLayout(width, height)
+        super.onResume()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

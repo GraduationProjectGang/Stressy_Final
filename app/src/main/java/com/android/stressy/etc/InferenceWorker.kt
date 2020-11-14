@@ -10,7 +10,6 @@ import com.android.stressy.dataclass.db.*
 import com.opencsv.CSVParserBuilder
 import com.opencsv.CSVReaderBuilder
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 import org.deeplearning4j.util.ModelSerializer
 import org.nd4j.linalg.api.ndarray.INDArray
 import org.nd4j.linalg.factory.Nd4j
@@ -211,6 +210,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         for(idx in 0 until idxmin){
             if(dbObject.ifExist(dataTimestamp[idx]) == 0){
                 dbObject.insert(StressPredictedData(dataTimestamp[idx], resultArray[idx]))
+                Log.d("trtr.insert",dataTimestamp[idx].toString()+"     "+resultArray[idx].toString())
             }
         }
 
@@ -220,18 +220,18 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         }
     }
 
-    fun getDataFrom(last_inferred_timestamp:Long):Array<INDArray> = runBlocking{
+    fun getDataFrom(last_inferred_timestamp:Long):Array<INDArray> {
         val dbObject = Room.databaseBuilder(
             applicationContext,
             CoroutineDatabase::class.java, "coroutine"
         ).allowMainThreadQueries().fallbackToDestructiveMigration().build().coroutineDataDao()
 
-//        val data = dbObject.getFrom(last_inferred_timestamp)
-        val data = dbObject.getAll()
+        val data = dbObject.getFrom(last_inferred_timestamp)
+//        val data = dbObject.getAll()
         if (data.isNotEmpty()){
+            Log.d("trtr.datasize",data.size.toString())
             prefs.edit().putLong("last_inferred_timestamp",data.get(data.size-1).timestamp).apply() //마지막 데이터 timestamp 받아오기
             Log.d("trtr.last_inferred_timestamp",data.get(data.size-1).timestamp.toString())
-
         }
 
         Log.d("trtr.datacout",data.size.toString())
@@ -251,22 +251,28 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
                 timestampArr.add(thisCoroutine)
             }
         }
-        arr.removeAt(0)
+        arr.add(timestampArr)//마지막 array 저장
+        arr.removeAt(0) //위에서 첫번째꺼 빈거 저장해서 하나 지워준거임
         val realData = ArrayList<INDArray>()
         var id = 0
-
+        Log.d("trtrtimearr",timestampArr.toString())
         val nMin = arrayOf(0.0,1.0,0.0,0.0,0.0,0.0)
         val nMax = arrayOf(1.00000000e+00, 2.00000000e+00, 3.00000000e+00, 3.10823229e+00,
             1.40000000e+01, 4.26011840e+07)
 
+        Log.d("trtrarr",arr.toString())
 
         for (eachCoroutine in arr){
             val coroutineData = arrayListOf<DoubleArray>()//5,6
+            Log.d("trtrcdcd",coroutineData.toString())
+            Log.d("trtrcdcd",eachCoroutine.indices.toString())
             for (index in eachCoroutine.indices){//5,6, index = 5번
                 val ed = eachCoroutine[index]
                 var cd = doubleArrayOf(ed.ifMoving,ed.orientation,ed.posture,ed.std_posture,ed.category,ed.totalTimeInForeground)
                 Log.d("trtrnormnotyet",cd.contentToString())
 
+                Log.d("trtr.cd",cd.contentToString())
+                Log.d("trtr.cd",cd.size.toString())
                 //normalize [-1,1]
                 for(idx in cd.indices){
                     val rd = (cd[idx] - nMin[idx]) * 2 / (nMax[idx] - nMin[idx]) - 1
@@ -295,7 +301,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         }
 
 
-        return@runBlocking realData.toTypedArray()
+        return realData.toTypedArray()
     }
 
     }

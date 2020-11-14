@@ -247,12 +247,15 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 //        val data = dbObject.getAll()
         val data = dbObject.getFromTo(last_trained_timestamp,System.currentTimeMillis())
         val labelArr = mutableMapOf<Long,DoubleArray>()
-        for (each in data){
-            val zeroLabel = arrayOf(0.0,0.0,0.0,0.0)
-            zeroLabel[each.stressScore] = 1.0
-            labelArr[each.timestamp] = zeroLabel.toDoubleArray()
+        if(data.isNotEmpty()){
+            for (each in data){
+                val zeroLabel = arrayOf(0.0,0.0,0.0,0.0)
+                zeroLabel[each.stressScore] = 1.0
+                labelArr[each.timestamp] = zeroLabel.toDoubleArray()
+            }
+            new_last_trained_timestamp = data.get(data.size-1).timestamp
         }
-        new_last_trained_timestamp = data.get(data.size-1).timestamp
+
         return labelArr
     }
 }

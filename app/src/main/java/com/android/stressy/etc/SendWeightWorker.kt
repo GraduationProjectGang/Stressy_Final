@@ -53,29 +53,27 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
 
 
-        for (key in paramTable.keys){
-            val paramArr = paramTable.get(key)
+//        for (key in paramTable.keys){
+            val paramArr = paramTable.get("0_W")
             Log.d("everykey", paramArr!!.shapeInfoToString())
 
             val dataBuffer = paramArr.data()
-            val array12: DoubleArray = dataBuffer.asDouble()
-            Log.d("params.arraysize",array12.size.toString())
 
             val jsonString = Gson().toJson(dataBuffer.asDouble())
 
-            var keyString = ""
-            if (key == "0_W") keyString = "W_0"
-            else if (key == "0_RW") keyString = "RW_0"
-            else if (key == "0_b") keyString = "b_0"
-            else if (key == "2_W") keyString = "W_2"
-            else if (key == "2_b") keyString = "b_2"
-            jsonObject.put(keyString,jsonString)
+//            var keyString = ""
+//            if (key == "0_W") keyString = "W_0"
+//            else if (key == "0_RW") keyString = "RW_0"
+//            else if (key == "0_b") keyString = "b_0"
+//            else if (key == "2_W") keyString = "W_2"
+//            else if (key == "2_b") keyString = "b_2"
+            jsonObject.put("W_0",jsonString)
             Log.d("params.json", jsonObject.toString())
-            withVolley(keyString,jsonObject)
+            withVolley("W_0",jsonObject)
 
 
 
-        }
+//        }
 
 
     }
@@ -92,10 +90,10 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
         var keyUrl = ""
         if (keyString == "W_0") keyUrl = "w0"
-        else if (keyString == "RW_0") keyUrl = "rw0"
-        else if (keyString == "b_0") keyUrl = "b0"
-        else if (keyString == "W_2") keyUrl = "w2"
-        else if (keyString == "b_2") keyUrl = "b2"
+//        else if (keyString == "RW_0") keyUrl = "rw0"
+//        else if (keyString == "b_0") keyUrl = "b0"
+//        else if (keyString == "W_2") keyUrl = "w2"
+//        else if (keyString == "b_2") keyUrl = "b2"
 
             val url = BaseUrl.url_aggregate + "/send_" + keyUrl
             val queue = Volley.newRequestQueue(mContext)

@@ -112,7 +112,7 @@ class WeeklyStressGraphFragment : Fragment() {
 
             textColor = color1
             axisMinimum = 0.0f
-            axisMaximum = 5.0f
+            axisMaximum = 4.0f
 
             valueFormatter = IndexAxisValueFormatter(stressDescription)
 
@@ -161,12 +161,6 @@ class WeeklyStressGraphFragment : Fragment() {
 //            dbObject.insert(tempData)
 //            Log.d("insert data",tempData.toString())
 //        }
-
-
-
-
-
-
 
         timeStampArr = makeDateArray(relativeDate)
         var dataArr = arrayListOf<Float>() //날짜, 점수 맵

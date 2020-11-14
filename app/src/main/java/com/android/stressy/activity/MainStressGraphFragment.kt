@@ -29,7 +29,7 @@ class MainStressGraphFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main_stress_graph, container, false)
-        var stressChart = rootView!!.findViewById(R.id.mainBarChart) as HorizontalBarChart
+        var stressChart = rootView!!.findViewById<HorizontalBarChart>(R.id.mainBarChart)
         val data = requireArguments().getDoubleArray("data") as DoubleArray
         initChart(stressChart, data)
         return rootView

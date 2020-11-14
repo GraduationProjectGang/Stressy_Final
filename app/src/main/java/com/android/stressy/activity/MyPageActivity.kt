@@ -23,7 +23,7 @@ class MyPageActivity : AppCompatActivity() {
         val graphFragment = WeeklyStressGraphFragment()
         fragmentTransaction.add(R.id.weeklyGraph, graphFragment)
         val fragmentTransaction2 = supportFragmentManager.beginTransaction()
-        val graphFragment2 = HourlyStressGraphFragment()
+        val graphFragment2 = WeeklyTimeGraphFragment()
         fragmentTransaction.add(R.id.hourlyGraph, graphFragment2).commit()
     }
 
