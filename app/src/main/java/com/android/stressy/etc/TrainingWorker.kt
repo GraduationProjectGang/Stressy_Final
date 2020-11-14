@@ -41,6 +41,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         val inputStream = context.resources.openRawResource(R.raw.stressy_final_model_nokeras)
         val model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
         val jwt = prefs.getString("jwt",null).toString()
+        Log.d("trtr.jwt", jwt)
 
         val last_trained_timestamp = prefs.getLong("last_trained_timestamp",0)
         Log.d("trtr.last_trained",last_trained_timestamp.toString())
@@ -84,10 +85,10 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
             val data_iter = ExistingDataSetIterator(arrayDataSet)
 
-            val nEpochs = 100
+            val nEpochs = 10
             model.setListeners(ScoreIterationListener(10))//Print score every 10 iterations and evaluate on test set every epoch
 //        val weights = model
-            runModel(model,data_iter,nEpochs)
+            runModel(model, data_iter, nEpochs)
 
             val pk = generateKey() // PK를 JSON에 실어서 보내면 됨
             val n = pk.getN()
