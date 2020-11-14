@@ -142,6 +142,7 @@ class WeeklyTimeGraphFragment : Fragment() {
             axisRight.isEnabled = false
             legend.isEnabled = false
             description.text = ""
+            extraBottomOffset = 10f
             notifyDataSetChanged()
         }
 

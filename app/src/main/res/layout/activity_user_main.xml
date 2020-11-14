@@ -8,6 +8,9 @@
     android:orientation="vertical"
     android:id="@+id/userMainLayout"
     tools:context=".activity.UserMainActivity">
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -148,7 +151,6 @@
 
     </LinearLayout>
 
-
     <ScrollView
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
@@ -160,26 +162,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:text="오늘 시간대 별 스트레스 통계"
-            style="@style/questions"
-            android:textSize="18dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            style="@style/questions"
-            android:textStyle="normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="3dp"
-            android:textColor="#8E8E8E"
-            android:text="지난 24시간동안 예측된 스트레스 수준"
-            android:textSize="15dp" />
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/questions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="5dp"
+                    android:text="오늘 시간대 별 스트레스 통계"
+                    android:textSize="18dp" />
+
+                <TextView
+                    style="@style/questions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="3dp"
+                    android:text="지난 24시간동안 예측된 스트레스 수준"
+                    android:textColor="#8E8E8E"
+                    android:textSize="15dp"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:padding="5dp"
@@ -225,7 +241,7 @@
             android:layout_marginLeft="14dp"
             android:layout_marginTop="3dp"
             android:textColor="#8E8E8E"
-            android:text="스트레스가 높게 예측되었을 때 사용한 앱"
+            android:text="스트레스가 높게 예측되었을 때 사용한 앱 카테고리"
             android:textSize="15dp" />
 
         <FrameLayout
@@ -301,6 +317,7 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     />
+
                 <!--     temp for test worker       -->
 
 <!--                <ImageView-->
@@ -313,18 +330,35 @@
 <!--                android:src="@drawable/progress" />-->
             </LinearLayout>
             <!--     temp for test worker       -->
-
+        <FrameLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <TextView
                 style="@style/TextStyleNormal"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:lineSpacingExtra="8sp"
                 android:text="오늘 하루는 어땠나요?"
                 android:textColor="#B0000000"
                 android:textSize="18dp"
                 android:textStyle="bold" />
-
+            <ImageButton
+                android:id="@+id/button_refresh"
+                android:background="@drawable/refresh"
+                android:src="@drawable/refresh"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout3"
+                />
+        </FrameLayout>
             <Button
                 android:id="@+id/button_survey"
                 style="@style/TextStyleBold"
