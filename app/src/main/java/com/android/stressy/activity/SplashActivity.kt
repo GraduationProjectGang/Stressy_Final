@@ -41,8 +41,6 @@ class SplashActivity : AppCompatActivity() {
                 Log.d("autolog",user_email+"  "+user_pw)
                 LoginManager(applicationContext).login(user_email,user_pw)
 
-                val intent = Intent(this, UserMainActivity::class.java)
-                startActivity(intent)
             }else{
 
                 val intent = Intent(this, LoginActivity::class.java)
