@@ -109,7 +109,6 @@ class MainStressGraphFragment() : Fragment() {
             this.data = barData
             legend.isEnabled = false
             disableScroll()
-//            setExtraTopOffset((-2).toFloat())
             centerViewTo(chart.getXChartMax(),0f,YAxis.AxisDependency.RIGHT)
             setScaleEnabled(false)
 //            setViewPortOffsets(200f, 0f, 0f, 40f)

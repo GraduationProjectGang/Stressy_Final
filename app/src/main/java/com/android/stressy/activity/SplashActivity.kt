@@ -42,11 +42,9 @@ class SplashActivity : AppCompatActivity() {
                 LoginManager(applicationContext).login(user_email,user_pw)
 
             }else{
-
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
-
 
             // close this activity
             finish()

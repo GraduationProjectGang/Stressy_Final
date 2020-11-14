@@ -12,6 +12,8 @@ interface HighAppDataDao {
     @Insert
     fun insert(data: HighAppData)
 
+    @Query(value = "DELETE FROM highApp")
+    fun deteleAll()
 
     //([item['ifMoving'],item['orientation'],item['posture'],item['std_posture'],temp['category'],temp['totalTimeInForeground']])
 }

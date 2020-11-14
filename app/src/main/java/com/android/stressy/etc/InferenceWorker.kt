@@ -55,7 +55,6 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
 
                     if (appLabel != 0.0) {
                         highResultApp.add(appLabel.toInt())
-
                     }
                 }
             }

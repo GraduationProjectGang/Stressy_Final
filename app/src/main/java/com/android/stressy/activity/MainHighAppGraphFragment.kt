@@ -2,6 +2,7 @@ package com.android.stressy.activity
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 
 
 class MainHighAppGraphFragment() : Fragment() {
+    val desArr = arrayListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,11 +31,14 @@ class MainHighAppGraphFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_main_high_app_graph, container, false)
-        var stressChart = rootView!!.findViewById<BarChart>(R.id.mainHighAppGraph)
-        val data = getData()
-        initChart(stressChart, data)
-        return rootView
+        return inflater.inflate(R.layout.fragment_main_high_app_graph, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var stressChart = requireActivity().findViewById<BarChart>(R.id.mainHighBarChart)
+        val entries = getData()
+        initChart(stressChart, entries)
     }
 
     fun getData():ArrayList<BarEntry>{
@@ -42,18 +47,67 @@ class MainHighAppGraphFragment() : Fragment() {
             HighAppDatabase::class.java, "highApp"
         ).fallbackToDestructiveMigration().allowMainThreadQueries().build().highAppDataDao()
 
-        val data = dbObject.getAll()
-        var startSize = data.size
-        if (startSize > 100) startSize == 100
+//        dbObject.deteleAll()
+//        for (i in 0..10){
+//            dbObject.insert(HighAppData((1..14).random()))
+//        }
 
-        val entryArr = arrayListOf<BarEntry>()
-        val dataArr = arrayListOf<Float>()
+        val data = dbObject.getAll()
+        var startSize = 0
+        if (startSize > 100) startSize == data.size - 100
+
+        val dataArr = FloatArray(14){(0f)}
+
         for (idx in startSize until data.size){
-            //TODO
+            val cate = data[idx].cate
+            if (cate != 0)
+                dataArr[data[idx].cate-1] = dataArr[data[idx].cate-1] + 1
         }
 
-        return entryArr
+        var map = mutableMapOf<Int,Float>()
+        for (i in dataArr.indices){
+            map.put(i+1,dataArr[i])
+        }
 
+        map = map.toList().sortedWith(compareByDescending {it.second}).toMap().toMutableMap()
+
+        Log.d("dataArr",map.toString())
+
+        val mapKey = map.keys.toIntArray()
+        Log.d("dataArr.mapkey",mapKey.toString())
+
+        val entries = arrayListOf<BarEntry>()
+
+
+        for (idx in 0..3){
+            desArr.add(getCate(mapKey[idx]))
+            val entry = BarEntry(idx.toFloat(), map[mapKey[idx]]!!.toFloat())
+            Log.d("dataArr.en",entry.toString())
+            entries.add(entry)
+        }
+
+        return entries
+    }
+
+    fun getCate(idx: Int):String{
+        var cate = ""
+        when(idx){
+            1 -> cate = "카메라"
+            2 -> cate = "라이프스타일"
+            3 -> cate = "SNS"
+            4 -> cate = "엔터테인먼트"
+            5 -> cate = "커뮤니케이션"
+            6 -> cate = "게임"
+            7 -> cate = "설정"
+            8 -> cate = "교육"
+            9 -> cate = "쇼핑"
+            10 -> cate = "교통"
+            11 -> cate = "건강"
+            12 -> cate = "음식"
+            13 -> cate = "금융"
+            14 -> cate = "브라우징"
+        }
+        return cate
     }
 
     fun initChart(chart:BarChart, entries:ArrayList<BarEntry>){
@@ -88,6 +142,7 @@ class MainHighAppGraphFragment() : Fragment() {
         dataSet.apply {
             setColor(R.color.colorPrimaryDark)
             setDrawValues(false)
+
             valueTextSize = 10f
 //            barBorderWidth = 1f
 
@@ -102,6 +157,7 @@ class MainHighAppGraphFragment() : Fragment() {
         dataSet.colors = colorArr
 
         val barData = BarData(dataSets)
+        barData.barWidth = 0.7f
         //barchart design
 
         chart.axisLeft.apply {
@@ -121,7 +177,7 @@ class MainHighAppGraphFragment() : Fragment() {
 //            axisMinimum = -0.5f
             setPosition(XAxis.XAxisPosition.BOTTOM)
             setDrawGridLines(false)
-            var stressDescription = arrayListOf<String>("낮음","보통","높음","매우\n높음")
+            var stressDescription = desArr
             setValueFormatter(IndexAxisValueFormatter(stressDescription))
         }
         chart.apply {
@@ -130,7 +186,7 @@ class MainHighAppGraphFragment() : Fragment() {
             this.data = barData
             legend.isEnabled = false
             disableScroll()
-//            setExtraTopOffset((-2).toFloat())
+            extraBottomOffset = 10f
             centerViewTo(chart.getXChartMax(),0f,YAxis.AxisDependency.RIGHT)
             setScaleEnabled(false)
 //            setViewPortOffsets(200f, 0f, 0f, 40f)

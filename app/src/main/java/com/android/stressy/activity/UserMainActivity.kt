@@ -324,11 +324,13 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
 
         val graphFragment = MainTimeStressGraphFragment()
         val graphFragment2 = MainStressGraphFragment()
+        val graphFragment3 = MainHighAppGraphFragment()
         val bundle = Bundle()
         bundle.putDoubleArray("data",dataArr)
         graphFragment2.arguments = bundle
         fragmentTransaction.add(R.id.mainTimeGraph, graphFragment)
-        fragmentTransaction.add(R.id.mainStressGraph, graphFragment2).commit()
+        fragmentTransaction.add(R.id.mainStressGraph, graphFragment2)
+        fragmentTransaction.add(R.id.mainHighAppGraph, graphFragment3).commit()
 
         return@runBlocking dataArr
     }
