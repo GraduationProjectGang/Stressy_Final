@@ -38,19 +38,19 @@ class LoginActivity : AppCompatActivity() {
             val password = login_password.text.toString()
             val autoLogin = switch_autologin.isChecked
 
+            LoginManager(applicationContext).login(email,password)
 
 
             if(autoLogin){
-                prefsEditor.putBoolean(pref_auto_login,autoLogin)
+                prefsEditor.putString(pref_auto_login,autoLogin.toString())
                 Log.d("loglog","switch On")
 
                 prefsEditor.putString(pref_auto_email,email)
                 prefsEditor.putString(pref_auto_password,password)
             }else{
-                prefsEditor.putBoolean(pref_auto_login,autoLogin)
+                prefsEditor.putString(pref_auto_login,autoLogin.toString())
             }
             prefsEditor.apply()
-            LoginManager(applicationContext).login(email,password)
         }
 
         val mystring = "회원가입"

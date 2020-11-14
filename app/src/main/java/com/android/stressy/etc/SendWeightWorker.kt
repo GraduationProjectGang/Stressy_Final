@@ -53,19 +53,29 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
 
 
-        val paramArr = paramTable.get("0_W")
+        for (key in paramTable.keys){
+            val paramArr = paramTable.get(key)
+            Log.d("everykey", paramArr!!.shapeInfoToString())
 
-        Log.d("everykey", paramArr!!.shapeInfoToString())
+            val dataBuffer = paramArr.data()
+            val array12: DoubleArray = dataBuffer.asDouble()
+            Log.d("params.arraysize",array12.size.toString())
 
-        val dataBuffer = paramArr.data()
-        val array12: DoubleArray = dataBuffer.asDouble()
-        Log.d("params.arraysize",array12.size.toString())
+            val jsonString = Gson().toJson(dataBuffer.asDouble())
 
-        val jsonString = Gson().toJson(dataBuffer.asDouble())
-        jsonObject.put("W_0",jsonString)
+            var keyString = ""
+            if (key == "0_W") keyString = "W_0"
+            else if (key == "0_RW") keyString = "RW_0"
+            else if (key == "0_b") keyString = "b_0"
+            else if (key == "2_W") keyString = "W_2"
+            else if (key == "2_b") keyString = "b_2"
+            jsonObject.put(keyString,jsonString)
+            Log.d("params.json", jsonObject.toString())
+            withVolley(keyString,jsonObject)
 
-        Log.d("params.json", jsonObject.toString())
-        withVolley("0_W",jsonObject)
+
+
+        }
 
 
     }
@@ -74,11 +84,20 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     //    dropout (DropoutLayer)     -,-        0             -
     //    dense (DenseLayer)         128,4      516           W:{128,4}, b:{1,4}
 
-    fun withVolley(key:String,jsonObject:JSONObject){
-        var keyVal = ""
-        if (key == "0_W") keyVal = "w0"
+    fun withVolley(keyString:String,jsonObject:JSONObject){
+        val prefs = mContext.getSharedPreferences("my_pref",Context.MODE_PRIVATE)
+        val fcm_token = prefs.getString("pref_fcm_token",null).toString()
+        val jwt_token = prefs.getString("jwt",null).toString()
+        jsonObject.put("fcm_token",fcm_token)
 
-            val url = BaseUrl.url_aggregate + "/send_" + keyVal
+        var keyUrl = ""
+        if (keyString == "W_0") keyUrl = "w0"
+        else if (keyString == "RW_0") keyUrl = "rw0"
+        else if (keyString == "b_0") keyUrl = "b0"
+        else if (keyString == "W_2") keyUrl = "w2"
+        else if (keyString == "b_2") keyUrl = "b2"
+
+            val url = BaseUrl.url_aggregate + "/send_" + keyUrl
             val queue = Volley.newRequestQueue(mContext)
 //        jsonObject.put("weight_key",key)
 
@@ -90,7 +109,13 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
                 Response.ErrorListener { error ->
                     Log.d("sw", error.toString())
                 }
-            ){}
+            ){
+                override fun getHeaders(): MutableMap<String, String> {
+                    val params: MutableMap<String, String> = HashMap()
+                    params["Authorization"] = "Bearer $jwt_token"
+                    return params
+                }
+            }
             queue.add(jsonRequest)
 
     }
@@ -138,9 +163,6 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 //        }
 //    }
 
-    fun usingVolley(){
-
-    }
     fun doInBackground(input:File){
         val fileInputStream = FileInputStream(input)
         val byteArr = ByteArray(input.length().toInt())

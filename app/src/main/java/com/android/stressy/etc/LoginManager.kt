@@ -12,13 +12,14 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.util.*
 
 class LoginManager(val mContext:Context) {
     val mPref = "my_pref"
 
-    fun login(userEmail:String, userPassword:String){
+    fun login(userEmail:String, userPassword:String) = runBlocking{
         Log.d("logman",userEmail+" "+userPassword)
         val url = BaseUrl.url + "/user/account/auth"
         val prefs = mContext.getSharedPreferences(mPref,Context.MODE_PRIVATE)

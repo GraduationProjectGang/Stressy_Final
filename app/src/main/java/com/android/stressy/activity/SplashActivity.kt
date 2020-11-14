@@ -28,23 +28,27 @@ class SplashActivity : AppCompatActivity() {
             val user_email = prefs.getString(pref_auto_email,"null").toString()
             val user_pw = prefs.getString(pref_auto_password,"null").toString()
 //            prefs.edit().remove(pref_auto_login).apply()
-            val if_auto_login = prefs.getBoolean(pref_auto_login,false)
+            val if_auto_login = prefs.getString(pref_auto_login,false.toString())
             //자동 로그인 정보 확인
-            if (if_auto_login){
+            Log.d("splash login",user_email +"  "+ user_pw)
+
+            if (if_auto_login!!.toBoolean()){
 //                val jwtToken = jsonObject.getString("jwtToken")
 //                editor.putString("user_jwt",jwtToken).apply()
 //                Log.d("jwtjwt",jwtToken)
                 //TODO
                 Toast.makeText(this,"자동 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
                 Log.d("autolog",user_email+"  "+user_pw)
-                LoginManager(applicationContext).login(user_email,user_pw)
 
                 val intent = Intent(this, UserMainActivity::class.java)
                 startActivity(intent)
             }else{
+                LoginManager(applicationContext).login(user_email,user_pw)
+
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
+
 
             // close this activity
             finish()

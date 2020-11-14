@@ -35,17 +35,13 @@ class LogoutDialog : DialogFragment() {
         val pref_auto_email = "mEmail"
         val pref_auto_password = "mPassword"
 
-        button_logout_no.setOnClickListener {
-            dismiss()
-        }
-
         button_logout_yes.setOnClickListener {
             Toast.makeText(requireContext(),"로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             val editor = requireContext().getSharedPreferences("my_pref", Context.MODE_PRIVATE).edit()
             editor.remove(pref_auto_email)
             editor.remove(pref_auto_password)
             editor.remove("jwt")
-            editor.putBoolean("autoLoginFlag",false)
+            editor.putString("autoLoginFlag",false.toString())
             editor.apply()
             val intent = Intent(requireContext(), LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

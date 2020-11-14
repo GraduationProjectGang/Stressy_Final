@@ -1,57 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="350dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:foregroundGravity="center"
     android:background="@android:color/transparent"
+    android:foregroundGravity="center"
+    android:layout_marginVertical="50dp"
+    android:orientation="vertical"
     tools:context=".activity.LogoutDialog">
 
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_gravity="left"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/questions"
-            android:textSize="19dp"
-            android:layout_marginVertical="30dp"
-            android:text="@string/ask_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_gravity="bottom"
+    <TextView
+        style="@style/questions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_marginTop="20dp"
-            android:id="@+id/button_logout_no"
-            android:background="@android:color/darker_gray"
-            style="@style/yesnoButton"
-            android:text="취소"
-            android:textColor="#FFFFFF"
-            android:textSize="17dp"
-            android:textStyle="bold" />
-        <Button
-            android:layout_marginTop="20dp"
-            android:id="@+id/button_logout_yes"
-            style="@style/yesnoButton"
-            android:text="확인"
-            android:textColor="#FFFFFF"
-            android:textSize="17dp"
-            android:textStyle="bold" />
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/ask_logout"
+        android:textSize="19dp" />
 
-    </LinearLayout>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/button_logout_yes"
+        style="@style/nextButton"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="100dp"
+        android:text="확인"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+</FrameLayout>

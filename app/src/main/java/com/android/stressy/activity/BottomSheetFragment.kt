@@ -61,6 +61,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             dialog.show(requireActivity().supportFragmentManager,"logout")
         }
     }
+
     companion object {
         const val TAG = "ModalBottomSheet"
     }
