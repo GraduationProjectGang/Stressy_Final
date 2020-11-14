@@ -14,6 +14,7 @@
     <string name="pref_fcm_token">null</string>
     <string name="pref_sk_lambda">null</string>
     <string name="pref_sk_mu">null</string>
+    <string name="pref_user_email">null</string>
 
     <string name="stress_collect_count">0</string>
     <!-- TODO: Remove or change this placeholder text -->

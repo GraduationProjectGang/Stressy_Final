@@ -67,7 +67,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 //            val dataSet = DataSet(Nd4j.createFromArray(tempTrain),Nd4j.createFromArray(tempLabel))
 //            arrayDataSet.add(dataSet)
 //        }
- 
+
         for (idx in trainDataMap.keys){ //설문데이터 timestamp랑 코루틴이랑 비교,
             for (eachCoroutine in trainDataMap.get(idx)!!.iterator()){
                 val trainNd = Nd4j.create(arrayOf(eachCoroutine))
@@ -112,17 +112,19 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         //add to db
         val url = BaseUrl.url + "/model/client/acknowledge"
         val queue = Volley.newRequestQueue(context)
+
         val stringRequest = object : StringRequest(
             Method.POST,url,
             Response.Listener<String> { response ->
                 val jsonObject = JSONObject(response)
-                val tokenId = jsonObject.getString("id")
+//                val tokenId = jsonObject.getString("id")
                 Log.d("twVolley:response",response.toString())
             },
             Response.ErrorListener { error ->  Log.d("twVolley:error", error.toString()) }
         ){
             override fun getParams(): MutableMap<String, String>? {
                 val params = hashMapOf<String,String>()
+                params["user_email"] = prefs.getString("pref_user_email", null).toString()
                 params["count"] = count.toString()
                 params["pk_n"] = n.toString()
                 params["pk_g"] = g.toString()
@@ -168,7 +170,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         val lambda = privateKey.getLambda()
         val mu = privateKey.getPreCalculatedDenominator()
 
-        val prefs = applicationContext.getSharedPreferences("pref", Context.MODE_PRIVATE)
+        val prefs = applicationContext.getSharedPreferences("my_pref", Context.MODE_PRIVATE)
         prefs.edit().putString("prefs_sk_lambda", lambda.toString()).apply()
         prefs.edit().putString("prefs_sk_mu", mu.toString()).apply()
 

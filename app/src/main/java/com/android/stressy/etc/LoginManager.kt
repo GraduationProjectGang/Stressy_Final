@@ -22,7 +22,7 @@ class LoginManager(val mContext:Context) {
     fun login(userEmail:String, userPassword:String) = runBlocking{
         Log.d("logman",userEmail+" "+userPassword)
         val url = BaseUrl.url + "/user/account/auth"
-        val prefs = mContext.getSharedPreferences(mPref,Context.MODE_PRIVATE)
+        val prefs = mContext.getSharedPreferences(mPref, Context.MODE_PRIVATE)
 //        val url = "http://192.168.104.40:8002/v1/user/account/auth"
 //        val hashedPassword = Hashing.calculateHash(userPassword)
         val queue = Volley.newRequestQueue(mContext)
@@ -38,13 +38,14 @@ class LoginManager(val mContext:Context) {
 
                     val jwt = res.getString("jwt")
                     Log.d("jwt",jwt)
-                    prefs.edit().putString("pref_user_email",userEmail)
+                    prefs.edit().putString("pref_user_email", userEmail)
                     prefs.edit().putString("jwt",jwt).apply()
+
                     val expireMin = res.getString("expiresIn").toInt()
                     setJwtAlarmAt(expireMin)
 
                     val intent = Intent(mContext, UserMainActivity::class.java)
-                    intent.putExtra("user_email",userEmail)
+                    intent.putExtra("user_email", userEmail)
                     intent.putExtra("user_pw",userPassword)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     mContext.startActivity(intent)
