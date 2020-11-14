@@ -88,7 +88,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
                     android:text="시간 별 통계"
-                    android:textSize="17dp" />
+                    android:textSize="18dp" />
 
             </LinearLayout>
                 <FrameLayout
@@ -117,7 +117,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
                     android:text="주 별 통계"
-                    android:textSize="17dp" />
+                    android:textSize="18dp" />
 
 <!--                <TextView-->
 <!--                    style="@style/questions"-->

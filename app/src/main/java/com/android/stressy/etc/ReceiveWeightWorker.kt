@@ -1,6 +1,7 @@
 package com.android.stressy.etc
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.coroutineScope
@@ -13,6 +14,9 @@ class ReceiveWeightWorker(appContext: Context, workerParams: WorkerParameters)
     val prefs = context.getSharedPreferences(mPref,Context.MODE_PRIVATE)
 
         override suspend fun doWork(): Result = coroutineScope {
+            Log.d("rwrw","received")
+
+
 
             Result.success()
         }

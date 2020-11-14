@@ -47,21 +47,21 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
             val result = model.output(input)
             val resultLabel = Nd4j.argMax(result,1).getInt(0)
 
-//            if (resultLabel >= 2) {
-//                for (i in 0..5) {
-//                    val appLabel = (each.getDouble(0, i, 4) + 1) * 7
-//                    if (appLabel != 0.0) {
-//                        highResultApp.add(appLabel.toInt())
-//                    }
-//                }
-//            }
+            if (resultLabel >= 2) {
+                for (i in 0..5) {
+                    val appLabel = (each.getDouble(0, i, 4) + 1) * 7
+                    if (appLabel != 0.0) {
+                        highResultApp.add(appLabel.toInt())
+                    }
+                }
+            }
 
             //TODO : 코루틴 DB에 highResultApp 추가좀 ㅠㅠ 하고 UserMainActivity에 불러와서 텍뷰에띄우면될듯
 
             resultArray.add(resultLabel)
         }
         saveData()
-//        saveHighResultApp(highResultApp)
+        saveHighResultApp(highResultApp)
 
         Result.success()
     }
@@ -74,6 +74,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
 
         for (app in highApp){
             dbObject.insert(HighAppData(0,app))
+            Log.d("tr.highapp",app.toString())
         }
     }
 

@@ -19,9 +19,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.room.Room
-import androidx.work.CoroutineWorker
-import androidx.work.ForegroundInfo
-import androidx.work.WorkerParameters
+import androidx.work.*
 import com.android.stressy.R
 import com.android.stressy.dataclass.CategoryForJson
 import com.android.stressy.dataclass.LocationData
@@ -121,6 +119,20 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
         }
         Result.success()
 
+    }
+
+    fun runInference(){
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(false)
+            .build()
+        val collectRequest =
+            OneTimeWorkRequestBuilder<InferenceWorker>()
+                .setConstraints(constraints)
+                .addTag("inferring")
+                .build()
+        val workManager = WorkManager.getInstance(applicationContext)
+        workManager.enqueue(collectRequest)
+        Log.d("trtr", "InferenceWorker enqueued")
     }
 
     fun saveData(mTimestamp:Long, rVector:MutableList<String>, usageStats:MutableList<UsageAppData>, loc:MutableList<Location>){

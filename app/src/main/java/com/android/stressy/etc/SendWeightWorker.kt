@@ -92,11 +92,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
                     Log.d("sw", error.toString())
                 }
             ){
-                override fun getHeaders(): MutableMap<String, String> {
-                    val params: MutableMap<String, String> = HashMap()
-                    params["Authorization"] = "Bearer $jwt_token"
-                    return params
-                }
+
             }
             queue.add(jsonRequest)
 

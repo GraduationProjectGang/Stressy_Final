@@ -28,7 +28,6 @@ import org.nd4j.linalg.factory.Nd4j
 import java.math.BigInteger
 import kotlin.properties.Delegates
 
-
 class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
     : CoroutineWorker(appContext, workerParams) {
     val context = appContext
@@ -41,6 +40,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
     override suspend fun doWork(): Result = coroutineScope {
         val inputStream = context.resources.openRawResource(R.raw.stressy_final_model_nokeras)
         val model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
+        val jwt = prefs.getString("jwt",null).toString()
 
         val last_trained_timestamp = prefs.getLong("last_trained_timestamp",0)
         Log.d("trtr.last_trained",last_trained_timestamp.toString())
@@ -75,8 +75,9 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
             }
         }
 
-
+        var count = 0
         if (arrayDataSet.isNotEmpty()){
+            count = arrayDataSet.size
             Log.d("twtw.trainingdata", arrayDataSet.size.toString())
             Log.d("twtw.trainingdata",arrayDataSet[0].toString())
 
@@ -93,7 +94,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
             val g = pk.getG()
             val nSquared = pk.getnSquared()
 
-            sendData(n, g, nSquared)
+            sendData(jwt,count, n, g, nSquared)
 //        prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
             prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
             Log.d("trainingWorker", "working")
@@ -106,7 +107,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         Result.success()
     }
 
-    fun sendData(n:BigInteger, g:BigInteger, nSquared:BigInteger){
+    fun sendData(jwt_token:String, count:Int, n:BigInteger, g:BigInteger, nSquared:BigInteger){
         //add to db
         val url = BaseUrl.url + "/model/client/acknowledge"
         val queue = Volley.newRequestQueue(context)
@@ -121,9 +122,16 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         ){
             override fun getParams(): MutableMap<String, String>? {
                 val params = hashMapOf<String,String>()
+                params["count"] = count.toString()
                 params["pk_n"] = n.toString()
                 params["pk_g"] = g.toString()
                 params["pk_nSquared"] = nSquared.toString()
+                return params
+            }
+
+            override fun getHeaders(): MutableMap<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                params["Authorization"] = "Bearer $jwt_token"
                 return params
             }
         }
@@ -196,6 +204,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
                     timestampArr.add(thisCoroutine)
                 }
             }
+            arr.add(timestampArr)//마지막 array 저장
             arr.removeAt(0)
             var id = 0
 
