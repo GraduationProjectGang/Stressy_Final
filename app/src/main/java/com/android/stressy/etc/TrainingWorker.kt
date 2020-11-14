@@ -93,7 +93,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
             val g = pk.getG()
             val nSquared = pk.getnSquared()
 
-            sendData(n,g,nSquared)
+            sendData(n, g, nSquared)
 //        prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
             prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
             Log.d("trainingWorker", "working")

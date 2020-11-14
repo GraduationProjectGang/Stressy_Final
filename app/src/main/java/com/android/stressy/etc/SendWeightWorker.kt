@@ -45,36 +45,19 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     fun getFile(){
 
         Log.d("params",paramTable.keys.toString())
-//        val arr = paramTable.get("0_RW")
-//
-//        val dataBuffer = arr?.data()
-//        val array: DoubleArray = dataBuffer!!.asDouble()
-//        Log.d("params.arraysize",array.size.toString())
 
+        val jsonObject = JSONObject()
 
+        val paramArr = paramTable.get("0_W")
+        Log.d("everykey", paramArr!!.shapeInfoToString())
 
+        val dataBuffer = paramArr.data()
 
-//        for (key in paramTable.keys){
-            val paramArr = paramTable.get("0_W")
-            Log.d("everykey", paramArr!!.shapeInfoToString())
+        val jsonString = Gson().toJson(dataBuffer.asDouble())
 
-            val dataBuffer = paramArr.data()
-
-            val jsonString = Gson().toJson(stressyD_B.asDouble())
-
-//            var keyString = ""
-//            if (key == "0_W") keyString = "W_0"
-//            else if (key == "0_RW") keyString = "RW_0"
-//            else if (key == "0_b") keyString = "b_0"
-//            else if (key == "2_W") keyString = "W_2"
-//            else if (key == "2_b") keyString = "b_2"
-            jsonObject.put("W_0",jsonString)
-            Log.d("params.json", jsonObject.toString())
-            withVolley("W_0",jsonObject)
-
-
-
-//        }
+        jsonObject.put("W_0",jsonString)
+        Log.d("params.json", jsonObject.toString())
+        withVolley("W_0",jsonObject)
 
 
     }
