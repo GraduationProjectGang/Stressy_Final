@@ -38,6 +38,7 @@ class LoginManager(val mContext:Context) {
 
                     val jwt = res.getString("jwt")
                     Log.d("jwt",jwt)
+                    prefs.edit().putString("pref_user_email",userEmail)
                     prefs.edit().putString("jwt",jwt).apply()
                     val expireMin = res.getString("expiresIn").toInt()
                     setJwtAlarmAt(expireMin)
