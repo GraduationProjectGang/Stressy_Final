@@ -186,9 +186,9 @@ class MainTimeStressGraphFragment() : Fragment() {
 
             removeAllLimitLines()
             ll = LimitLine(avg, "평균")
-            ll.lineColor = Color.DKGRAY
+            ll.lineColor = resources.getColor(R.color.colorAccent)
             ll.lineWidth = 2f
-            ll.textColor = Color.RED
+            ll.textColor = resources.getColor(R.color.colorAccent)
             ll.textSize = 12f
             ll.enableDashedLine(0.5f,2f,1f)
 
@@ -217,7 +217,7 @@ class MainTimeStressGraphFragment() : Fragment() {
         val entries = ArrayList<Entry>()
 
         for (i in data.indices){
-            entries.add(Entry(i.toFloat(), data[i].toFloat()))
+            entries.add(Entry(i.toFloat(), data[i].toFloat()+1))
             Log.d("mainfrag",i.toFloat().toString()+"    " +data[i].toFloat().toString())
 
         }

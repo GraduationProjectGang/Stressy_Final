@@ -244,10 +244,9 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
             }
         }
-
-
         return realData.toTypedArray()
     }
+
     fun getLabelFrom(last_trained_timestamp:Long):Map<Long,DoubleArray>{
         val dbObject = Room.databaseBuilder(
             applicationContext,

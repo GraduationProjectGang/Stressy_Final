@@ -86,6 +86,12 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
             val jsonRequest = object : JsonObjectRequest(
                 Request.Method.POST,url,jsonObject,
                 Response.Listener<JSONObject> { res ->
+                    val jsonObject = res
+                    val partyId = jsonObject.getString("party_id")
+                    val maskTable = jsonObject.getString("maskTable")
+                    val index = jsonObject.getString("index")
+
+
                     Log.d("sw:res", res.toString())
                 },
                 Response.ErrorListener { error ->
