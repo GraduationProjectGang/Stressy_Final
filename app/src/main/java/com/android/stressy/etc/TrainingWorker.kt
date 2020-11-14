@@ -67,7 +67,7 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 //            val dataSet = DataSet(Nd4j.createFromArray(tempTrain),Nd4j.createFromArray(tempLabel))
 //            arrayDataSet.add(dataSet)
 //        }
-
+ 
         for (idx in trainDataMap.keys){ //설문데이터 timestamp랑 코루틴이랑 비교,
             for (eachCoroutine in trainDataMap.get(idx)!!.iterator()){
                 val trainNd = Nd4j.create(arrayOf(eachCoroutine))

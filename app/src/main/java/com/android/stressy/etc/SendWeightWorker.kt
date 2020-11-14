@@ -90,7 +90,12 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
                     val partyId = jsonObject.getString("party_id")
                     val maskTable = jsonObject.getString("maskTable")
                     val index = jsonObject.getString("index")
+                    val ratio = jsonObject.getString("ratio")
 
+                    Log.d("encryption_json", partyId)
+                    Log.d("encryption_json", maskTable)
+                    Log.d("encryption_json", index)
+                    Log.d("encryption_json", ratio)
 
                     Log.d("sw:res", res.toString())
                 },
