@@ -35,6 +35,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         Log.d("swsw", model.summary())
 
         val fileArray = getWeight(model)
+        paramTable = model.paramTable()
         getFile()
 
 
@@ -42,7 +43,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     }
 
     fun getFile(){
-        val jsonObject = JSONObject()
+
         Log.d("params",paramTable.keys.toString())
 //        val arr = paramTable.get("0_RW")
 //
@@ -59,7 +60,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
             val dataBuffer = paramArr.data()
 
-            val jsonString = Gson().toJson(dataBuffer.asDouble())
+            val jsonString = Gson().toJson(stressyD_B.asDouble())
 
 //            var keyString = ""
 //            if (key == "0_W") keyString = "W_0"
@@ -130,7 +131,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
             val key = it.next()
             Log.d("model_key", key);//print keys
 
-            val values = paramTable.get(key)!!
+            val values = paramTable[key]
             val file = File(mContext.filesDir.path +"weight_"+fileIndex.toString()+".csv")
             fileArr.add(file)
             FileOutputStream(file).use { fos ->
@@ -139,7 +140,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
                     StandardCharsets.UTF_8
                 ).use { osw ->
                     CSVWriter(osw).use { writer ->
-                        for (i in 0 until values.rows()) {
+                        for (i in 0 until values!!.rows()) {
                             val temp = values.getRow(i.toLong()).toDoubleVector().contentToString()
                             writer.writeNext(arrayOf(temp))
 
