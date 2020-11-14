@@ -39,11 +39,11 @@ class SplashActivity : AppCompatActivity() {
                 //TODO
                 Toast.makeText(this,"자동 로그인 되었습니다.",Toast.LENGTH_SHORT).show()
                 Log.d("autolog",user_email+"  "+user_pw)
+                LoginManager(applicationContext).login(user_email,user_pw)
 
                 val intent = Intent(this, UserMainActivity::class.java)
                 startActivity(intent)
             }else{
-                LoginManager(applicationContext).login(user_email,user_pw)
 
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)

@@ -37,6 +37,7 @@ class LoginManager(val mContext:Context) {
                     Toast.makeText(mContext,"환영합니다.", Toast.LENGTH_SHORT).show()
 
                     val jwt = res.getString("jwt")
+                    Log.d("jwt",jwt)
                     prefs.edit().putString("jwt",jwt).apply()
                     val expireMin = res.getString("expiresIn").toInt()
                     setJwtAlarmAt(expireMin)
