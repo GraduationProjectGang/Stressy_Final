@@ -15,5 +15,5 @@
     -->
     <dimen name="inner_frame_layout_padding">5dp</dimen>
     <dimen name="pop_up_width">400dp</dimen>
-    <dimen name="pop_up_height">400dp</dimen>
+    <dimen name="pop_up_height">500dp</dimen>
 </resources>

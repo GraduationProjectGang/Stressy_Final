@@ -35,7 +35,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         Log.d("trtr",model.summary())
 
 
-        val highResultApp: MutableSet<Int> = mutableSetOf()
+        val highResultApp = mutableListOf<Int>()
 
 //        val rd = (cd[idx] - nMin[idx]) * 2 / (nMax[idx] - nMin[idx]) - 1
         //
@@ -46,18 +46,19 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
             val input = each.reshape(1,6,5)
             val result = model.output(input)
             val resultLabel = Nd4j.argMax(result,1).getInt(0)
+//            val resultLabel = 3
 
             if (resultLabel >= 2) {
                 for (i in 0..5) {
-                    val appLabel = (each.getDouble(0, i, 4) + 1) * 7
+                    val appLabel = (each.getDouble(4, i) + 1) * 7
+                    Log.d("tr.high",appLabel.toString())
+
                     if (appLabel != 0.0) {
                         highResultApp.add(appLabel.toInt())
+
                     }
                 }
             }
-
-            //TODO : 코루틴 DB에 highResultApp 추가좀 ㅠㅠ 하고 UserMainActivity에 불러와서 텍뷰에띄우면될듯
-
             resultArray.add(resultLabel)
         }
         saveData()
@@ -66,7 +67,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         Result.success()
     }
 
-    fun saveHighResultApp(highApp: MutableSet<Int>){
+    fun saveHighResultApp(highApp: MutableList<Int>){
         val dbObject = Room.databaseBuilder(
             context,
             HighAppDatabase::class.java, "highApp"

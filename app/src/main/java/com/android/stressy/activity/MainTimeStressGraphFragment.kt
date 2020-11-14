@@ -217,7 +217,7 @@ class MainTimeStressGraphFragment() : Fragment() {
         val entries = ArrayList<Entry>()
 
         for (i in data.indices){
-            entries.add(Entry(i.toFloat(), data[i].toFloat()))
+            entries.add(Entry(i.toFloat(), data[i].toFloat()+1))
             Log.d("mainfrag",i.toFloat().toString()+"    " +data[i].toFloat().toString())
 
         }

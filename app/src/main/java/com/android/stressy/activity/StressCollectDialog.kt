@@ -78,22 +78,11 @@ class StressCollectDialog : DialogFragment() {
                 if (noti == stressCollectRequest){
                     dismiss()
                     requireActivity().finish()
-                    Toast.makeText(requireContext(),"noti1 ${noti} $count",Toast.LENGTH_SHORT).show()
                 }else{
                     dialog?.dismiss()
-//                    dismiss()
-                    Toast.makeText(requireContext(),"noti2 ${noti} $count",Toast.LENGTH_SHORT).show()
                 }
             }
 
         }
-    }
-    fun save(data: StressScoreData){
-        val dbObject = Room.databaseBuilder(
-            requireActivity().applicationContext,
-            StressScoreDatabase::class.java, "stressScore"
-        ).allowMainThreadQueries().fallbackToDestructiveMigration().build().stressScoreDataDao()
-//        Toast.makeText(requireContext(),dbObject.getCount(),Toast.LENGTH_SHORT).show()
-
     }
 }

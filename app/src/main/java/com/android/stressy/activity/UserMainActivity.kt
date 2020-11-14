@@ -88,7 +88,6 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
     fun getRequestCode(){
         if (intent.extras != null){ //알림타고 들어온거면
             val notificationCode = intent.extras!!.getInt("notificationCode")
-            Log.d("setalarm.main",notificationCode.toString())
             if (notificationCode == 111)
                 startStressCollectDialog(notificationCode)
         }
