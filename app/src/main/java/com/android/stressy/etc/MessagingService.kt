@@ -36,6 +36,8 @@ class MessagingService() : FirebaseMessagingService() {
                 createDataCollectWorker()
             }else if (message == "startTraining") {
                 startTraining()
+            }else if(message == "weightRequest"){
+                sendWeight()
             }
 
         }
@@ -51,6 +53,26 @@ class MessagingService() : FirebaseMessagingService() {
         sendNotification()
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
+    }
+
+    private fun sendWeight() {
+        Log.d(TAG, "fcmMes: training worker Created")
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(false)
+            .build()
+        val collectRequest =
+            OneTimeWorkRequestBuilder<SendWeightWorker>()
+                .setConstraints(constraints)
+                .addTag("training")
+                .build()
+
+        val workManager = WorkManager.getInstance(this)
+        workManager?.let {
+            it.enqueue(collectRequest)
+        }
+
+        Log.d(TAG, "sendWeight worker enqueued")
+
     }
 
     override fun onNewToken(token: String) {//if new token created

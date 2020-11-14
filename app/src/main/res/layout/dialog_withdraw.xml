@@ -19,6 +19,7 @@
 
         <TextView
             style="@style/questions"
+            android:textSize="19dp"
             android:layout_marginTop="10dp"
             android:text="@string/check_withdraw"
             android:layout_width="match_parent"
@@ -27,15 +28,17 @@
             />
         <TextView
             style="@style/questions"
-            android:textSize="18dp"
+            android:textSize="17dp"
             android:layout_marginTop="10dp"
             android:text="@string/check_original_pw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             />
+
         <TextView
             style="@style/questions"
+            android:textSize="18dp"
             android:layout_marginTop="10dp"
             android:text="비밀번호"
             android:layout_width="match_parent"
@@ -81,6 +84,6 @@
         android:layout_gravity="bottom"
         android:text="탈퇴하기"
         android:textColor="#FFFFFF"
-        android:textSize="18dp"
+        android:textSize="17dp"
         android:textStyle="bold" />
 </FrameLayout>

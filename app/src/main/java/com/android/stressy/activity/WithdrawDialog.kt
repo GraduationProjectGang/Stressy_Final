@@ -1,7 +1,6 @@
 package com.android.stressy.activity
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +17,9 @@ import kotlinx.android.synthetic.main.dialog_withdraw.*
 
 
 class WithdrawDialog : DialogFragment() {
+    lateinit var user_email:String
+    lateinit var user_pw : String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,21 +39,37 @@ class WithdrawDialog : DialogFragment() {
     }
 
     fun init() {
+        user_email = requireArguments().getString("user_email",null)
+        user_pw = requireArguments().getString("user_pw",null)
+        val bundle = Bundle()
+
         button_withdraw_dialog.setOnClickListener {
-            val user_id = "ksh04023@gmail.com"
-            withdrawOnServer(user_id)
-            Toast.makeText(requireActivity(),"탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
-            requireActivity().finish()
+            val pwInput = editText_check_pw.text.toString()
+            if (user_pw == pwInput){
+                withdrawOnDevice()
+                withdrawOnServer(user_email)
+                Toast.makeText(requireActivity(),"탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
+                requireActivity().finish()
+            }
+
+
         }
     }
 
+    fun withdrawOnDevice(){
+        val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val edit = prefs.edit()
+        edit.remove("mEmail")
+        edit.remove("mPassword")
+        edit.remove("autoLoginFlag").apply()
+    }
 
     fun withdrawOnServer(input:String) :Boolean{ //input: user id, fcm_token
         //get fcm_token from pref and remove
         val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        val edit = prefs.edit() as SharedPreferences.Editor
+        val edit = prefs.edit()
         val fcmToken = prefs.getString("prefs_fcm_token","null").toString()
-        edit.remove("pref_fcm_token").commit()
+        edit.remove("pref_fcm_token").apply()
 
         val url = "http://114.70.23.77:8002/v1/user/account/withdraw"
         val queue = Volley.newRequestQueue(requireActivity().applicationContext)
@@ -64,7 +82,7 @@ class WithdrawDialog : DialogFragment() {
         ){
             override fun getParams(): MutableMap<String, String>? {
                 val params = hashMapOf<String,String>()
-                params.put("user_id",input)
+                params.put("user_email",input)
                 params.put("fcm_token",fcmToken)
                 return params
             }

@@ -20,7 +20,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
-
+    dataBinding {
+        enabled true
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -62,6 +64,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation "android.arch.lifecycle:extensions"
+    annotationProcessor "android.arch.lifecycle:compiler"
 
     testImplementation 'junit:junit:4.13'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'

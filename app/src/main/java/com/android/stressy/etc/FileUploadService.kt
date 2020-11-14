@@ -13,14 +13,14 @@ import retrofit2.http.POST
 interface FileUploadService {
 
     @Headers("content-type: application/json")
-    @POST("/model/send/weight")
+    @POST("/weight")
 
     fun sendFile(@Body binary:RequestBody):Call<MyResponse>
 
     companion object{
         fun create(): FileUploadService{
             val retrofit = Retrofit.Builder()
-                .baseUrl(BaseUrl.url)
+                .baseUrl(BaseUrl.url_aggregate)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             return retrofit.create(FileUploadService::class.java)

@@ -41,7 +41,9 @@ class LoginManager(val mContext:Context) {
                     setJwtAlarmAt(expireMin)
 
                     val intent = Intent(mContext, UserMainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    intent.putExtra("user_email",userEmail)
+                    intent.putExtra("user_pw",userPassword)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     mContext.startActivity(intent)
 
                 }

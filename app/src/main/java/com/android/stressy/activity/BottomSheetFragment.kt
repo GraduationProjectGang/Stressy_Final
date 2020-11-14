@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
  * create an instance of this fragment.
  */
 class BottomSheetFragment : BottomSheetDialogFragment() {
+    lateinit var user_email:String
+    lateinit var user_pw : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,16 +39,25 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         (requireDialog() as BottomSheetDialog).dismissWithAnimation = true
     }
     fun init(){
+        user_email = requireArguments().getString("user_email",null)
+        user_pw = requireArguments().getString("user_pw",null)
+        val bundle = Bundle()
+        bundle.putString("user_email",user_email)
+        bundle.putString("user_pw",user_pw)
+
         button_change_password.setOnClickListener {
             val  dialog = CheckPwDialog()
+            dialog.arguments = bundle
             dialog.show(requireActivity().supportFragmentManager, "dialog")
         }
         button_withdraw.setOnClickListener {
             val dialog = WithdrawDialog()
+            dialog.arguments = bundle
             dialog.show(requireActivity().supportFragmentManager,"withdraw")
         }
         button_logout.setOnClickListener {
             val dialog = LogoutDialog()
+            dialog.arguments = bundle
             dialog.show(requireActivity().supportFragmentManager,"logout")
         }
     }

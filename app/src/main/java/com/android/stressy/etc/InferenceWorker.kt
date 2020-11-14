@@ -294,6 +294,7 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
 
         }
 
+
         return@runBlocking realData.toTypedArray()
     }
 

@@ -6,50 +6,109 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import au.com.bytecode.opencsv.CSVWriter
 import com.android.stressy.R
+import com.android.stressy.dataclass.BaseUrl
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.google.gson.Gson
 import kotlinx.coroutines.coroutineScope
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.util.ModelSerializer
 import org.json.JSONObject
+import org.nd4j.linalg.api.ndarray.INDArray
 import java.io.*
 import java.nio.charset.StandardCharsets
 
 
 class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     : CoroutineWorker(appContext, workerParams) {
-    val context = appContext
-    val dataTimestamp = mutableListOf<Long>()
-    val resultArray = mutableListOf<Int>()
-    val mPref = "my_pref"
-    val prefs = context.getSharedPreferences(mPref, Context.MODE_PRIVATE)
+    val mContext = appContext
+    lateinit var paramTable : Map<String,INDArray>
 
     override suspend fun doWork(): Result = coroutineScope {
-        val inputStream = context.resources.openRawResource(R.raw.stressy_final_model_nokeras)
+        val inputStream = mContext.resources.openRawResource(R.raw.stressy_final_model_nokeras)
         val model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
 
         Log.d("swsw", model.summary())
 
         val fileArray = getWeight(model)
-        sendTable(fileArray)
+        getFile()
 
 
         Result.success()
     }
 
+    fun getFile(){
+        val jsonObject = JSONObject()
+        Log.d("params",paramTable.keys.toString())
+//        val arr = paramTable.get("0_RW")
+//
+//        val dataBuffer = arr?.data()
+//        val array: DoubleArray = dataBuffer!!.asDouble()
+//        Log.d("params.arraysize",array.size.toString())
+
+
+
+
+        val paramArr = paramTable.get("0_W")
+
+        Log.d("everykey", paramArr!!.shapeInfoToString())
+
+        val dataBuffer = paramArr.data()
+        val array12: DoubleArray = dataBuffer.asDouble()
+        Log.d("params.arraysize",array12.size.toString())
+
+        val jsonString = Gson().toJson(dataBuffer.asDouble())
+        jsonObject.put("W_0",jsonString)
+
+        Log.d("params.json", jsonObject.toString())
+        withVolley("0_W",jsonObject)
+
+
+    }
+
+    // 6,128      69120         W:{6,512}, RW:{128,512}, b:{1,512}
+    //    dropout (DropoutLayer)     -,-        0             -
+    //    dense (DenseLayer)         128,4      516           W:{128,4}, b:{1,4}
+
+    fun withVolley(key:String,jsonObject:JSONObject){
+        var keyVal = ""
+        if (key == "0_W") keyVal = "w0"
+
+            val url = BaseUrl.url_aggregate + "/send_" + keyVal
+            val queue = Volley.newRequestQueue(mContext)
+//        jsonObject.put("weight_key",key)
+
+            val jsonRequest = object : JsonObjectRequest(
+                Request.Method.POST,url,jsonObject,
+                Response.Listener<JSONObject> { res ->
+                    Log.d("sw:res", res.toString())
+                },
+                Response.ErrorListener { error ->
+                    Log.d("sw", error.toString())
+                }
+            ){}
+            queue.add(jsonRequest)
+
+    }
+
+
+
     fun getWeight(model:MultiLayerNetwork): Array<File>{
-        val paramTable = model.paramTable()
+        paramTable = model.paramTable()
         val fileArr = arrayListOf<File>()
         val keys = paramTable.keys
         val it = keys.iterator()
-        val jsonParam = JSONObject()
         var fileIndex= 0
         while (it.hasNext()) {
             val key = it.next()
             Log.d("model_key", key);//print keys
 
             val values = paramTable.get(key)!!
-            val file = File(context.filesDir.path +"weight_"+fileIndex.toString()+".csv")
+            val file = File(mContext.filesDir.path +"weight_"+fileIndex.toString()+".csv")
             fileArr.add(file)
             FileOutputStream(file).use { fos ->
                 OutputStreamWriter(
@@ -69,15 +128,19 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
             fileIndex++
         }
+//        sendTable(fileArr.toTypedArray())
         return fileArr.toTypedArray()
     }
 
-    fun sendTable(fileArr:Array<File>) {
-        for (file in fileArr){
-            doInBackground(file)
-        }
-    }
+//    fun sendTable(fileArr:Array<File>) {
+//        for (file in fileArr){
+//            doInBackground(file)
+//        }
+//    }
 
+    fun usingVolley(){
+
+    }
     fun doInBackground(input:File){
         val fileInputStream = FileInputStream(input)
         val byteArr = ByteArray(input.length().toInt())

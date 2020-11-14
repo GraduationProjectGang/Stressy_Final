@@ -9,7 +9,8 @@ import com.android.stressy.R
 import kotlinx.android.synthetic.main.activity_my_page.*
 
 class MyPageActivity : AppCompatActivity() {
-//    lateinit var mDialogResult: DiaRe
+    lateinit var user_email:String
+    lateinit var user_pw:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
@@ -27,9 +28,16 @@ class MyPageActivity : AppCompatActivity() {
     }
 
     fun init(){
+        user_email = intent.getStringExtra("user_email").toString()
+        user_pw = intent.getStringExtra("user_pw").toString()
+
 
         account_settings.setOnClickListener {
             val modalBottomSheet = BottomSheetFragment()
+            val bundle = Bundle()
+            bundle.putString("user_email",user_email)
+            bundle.putString("user_pw",user_pw)
+            modalBottomSheet.arguments = bundle
             modalBottomSheet.show(supportFragmentManager, BottomSheetFragment.TAG)
         }
         val mystring = "프로젝트 가이드 다시보기"

@@ -2,6 +2,7 @@ package com.android.stressy.activity
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 
 
-class MainStressGraphFragment(data:ArrayList<BarEntry>) : Fragment() {
-    val data = data
+class MainStressGraphFragment() : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,11 +30,12 @@ class MainStressGraphFragment(data:ArrayList<BarEntry>) : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main_stress_graph, container, false)
         var stressChart = rootView!!.findViewById(R.id.mainBarChart) as HorizontalBarChart
+        val data = requireArguments().getDoubleArray("data") as DoubleArray
         initChart(stressChart, data)
         return rootView
     }
 
-    fun initChart(chart:HorizontalBarChart, entries:ArrayList<BarEntry>){
+    fun initChart(chart:HorizontalBarChart, data:DoubleArray){
 //        val roundedBarChartRenderer = RoundedBarChartRenderer(
 //            chart,
 //            chart.getAnimator(),
@@ -53,6 +54,14 @@ class MainStressGraphFragment(data:ArrayList<BarEntry>) : Fragment() {
 //            )
 //            Log.d("chacha",entries[i].toString())
 //        }
+
+        val entries = ArrayList<BarEntry>()
+        for (i in data.indices){
+            entries.add(BarEntry(i.toFloat(), data[i].toFloat()))
+            Log.d("mainfrag",i.toFloat().toString()+"    " +data[i].toFloat().toString())
+
+        }
+
         val dataSet = BarDataSet(entries,"dtd")
 
         dataSet.apply {

@@ -33,7 +33,6 @@ import com.android.stressy.etc.*
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.github.mikephil.charting.data.BarEntry
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_user_main.*
@@ -45,7 +44,8 @@ import kotlin.collections.ArrayList
 class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     val MULTIPLE_REQUEST = 1234
     val mPref = "my_pref"
-
+    lateinit var user_email:String
+    lateinit var user_pw:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_main)
@@ -61,6 +61,8 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
     }
 
     fun init() = runBlocking {
+        user_email = intent.getStringExtra("user_email").toString()
+        user_pw = intent.getStringExtra("user_pw").toString()
         checkPermission()
         addWhiteList()
         initButtonAndText()
@@ -140,10 +142,8 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
     }
 
     fun makeGraphFragment(){
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
         val data = makeDataToBarEntry()
-        val graphFragment = MainStressGraphFragment(data)
-        fragmentTransaction.add(R.id.mainStressGraph, graphFragment).commit()
+
 
     }
     private fun setAlarm(){
@@ -258,7 +258,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         }
     }
 
-    private fun makeDataToBarEntry(): ArrayList<BarEntry> = runBlocking{
+    private fun makeDataToBarEntry(): DoubleArray = runBlocking{
         val dbObject = Room.databaseBuilder(
             applicationContext,
             StressPredictedDatabase::class.java, "stressPredicted"
@@ -308,13 +308,14 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         setImageAndDescription(avg)
         Log.d("mainfrag.dataarr",dataArr.contentToString())
 
-        val entries = ArrayList<BarEntry>()
-        for (i in dataArr.indices){
-            entries.add(BarEntry(i.toFloat(), dataArr[i].toFloat()))
-            Log.d("mainfrag",i.toFloat().toString()+"    " +dataArr[i].toFloat().toString())
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val bundle = Bundle()
+        bundle.putDoubleArray("data",dataArr)
+        val graphFragment = MainStressGraphFragment()
+        graphFragment.arguments = bundle
+        fragmentTransaction.add(R.id.mainStressGraph, graphFragment).commit()
 
-        }
-        return@runBlocking entries
+        return@runBlocking dataArr
     }
 
     private fun setImageAndDescription(avg:Double) {
@@ -347,6 +348,8 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         return when(item.itemId){
             R.id.mypage ->{
                 val intent = Intent(this, MyPageActivity::class.java)
+                intent.putExtra("user_email",user_email)
+                intent.putExtra("user_pw",user_pw)
                 startActivity(intent)
                 true
             }

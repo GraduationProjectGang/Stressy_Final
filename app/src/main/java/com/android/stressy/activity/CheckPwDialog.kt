@@ -18,6 +18,9 @@ import kotlinx.android.synthetic.main.dialog_check_pw.*
 
 
 class CheckPwDialog : DialogFragment() {
+    lateinit var user_email:String
+    lateinit var user_pw : String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,6 +51,9 @@ class CheckPwDialog : DialogFragment() {
     }
 
     fun init() {
+        user_email = requireArguments().getString("user_email",null)
+        user_pw = requireArguments().getString("user_pw",null)
+        val bundle = Bundle()
         button_check_pw.setOnClickListener {
             Log.d("cheche","button Clicked")
             val inputPassword = editText_check_pw.text.toString()
