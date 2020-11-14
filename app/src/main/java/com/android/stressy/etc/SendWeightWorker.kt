@@ -132,7 +132,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
             val key = it.next()
             Log.d("model_key", key);//print keys
 
-            val values = paramTable.get(key)!!
+            val values = paramTable[key]
             val file = File(mContext.filesDir.path +"weight_"+fileIndex.toString()+".csv")
             fileArr.add(file)
             FileOutputStream(file).use { fos ->
@@ -141,7 +141,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
                     StandardCharsets.UTF_8
                 ).use { osw ->
                     CSVWriter(osw).use { writer ->
-                        for (i in 0 until values.rows()) {
+                        for (i in 0 until values!!.rows()) {
                             val temp = values.getRow(i.toLong()).toDoubleVector().contentToString()
                             writer.writeNext(arrayOf(temp))
 
