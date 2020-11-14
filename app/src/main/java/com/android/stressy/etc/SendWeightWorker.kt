@@ -35,6 +35,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         Log.d("swsw", model.summary())
 
         val fileArray = getWeight(model)
+        paramTable = model.paramTable()
         getFile()
 
 
@@ -42,7 +43,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     }
 
     fun getFile(){
-        val jsonObject = JSONObject()
+
         Log.d("params",paramTable.keys.toString())
 //        val arr = paramTable.get("0_RW")
 //
@@ -54,22 +55,27 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
 
         for (key in paramTable.keys){
-            val paramArr = paramTable.get(key)
-            Log.d("everykey", paramArr!!.shapeInfoToString())
+            val paramArr = paramTable[key]
+            Log.d("everykey", key + " " + paramArr!!.shapeInfoToString())
 
-            val dataBuffer = paramArr.data()
-            val array12: DoubleArray = dataBuffer.asDouble()
+            val jsonObject = JSONObject()
+
+            val stressyD_B = paramArr.data()
+            Log.d("everykey_1", stressyD_B.elementSize.toString());
+            val array12: DoubleArray = stressyD_B.asDouble()
             Log.d("params.arraysize",array12.size.toString())
 
-            val jsonString = Gson().toJson(dataBuffer.asDouble())
+            val jsonString = Gson().toJson(stressyD_B.asDouble())
 
             var keyString = ""
-            if (key == "0_W") keyString = "W_0"
+            if (key == "0_W") {
+                keyString = "W_0"
+            }
             else if (key == "0_RW") keyString = "RW_0"
             else if (key == "0_b") keyString = "b_0"
             else if (key == "2_W") keyString = "W_2"
             else if (key == "2_b") keyString = "b_2"
-            jsonObject.put(keyString,jsonString)
+            jsonObject.put(keyString, jsonString)
             Log.d("params.json", jsonObject.toString())
             withVolley(keyString,jsonObject)
 
