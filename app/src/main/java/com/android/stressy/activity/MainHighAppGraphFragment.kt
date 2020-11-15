@@ -153,7 +153,7 @@ class MainHighAppGraphFragment() : Fragment() {
         val color2 = Color.parseColor("#6C88C6")
         val color3 = Color.parseColor("#3B60B3")
         val color4 = Color.parseColor("#0A38A0")
-        val colorArr = mutableListOf<Int>(color1,color2,color3,color4)
+        val colorArr = mutableListOf(color4,color3,color2,color1)
         dataSet.colors = colorArr
 
         val barData = BarData(dataSets)
@@ -161,15 +161,15 @@ class MainHighAppGraphFragment() : Fragment() {
         //barchart design
 
         chart.axisLeft.apply {
-            setDrawGridLines(false)
-            isEnabled = false
+            textSize = 12f
+            granularity = 5f
+            axisMinimum = 0.0f
+            setDrawGridLines(true)
         }
         chart.axisRight.apply {
-            textSize = 12f
-            axisMinimum = 0.0f
             setDrawGridLines(false)
-//            granularity = 1f
-//            isGranularityEnabled = false
+            isEnabled = false
+
         }
         chart.xAxis.apply {
             granularity = 1f
