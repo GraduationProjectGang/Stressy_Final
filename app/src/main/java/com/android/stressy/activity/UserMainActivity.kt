@@ -350,6 +350,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         fragmentTransaction.attach(graphFragment3)
         fragmentTransaction.commit()
     }
+
     private fun runInferenceWorker() = runBlocking{
         val constraints = Constraints.Builder()
             .setRequiresCharging(false)

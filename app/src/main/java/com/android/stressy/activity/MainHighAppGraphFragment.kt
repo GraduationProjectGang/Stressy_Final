@@ -162,6 +162,7 @@ class MainHighAppGraphFragment() : Fragment() {
 
         chart.axisLeft.apply {
             textSize = 12f
+            granularity = 5f
             axisMinimum = 0.0f
             setDrawGridLines(true)
         }
