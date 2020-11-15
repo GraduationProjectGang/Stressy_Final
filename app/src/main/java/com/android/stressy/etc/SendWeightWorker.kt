@@ -117,7 +117,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         lateinit var allArr: INDArray
 
         var paramArr = paramTable["0_W"]!!.reshape(3072)
-        allArr.add(paramArr)
+        allArr = paramArr
 
         paramArr = paramTable["0_RW"]!!.reshape(65536)
         allArr.add(paramArr)
