@@ -10,8 +10,7 @@ import com.android.stressy.dataclass.BaseUrl
 import com.android.stressy.dataclass.db.CoroutineData
 import com.android.stressy.dataclass.db.CoroutineDatabase
 import com.android.stressy.dataclass.db.StressScoreDatabase
-import com.android.stressy.paillier.KeyPairBuilder
-import com.android.stressy.paillier.PublicKey
+import com.android.stressy.paillier.KeyPair
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -90,28 +89,51 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 //        val weights = model
             runModel(model, data_iter, nEpochs)
 
-            val pk = generateKey() // PK를 JSON에 실어서 보내면 됨
-            val n = pk.getN()
-            val g = pk.getG()
-            val nSquared = pk.getnSquared()
+            val keyGen = KeyPair()
+            val n = keyGen.getN()
+            val g = keyGen.getG()
+            val nSquared = keyGen.getnSquared()
+            val lambda = keyGen.getLambda()
+            val mu = keyGen.getMu()
 
             val editor = prefs.edit()
 
             editor.putString("pref_pk_n", n.toString())
             editor.putString("pref_pk_g", g.toString())
-            editor.putString("pref_pk_nSquared", nSquared.toString()).apply()
+            editor.putString("pref_pk_nSquared", nSquared.toString())
+            editor.putString("pref_sk_lambda", lambda.toString())
+            editor.putString("pref_sk_mu", mu.toString()).apply()
 
             sendData(jwt,count, n, g, nSquared)
 //        prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
             prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
             Log.d("trainingWorker", "working")
 
+            testKeys()
+
         }else{
             Log.d("trainingworker", "NO DATA")
+            testKeys()
         }
 
 
         Result.success()
+    }
+
+    fun testKeys() {
+        val n = BigInteger(prefs.getString("pref_pk_n", null))
+        val g = BigInteger(prefs.getString("pref_pk_g", null))
+        val lambda = BigInteger(prefs.getString("pref_sk_lambda", null))
+        val mu = BigInteger(prefs.getString("pref_sk_mu", null))
+
+        val keypair = KeyPair(n, g, lambda, mu)
+
+        val a = BigInteger.valueOf(10002)
+        val a_enc = keypair.encrypt(a)
+
+        val a_dec = keypair.decrypt(a_enc)
+        Log.d("tw_prefsTest", a_dec.toString())
+
     }
 
     fun sendData(jwt_token:String, count:Int, n:BigInteger, g:BigInteger, nSquared:BigInteger){
@@ -162,25 +184,6 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
 
         Log.d("model_eval", eval.stats())
         Log.d("model_eval.time",(end_time-start_time).toString())
-    }
-
-    fun generateKey() : PublicKey {
-
-        val keygen = KeyPairBuilder()
-        val keyPair = keygen.generateKeyPair()
-
-        val publicKey = keyPair.getPublicKey()
-        val privateKey = keyPair.getPrivateKey()
-
-        val lambda = privateKey.getLambda()
-        val mu = privateKey.getPreCalculatedDenominator()
-
-        val editor = prefs.edit()
-
-        editor.putString("pref_sk_lambda", lambda.toString())
-        editor.putString("pref_sk_mu", mu.toString()).apply()
-
-        return publicKey
     }
 
     fun getDataFromTo(last_trained_timestamp:Long,last_inferred_timestamp:Long): Array<Array<DoubleArray>> {

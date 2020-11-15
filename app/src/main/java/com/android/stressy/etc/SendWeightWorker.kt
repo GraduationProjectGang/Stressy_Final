@@ -8,8 +8,6 @@ import au.com.bytecode.opencsv.CSVWriter
 import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
 import com.android.stressy.paillier.KeyPair
-import com.android.stressy.paillier.PrivateKey
-import com.android.stressy.paillier.PublicKey
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -53,24 +51,25 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
         var maskTable: Array<DoubleArray> = Array(rows.size) { DoubleArray(rows.size) { 1.0 } }
 
+        Log.d("sw_partySize", rows.size.toString())
         val partyThreshold = rows.size
 
-        for (i in 0..rows.size) {
-            for (j in 0..rows.size) {
+        for (i in 0 until rows.size) {
+            for (j in 0 until rows.size) {
                 Log.d("sw_maskTable", maskTable[i][j].toString())
             }
         }
 
-        for (r in 0..rows.size) {
+        for (r in 0 until rows.size) {
             val dValues = rows[r].replace("[", "").replace("]", "").split(",")
             Log.d("sw_dValueSize", dValues.size.toString())
-            for (d in 0..dValues.size) {
+            for (d in 0 until dValues.size) {
                 maskTable[r][d] = dValues[d].trim().toDouble()
             }
         }
 
-        for (i in 0..rows.size) {
-            for (j in 0..rows.size) {
+        for (i in 0 until rows.size) {
+            for (j in 0 until rows.size) {
                 Log.d("sw_maskTable", maskTable[i][j].toString())
             }
         }
@@ -80,22 +79,24 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         val B = BigInteger(splitABC[1])
         val C = BigInteger(splitABC[2])
 
+        Log.d("sw_ABC", "$A.toString() $B.toString() $C.toString()")
+
         val pk_n = BigInteger(prefs.getString("pref_pk_n", null)!!)
         val pk_g = BigInteger(prefs.getString("pref_pk_g", null)!!)
         val pk_nSquared = BigInteger(prefs.getString("pref_pk_nSquared", null)!!)
-        val sk_lambda = BigInteger(prefs.getString("pref_pk_n", null)!!)
-        val sk_mu = BigInteger(prefs.getString("pref_pk_n", null)!!)
+        val sk_lambda = BigInteger(prefs.getString("pref_sk_lambda", null)!!)
+        val sk_mu = BigInteger(prefs.getString("pref_sk_mu", null)!!)
 
-        val pk = PublicKey(pk_n, pk_g, pk_nSquared, 1024)
-        val sk = PrivateKey(sk_lambda, sk_mu)
+        val keyGen = KeyPair(pk_n, pk_g, sk_lambda, sk_mu)
 
-        val keypair = KeyPair(sk, pk, null)
+        val realA = keyGen.decrypt(A)
+        val realB = keyGen.decrypt(B)
+        val realC = keyGen.decrypt(C)
 
-        val realA = keypair.decrypt(A).toInt()
-        val realB = keypair.decrypt(B).toInt()
-        val realC = keypair.decrypt(C).toInt()
+        Log.d("sw_realValue", "$realA $realB $realC")
 
-        val myIdx: Int = (realC - realB) / realA - 1
+        val myIdx = realC.subtract(B).divide(A).toInt()
+        Log.d(myIdx.toString())
 
         paramTable = model.paramTable()
         getFile(maskTable, partyThreshold, myIdx, ratio, party)
@@ -103,7 +104,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         Result.success()
     }
 
-    fun getFile(maskTable: Array<DoubleArray>, partySize: Int, myIdx: Int, ratio: Double, party: String) {
+    private fun getFile(maskTable: Array<DoubleArray>, partySize: Int, myIdx: Int, ratio: Double, party: String) {
 
         Log.d("params",paramTable.keys.toString())
 
@@ -113,7 +114,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         val ratioMulArr = paramArr!!.mul(ratio)
         var maskSum = 0.0
 
-        for (i in 0..partySize) {
+        for (i in 0 until partySize) {
             if (i < myIdx) {
                 maskSum += maskTable[i][myIdx]
             }
