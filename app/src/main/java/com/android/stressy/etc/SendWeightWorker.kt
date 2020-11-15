@@ -68,18 +68,18 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
             }
         }
 
-        for (i in 0 until rows.size) {
-            for (j in 0 until rows.size) {
-                Log.d("sw_maskTable", maskTable[i][j].toString())
-            }
-        }
+//        for (i in 0 until rows.size) {
+//            for (j in 0 until rows.size) {
+//                Log.d("sw_maskTable", maskTable[i][j].toString())
+//            }
+//        }
 
         val splitABC = index.split(",")
         val A = BigInteger(splitABC[0])
         val B = BigInteger(splitABC[1])
         val C = BigInteger(splitABC[2])
 
-        Log.d("sw_ABC", "$A.toString() $B.toString() $C.toString()")
+        Log.d("sw_ABC", "$A $B $C")
 
         val pk_n = BigInteger(prefs.getString("pref_pk_n", null)!!)
         val pk_g = BigInteger(prefs.getString("pref_pk_g", null)!!)
@@ -111,6 +111,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     private fun getFile(maskTable: Array<DoubleArray>, partySize: Int, myIdx: Int, ratio: Double, party: String) {
 
         val jsonObject = JSONObject()
+        Log.d("sw_ratio", ratio.toString())
 
         var maskSum = 0.0
         for (i in 0 until partySize) {
@@ -123,41 +124,36 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         }
         Log.d("sw_maskSum", maskSum.toString())
 
-        var jsonString = ""
+        Log.d("sw_where", "1")
 
-        var paramArr = paramTable["0_W"]!!.reshape(3072)
-        for (i in 0 until 3072) {
-            val resultValue = paramArr.getDouble(i) * ratio + maskSum
-            jsonString += "$resultValue,"
-        }
+        val paramArr_0W = paramTable["0_W"]!!.reshape(3072).mul(ratio).add(maskSum)
+        val paramArr_0RW = paramTable["0_RW"]!!.reshape(65536).mul(ratio).add(maskSum)
+        val paramArr_0b = paramTable["0_b"]!!.reshape(512).mul(ratio).add(maskSum)
+        val paramArr_2W = paramTable["2_W"]!!.reshape(512).mul(ratio).add(maskSum)
+        val paramArr_2b = paramTable["2_b"]!!.reshape(4).mul(ratio).add(maskSum)
 
-        paramArr = paramTable["0_RW"]!!.reshape(65536)
-        for (i in 0 until 65536) {
-            val resultValue = paramArr.getDouble(i) * ratio + maskSum
-            jsonString += "$resultValue,"
-        }
+        val dataBuffer_0W = paramArr_0W.data()
+        val jsonString_0W = Gson().toJson(dataBuffer_0W.asDouble())
 
-        paramArr = paramTable["0_b"]!!.reshape(512)
-        for (i in 0 until 512) {
-            val resultValue = paramArr.getDouble(i) * ratio + maskSum
-            jsonString += "$resultValue,"
-        }
+        val dataBuffer_0RW = paramArr_0RW.data()
+        val jsonString_0RW = Gson().toJson(dataBuffer_0RW.asDouble())
 
-        paramArr = paramTable["2_W"]!!.reshape(512)
-        for (i in 0 until 512) {
-            val resultValue = paramArr.getDouble(i) * ratio + maskSum
-            jsonString += "$resultValue,"
-        }
+        val dataBuffer_0b = paramArr_0b.data()
+        val jsonString_0b = Gson().toJson(dataBuffer_0b.asDouble())
 
-        paramArr = paramTable["2_b"]!!.reshape(4)
-        for (i in 0 until 4) {
-            val resultValue = paramArr.getDouble(i) * ratio + maskSum
-            jsonString += "$resultValue,"
-        }
+        val dataBuffer_2W = paramArr_2W.data()
+        val jsonString_2W = Gson().toJson(dataBuffer_2W.asDouble())
 
-        jsonObject.put("W_0",jsonString)
+        val dataBuffer_2b = paramArr_2b.data()
+        val jsonString_2b = Gson().toJson(dataBuffer_2b.asDouble())
+
+        jsonObject.put("W_0", jsonString_0W)
+        jsonObject.put("RW_0", jsonString_0RW)
+        jsonObject.put("b_0", jsonString_0b)
+        jsonObject.put("W_2", jsonString_2W)
+        jsonObject.put("b_2", jsonString_2b)
         jsonObject.put("partyId", party)
-        Log.d("params.json", jsonObject.toString())
+
         withVolley("W_0", jsonObject)
     }
 
