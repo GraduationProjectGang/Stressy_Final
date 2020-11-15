@@ -99,7 +99,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
         Log.d("sw_realValue", "$realA $realB $realC")
 
-        val myIdx = (realC - realB) / realA
+        val myIdx = (realC - realB) / realA - 1
         Log.d("sw_myIdx", myIdx.toString())
 
         paramTable = model.paramTable()
