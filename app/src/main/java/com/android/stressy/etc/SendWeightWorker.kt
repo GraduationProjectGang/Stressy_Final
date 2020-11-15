@@ -47,6 +47,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         val maskTableStr = bodyToJson.get("maskTable").toString()
         val index = bodyToJson.get("index").toString()
         val ratio = bodyToJson.get("ratio").toString().toDouble()
+        val party = bodyToJson.get("partyId").toString()
 
         val rows = maskTableStr.split("],")
 
@@ -97,12 +98,12 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         val myIdx: Int = (realC - realB) / realA - 1
 
         paramTable = model.paramTable()
-        getFile(maskTable, partyThreshold, myIdx, ratio)
+        getFile(maskTable, partyThreshold, myIdx, ratio, party)
 
         Result.success()
     }
 
-    fun getFile(maskTable: Array<DoubleArray>, partySize: Int, myIdx: Int, ratio: Double) {
+    fun getFile(maskTable: Array<DoubleArray>, partySize: Int, myIdx: Int, ratio: Double, party: String) {
 
         Log.d("params",paramTable.keys.toString())
 
@@ -128,6 +129,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         val jsonString = Gson().toJson(dataBuffer.asDouble())
 
         jsonObject.put("W_0",jsonString)
+        jsonObject.put("partyId",party)
         Log.d("params.json", jsonObject.toString())
         withVolley("W_0", jsonObject)
 
