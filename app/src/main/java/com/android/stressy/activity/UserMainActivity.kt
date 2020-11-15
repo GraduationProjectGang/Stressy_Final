@@ -277,8 +277,6 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
 //        }
 //    }
     private fun getGraphData(): DoubleArray = runBlocking{
-//        runInference()
-
         val dbObject = Room.databaseBuilder(
             applicationContext,
             StressPredictedDatabase::class.java, "stressPredicted"
@@ -343,6 +341,8 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
     }
 
     fun refreshFragments(dataArr: DoubleArray, graphFragment: Fragment, graphFragment2: Fragment, graphFragment3: Fragment ){
+        runInferenceWorker()
+
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         fragmentTransaction.detach(graphFragment)

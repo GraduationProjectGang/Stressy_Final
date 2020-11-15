@@ -106,6 +106,7 @@ class MainTimeStressGraphFragment() : Fragment() {
         }
 
 
+
         return@runBlocking resultArr
     }
 
@@ -154,7 +155,6 @@ class MainTimeStressGraphFragment() : Fragment() {
             setDrawHighlightIndicators(false)
             highLightColor = resources.getColor(R.color.colorPrimary)
         }
-
         val dataSets = arrayListOf<ILineDataSet>(dataSet)
         val lineData = LineData(dataSets)
 

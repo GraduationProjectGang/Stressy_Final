@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.room.Room
@@ -33,6 +34,7 @@ class WeeklyTimeGraphFragment : Fragment() {
     lateinit var timeStampArr: ArrayList<Long>
     lateinit var button_graph_left:Button
     lateinit var button_graph_right:Button
+    lateinit var textView_week: TextView
     lateinit var ll:LimitLine
     lateinit var hoursArr: ArrayList<Long>
     lateinit var timeArr: ArrayList<Long>
@@ -46,7 +48,8 @@ class WeeklyTimeGraphFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_weekly_time_graph, container, false)
-        chart = rootView!!.findViewById(R.id.hourlyStressGraph) as LineChart
+        textView_week = rootView!!.findViewById<TextView>(R.id.textView_week)
+        chart = rootView.findViewById(R.id.hourlyStressGraph) as LineChart
         hoursArr = getHours()
 
         initChart(chart,makeDataToBarEntry(relativeDate))
@@ -66,7 +69,7 @@ class WeeklyTimeGraphFragment : Fragment() {
 
         }
         button_weekly_time_right.setOnClickListener {
-            if (relativeDate < 0){
+            if (relativeDate < -1){
                 relativeDate += 1
                 initChart(chart,makeDataToBarEntry(relativeDate))
             }
@@ -266,31 +269,28 @@ class WeeklyTimeGraphFragment : Fragment() {
         calFrom.set(Calendar.HOUR_OF_DAY,0)
         calFrom.set(Calendar.MINUTE,0)
         calFrom.set(Calendar.SECOND,0)
+        Log.d("calcal.from",df.format(calFrom.time))
+
 
         calTo.time = calFrom.time
-        calTo.add(Calendar.DAY_OF_YEAR,7) //calFrom 에서 7일
+        calTo.add(Calendar.DAY_OF_YEAR,6) //calFrom 에서 7일
         calTo.set(Calendar.HOUR_OF_DAY,0)
         calTo.set(Calendar.MINUTE,0)
         calTo.set(Calendar.SECOND,0)
         calTo.add(Calendar.SECOND,-1)
-
-        val timeFrom1 = df.format(calFrom.time).toString()
-        val timeTo1 = df.format(calTo.time).toString()
+        Log.d("calcal.to",df.format(calTo.time))
 
         for (i in 0 until 8){
             timeStampArray.add(calFrom.timeInMillis)
-            Log.d("calcal arr",df.format(calFrom.time))
+            Log.d("calcal.arr",df.format(calFrom.time))
             calFrom.add(Calendar.DAY_OF_MONTH,1)
         }
 
-        Log.d("calcal arr",timeStampArray.size.toString())
+        val dateFormat = SimpleDateFormat("M/d")
+        val timeFrom = dateFormat.format(Date(timeStampArray[0])).toString()
+        val timeTo = dateFormat.format(Date(timeStampArray[6])).toString()
+        textView_week.text = "${timeFrom} ~ ${timeTo}"
 
-        val timeFrom = df.format(calFrom.time).toString()
-        val timeTo = df.format(calTo.time).toString()
-
-        Log.d("calcal",calFrom.time.toString())
-        Log.d("calcal from",timeFrom)
-        Log.d("calcal to",timeTo)
         return timeStampArray
     }
 }

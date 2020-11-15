@@ -58,7 +58,7 @@ class WeeklyStressGraphFragment : Fragment() {
 
         }
         button_graph_right.setOnClickListener {
-            if (relativeDate < 0){
+            if (relativeDate < -1){
                 relativeDate += 1
                 initChart(chart,makeDataToBarEntry(relativeDate))
             }
@@ -100,7 +100,7 @@ class WeeklyStressGraphFragment : Fragment() {
             granularity = 1f
             isGranularityEnabled = false
 
-            val df = SimpleDateFormat("MM/dd")
+            val df = SimpleDateFormat("M.d")
             var dateString = arrayListOf<String>()
             for (date in timeStampArr){
                 dateString.add(df.format(date))
@@ -111,6 +111,7 @@ class WeeklyStressGraphFragment : Fragment() {
         }
         chart.axisRight.apply {
             setDrawGridLines(false)
+
             isEnabled = false
         }
         val stressDescription = arrayListOf("","낮음","보통","높음","매우높음")
@@ -139,7 +140,7 @@ class WeeklyStressGraphFragment : Fragment() {
 
         chart.apply {
             setBorderColor(Color.DKGRAY)
-            axisRight.isEnabled = true
+            axisRight.isEnabled = false
             legend.isEnabled = false
             description.text = ""
             disableScroll()
@@ -234,7 +235,7 @@ class WeeklyStressGraphFragment : Fragment() {
         calFrom.set(Calendar.SECOND,0)
 
         calTo.time = calFrom.time
-        calTo.add(Calendar.DAY_OF_YEAR,7) //calFrom 에서 7일
+        calTo.add(Calendar.DAY_OF_YEAR,6) //calFrom 에서 7일
         calTo.set(Calendar.HOUR_OF_DAY,0)
         calTo.set(Calendar.MINUTE,0)
         calTo.set(Calendar.SECOND,0)
@@ -245,18 +246,13 @@ class WeeklyStressGraphFragment : Fragment() {
 
         for (i in 0 until 8){
             timeStampArray.add(calFrom.timeInMillis)
-            Log.d("calcal arr",df.format(calFrom.time))
             calFrom.add(Calendar.DAY_OF_MONTH,1)
         }
 
-        Log.d("calcal arr",timeStampArray.size.toString())
 
         val timeFrom = df.format(calFrom.time).toString()
         val timeTo = df.format(calTo.time).toString()
 
-        Log.d("calcal",calFrom.time.toString())
-        Log.d("calcal from",timeFrom)
-        Log.d("calcal to",timeTo)
         return timeStampArray
     }
 }

@@ -12,6 +12,10 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/textView_week"
+            android:text="example"
+            android:textSize="17dp"
+            android:gravity="right"
+            android:layout_marginRight="10dp"
             style="@style/questions"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
@@ -21,6 +25,17 @@
             android:id="@+id/hourlyStressGraph"
             android:layout_width="match_parent"
             android:layout_height="280dp"/>
+        <TextView
+            android:text="현재 시간"
+            style="@style/EditText"
+            android:layout_gravity="right"
+            android:textSize="13dp"
+            android:gravity="right"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
         <LinearLayout
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"

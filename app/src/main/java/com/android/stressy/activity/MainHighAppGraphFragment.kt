@@ -82,10 +82,13 @@ class MainHighAppGraphFragment() : Fragment() {
 
 
         for (idx in 0..3){
-            desArr.add(getCate(mapKey[idx]))
-            val entry = BarEntry(idx.toFloat(), map[mapKey[idx]]!!.toFloat())
-            Log.d("dataArr.en",entry.toString())
-            entries.add(entry)
+            val value = map[mapKey[idx]]!!.toFloat()
+            if (value != 0f){
+                desArr.add(getCate(mapKey[idx]))
+                val entry = BarEntry(idx.toFloat(),value.toFloat())
+                Log.d("dataArr.en",entry.toString())
+                entries.add(entry)
+            }
         }
 
         return entries
