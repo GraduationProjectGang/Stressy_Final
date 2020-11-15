@@ -110,32 +110,9 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
     private fun getFile(maskTable: Array<DoubleArray>, partySize: Int, myIdx: Int, ratio: Double, party: String) {
 
-        Log.d("params",paramTable.keys.toString())
-
         val jsonObject = JSONObject()
 
-        lateinit var allArr: INDArray
-
-        var paramArr = paramTable["0_W"]!!.reshape(3072)
-        allArr = paramArr
-
-        paramArr = paramTable["0_RW"]!!.reshape(65536)
-        allArr.add(paramArr)
-
-        paramArr = paramTable["0_b"]!!.reshape(512)
-        allArr.add(paramArr)
-
-        paramArr = paramTable["2_W"]!!.reshape(512)
-        allArr.add(paramArr)
-
-        paramArr = paramTable["2_b"]!!.reshape(4)
-        allArr.add(paramArr)
-
-        Log.d("sw_allArrShape", allArr.shapeInfoToString())
-
-        val ratioMulArr = allArr.mul(ratio)
         var maskSum = 0.0
-
         for (i in 0 until partySize) {
             if (i < myIdx) {
                 maskSum += maskTable[i][myIdx]
@@ -146,10 +123,37 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         }
         Log.d("sw_maskSum", maskSum.toString())
 
-        val resultArr = ratioMulArr.add(maskSum)
+        var jsonString = ""
 
-        val dataBuffer = resultArr.data()
-        val jsonString = Gson().toJson(dataBuffer.asDouble())
+        var paramArr = paramTable["0_W"]!!.reshape(3072)
+        for (i in 0 until 3072) {
+            val resultValue = paramArr.getDouble(i) * ratio + maskSum
+            jsonString += "$resultValue,"
+        }
+
+        paramArr = paramTable["0_RW"]!!.reshape(65536)
+        for (i in 0 until 65536) {
+            val resultValue = paramArr.getDouble(i) * ratio + maskSum
+            jsonString += "$resultValue,"
+        }
+
+        paramArr = paramTable["0_b"]!!.reshape(512)
+        for (i in 0 until 512) {
+            val resultValue = paramArr.getDouble(i) * ratio + maskSum
+            jsonString += "$resultValue,"
+        }
+
+        paramArr = paramTable["2_W"]!!.reshape(512)
+        for (i in 0 until 512) {
+            val resultValue = paramArr.getDouble(i) * ratio + maskSum
+            jsonString += "$resultValue,"
+        }
+
+        paramArr = paramTable["2_b"]!!.reshape(4)
+        for (i in 0 until 4) {
+            val resultValue = paramArr.getDouble(i) * ratio + maskSum
+            jsonString += "$resultValue,"
+        }
 
         jsonObject.put("W_0",jsonString)
         jsonObject.put("partyId", party)
