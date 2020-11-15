@@ -7,6 +7,9 @@ import androidx.work.WorkerParameters
 import au.com.bytecode.opencsv.CSVWriter
 import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
+import com.android.stressy.paillier.KeyPair
+import com.android.stressy.paillier.PrivateKey
+import com.android.stressy.paillier.PublicKey
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -20,6 +23,7 @@ import org.deeplearning4j.util.ModelSerializer
 import org.json.JSONObject
 import org.nd4j.linalg.api.ndarray.INDArray
 import java.io.*
+import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 
 
@@ -28,37 +32,104 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     val mContext = appContext
     lateinit var paramTable : Map<String,INDArray>
 
+    val mPref = "my_pref"
+    val prefs = mContext.getSharedPreferences(mPref,Context.MODE_PRIVATE)
+
     override suspend fun doWork(): Result = coroutineScope {
         val inputStream = mContext.resources.openRawResource(R.raw.stressy_final_model_nokeras)
         val model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
 
-        Log.d("swsw", model.summary())
+        val whole_body = inputData.getString("body")!!
+        Log.d("sw_getBody", whole_body)
 
-        val fileArray = getWeight(model)
+        val bodyToJson = JSONObject(whole_body)
+
+        val maskTableStr = bodyToJson.get("maskTable").toString()
+        val index = bodyToJson.get("index").toString()
+        val ratio = bodyToJson.get("ratio").toString().toDouble()
+
+        val rows = maskTableStr.split("],")
+
+        var maskTable: Array<DoubleArray> = Array(rows.size) { DoubleArray(rows.size) { 1.0 } }
+
+        val partyThreshold = rows.size
+
+        for (i in 0..rows.size) {
+            for (j in 0..rows.size) {
+                Log.d("sw_maskTable", maskTable[i][j].toString())
+            }
+        }
+
+        for (r in 0..rows.size) {
+            val dValues = rows[r].replace("[", "").replace("]", "").split(",")
+            Log.d("sw_dValueSize", dValues.size.toString())
+            for (d in 0..dValues.size) {
+                maskTable[r][d] = dValues[d].trim().toDouble()
+            }
+        }
+
+        for (i in 0..rows.size) {
+            for (j in 0..rows.size) {
+                Log.d("sw_maskTable", maskTable[i][j].toString())
+            }
+        }
+
+        val splitABC = index.split(",")
+        val A = BigInteger(splitABC[0])
+        val B = BigInteger(splitABC[1])
+        val C = BigInteger(splitABC[2])
+
+        val pk_n = BigInteger(prefs.getString("pref_pk_n", null)!!)
+        val pk_g = BigInteger(prefs.getString("pref_pk_g", null)!!)
+        val pk_nSquared = BigInteger(prefs.getString("pref_pk_nSquared", null)!!)
+        val sk_lambda = BigInteger(prefs.getString("pref_pk_n", null)!!)
+        val sk_mu = BigInteger(prefs.getString("pref_pk_n", null)!!)
+
+        val pk = PublicKey(pk_n, pk_g, pk_nSquared, 1024)
+        val sk = PrivateKey(sk_lambda, sk_mu)
+
+        val keypair = KeyPair(sk, pk, null)
+
+        val realA = keypair.decrypt(A).toInt()
+        val realB = keypair.decrypt(B).toInt()
+        val realC = keypair.decrypt(C).toInt()
+
+        val myIdx: Int = (realC - realB) / realA - 1
+
         paramTable = model.paramTable()
-        getFile()
-
+        getFile(maskTable, partyThreshold, myIdx, ratio)
 
         Result.success()
     }
 
-    fun getFile(){
+    fun getFile(maskTable: Array<DoubleArray>, partySize: Int, myIdx: Int, ratio: Double) {
 
         Log.d("params",paramTable.keys.toString())
 
         val jsonObject = JSONObject()
 
-        val paramArr = paramTable.get("0_W")
-        Log.d("everykey", paramArr!!.shapeInfoToString())
+        val paramArr = paramTable["0_W"]
+        val ratioMulArr = paramArr!!.mul(ratio)
+        var maskSum = 0.0
 
-        val dataBuffer = paramArr.data()
+        for (i in 0..partySize) {
+            if (i < myIdx) {
+                maskSum += maskTable[i][myIdx]
+            }
+            else if (i > myIdx) {
+                maskSum -= maskTable[i][myIdx]
+            }
+        }
+        Log.d("sw_maskSum", maskSum.toString())
 
+        val resultArr = ratioMulArr.add(maskSum)
+
+        val dataBuffer = resultArr.data()
         val jsonString = Gson().toJson(dataBuffer.asDouble())
 
         jsonObject.put("W_0",jsonString)
         Log.d("params.json", jsonObject.toString())
-        withVolley("W_0",jsonObject)
-
+        withVolley("W_0", jsonObject)
 
     }
 
@@ -66,10 +137,9 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     //    dropout (DropoutLayer)     -,-        0             -
     //    dense (DenseLayer)         128,4      516           W:{128,4}, b:{1,4}
 
-    fun withVolley(keyString:String,jsonObject:JSONObject){
+    fun withVolley(keyString:String,jsonObject:JSONObject) {
         val prefs = mContext.getSharedPreferences("my_pref",Context.MODE_PRIVATE)
         val fcm_token = prefs.getString("pref_fcm_token",null).toString()
-        val jwt_token = prefs.getString("jwt",null).toString()
         jsonObject.put("fcm_token",fcm_token)
 
         var keyUrl = ""
@@ -79,35 +149,28 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 //        else if (keyString == "W_2") keyUrl = "w2"
 //        else if (keyString == "b_2") keyUrl = "b2"
 
-            val url = BaseUrl.url_aggregate + "/send_" + keyUrl
-            val queue = Volley.newRequestQueue(mContext)
+        val url = BaseUrl.url_aggregate + "/send_" + keyUrl
+        val queue = Volley.newRequestQueue(mContext)
 //        jsonObject.put("weight_key",key)
 
-            val jsonRequest = object : JsonObjectRequest(
-                Request.Method.POST,url,jsonObject,
-                Response.Listener<JSONObject> { res ->
-                    val jsonObject = res
-                    val maskTable = jsonObject.getString("maskTable")
-                    val index = jsonObject.getString("index")
-                    val ratio = jsonObject.getString("ratio")
+        val jsonRequest = object : JsonObjectRequest(
+            Request.Method.POST,url,jsonObject,
+            Response.Listener<JSONObject> { res ->
+                val jsonObject = res
+//                    val bodyStr = jsonObject.getJSONObject("body")
+//                    Log.d("encryption_json", bodyStr.toString())
 
-                    Log.d("encryption_json", maskTable)
-                    Log.d("encryption_json", index)
-                    Log.d("encryption_json", ratio)
-
-                    Log.d("sw:res", res.toString())
-                },
-                Response.ErrorListener { error ->
-                    Log.d("sw", error.toString())
-                }
-            ){
-
+                Log.d("sw:res", res.toString())
+            },
+            Response.ErrorListener { error ->
+                Log.d("sw", error.toString())
             }
-            queue.add(jsonRequest)
+        ){
+
+        }
+        queue.add(jsonRequest)
 
     }
-
-
 
     fun getWeight(model:MultiLayerNetwork): Array<File>{
         paramTable = model.paramTable()

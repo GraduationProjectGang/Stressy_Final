@@ -7,6 +7,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.Constraints
+import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.android.stressy.R
@@ -17,29 +18,38 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class MessagingService() : FirebaseMessagingService() {
+
     val TAG = "fcm onmessage"
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         var message = ""
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: ${remoteMessage.from}")
 
+        val dataBuilder = Data.Builder()
 
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()){
             for(key in remoteMessage.data.keys){
-                Log.d(TAG, "fcmMes: Key:"+key +" Data: " + remoteMessage.data.get(key))
+                Log.d(TAG, "fcmMes: Key:"+key +" Data: " + remoteMessage.data[key])
+                dataBuilder.putString(key, remoteMessage.data[key])
             }
-            message = remoteMessage.data.values.first() //payload 중 첫번째 value
+            message = remoteMessage.data["title"]!! //payload 중 첫번째 value
             Log.d(TAG, "fcmMes: Data:$message")
-            if (message == "dataCollect") {
-                createDataCollectWorker()
-            }else if (message == "startTraining") {
-                startTraining()
-            }else if(message == "weightRequest"){
-                sendWeight()
-            }else if(message == "receiveWeights"){
-                receiveWeight()
+            when (message) {
+                "dataCollect" -> {
+                    createDataCollectWorker()
+                }
+                "startTraining" -> {
+                    startTraining()
+                }
+                "weightRequest" -> {
+                    sendWeight(dataBuilder)
+                }
+                "receiveWeights" -> {
+                    receiveWeight()
+                }
             }
 
         }
@@ -78,13 +88,14 @@ class MessagingService() : FirebaseMessagingService() {
     }
 
 
-    private fun sendWeight() {
+    private fun sendWeight(dataBuilder: Data.Builder) {
         Log.d(TAG, "fcmMes: training worker Created")
         val constraints = Constraints.Builder()
             .setRequiresCharging(false)
             .build()
         val collectRequest =
             OneTimeWorkRequestBuilder<SendWeightWorker>()
+                .setInputData(dataBuilder.build())
                 .setConstraints(constraints)
                 .addTag("training")
                 .build()
