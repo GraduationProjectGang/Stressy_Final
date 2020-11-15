@@ -95,6 +95,12 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
             val g = pk.getG()
             val nSquared = pk.getnSquared()
 
+            val editor = prefs.edit()
+
+            editor.putString("pref_pk_n", n.toString())
+            editor.putString("pref_pk_g", g.toString())
+            editor.putString("pref_pk_nSquared", nSquared.toString()).apply()
+
             sendData(jwt,count, n, g, nSquared)
 //        prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
             prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
@@ -166,13 +172,13 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         val publicKey = keyPair.getPublicKey()
         val privateKey = keyPair.getPrivateKey()
 
-        // public str 이거를 JSON에 넣어주면 됨
         val lambda = privateKey.getLambda()
         val mu = privateKey.getPreCalculatedDenominator()
 
-        val prefs = applicationContext.getSharedPreferences("my_pref", Context.MODE_PRIVATE)
-        prefs.edit().putString("prefs_sk_lambda", lambda.toString()).apply()
-        prefs.edit().putString("prefs_sk_mu", mu.toString()).apply()
+        val editor = prefs.edit()
+
+        editor.putString("pref_sk_lambda", lambda.toString())
+        editor.putString("pref_sk_mu", mu.toString()).apply()
 
         return publicKey
     }
