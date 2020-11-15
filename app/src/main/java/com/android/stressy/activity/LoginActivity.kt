@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
         button_signup_onlogin.setText(content)
         button_signup_onlogin.setOnClickListener {
             val intent = Intent(this,SignUpActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
         }

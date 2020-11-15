@@ -115,7 +115,6 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
                 for (j in 0 until 5){
                     temp.add(corArr[j][i])
                 }
-
                 arr2d.add(temp.toTypedArray())
             }
             val arr2dNd = Nd4j.createFromArray(arr2d.toTypedArray())
