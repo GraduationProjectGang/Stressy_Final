@@ -89,14 +89,18 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
         val keyGen = KeyPair(pk_n, pk_g, sk_lambda, sk_mu)
 
-        val realA = keyGen.decrypt(A)
-        val realB = keyGen.decrypt(B)
-        val realC = keyGen.decrypt(C)
+        val decA = keyGen.decrypt(A)
+        val decB = keyGen.decrypt(B)
+        val decC = keyGen.decrypt(C)
+
+        val realA = decA.toInt()
+        val realB = decB.toInt()
+        val realC = decC.toInt()
 
         Log.d("sw_realValue", "$realA $realB $realC")
 
-        val myIdx = realC.subtract(B).divide(A).toInt()
-        Log.d(myIdx.toString())
+        val myIdx = (realC - realB) / realA
+        Log.d("sw_myIdx", myIdx.toString())
 
         paramTable = model.paramTable()
         getFile(maskTable, partyThreshold, myIdx, ratio, party)
@@ -110,8 +114,26 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
         val jsonObject = JSONObject()
 
-        val paramArr = paramTable["0_W"]
-        val ratioMulArr = paramArr!!.mul(ratio)
+        lateinit var allArr: INDArray
+
+        var paramArr = paramTable["0_W"]!!.reshape(3072)
+        allArr.add(paramArr)
+
+        paramArr = paramTable["0_RW"]!!.reshape(65536)
+        allArr.add(paramArr)
+
+        paramArr = paramTable["0_b"]!!.reshape(512)
+        allArr.add(paramArr)
+
+        paramArr = paramTable["2_W"]!!.reshape(512)
+        allArr.add(paramArr)
+
+        paramArr = paramTable["2_b"]!!.reshape(4)
+        allArr.add(paramArr)
+
+        Log.d("sw_allArrShape", allArr.shapeInfoToString())
+
+        val ratioMulArr = allArr.mul(ratio)
         var maskSum = 0.0
 
         for (i in 0 until partySize) {
@@ -208,12 +230,6 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 //        sendTable(fileArr.toTypedArray())
         return fileArr.toTypedArray()
     }
-
-//    fun sendTable(fileArr:Array<File>) {
-//        for (file in fileArr){
-//            doInBackground(file)
-//        }
-//    }
 
     fun doInBackground(input:File){
         val fileInputStream = FileInputStream(input)

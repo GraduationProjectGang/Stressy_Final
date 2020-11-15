@@ -109,31 +109,13 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
             prefs.edit().putLong("last_trained_timestamp",new_last_trained_timestamp).apply()
             Log.d("trainingWorker", "working")
 
-            testKeys()
 
         }else{
             Log.d("trainingworker", "NO DATA")
-            testKeys()
         }
 
 
         Result.success()
-    }
-
-    fun testKeys() {
-        val n = BigInteger(prefs.getString("pref_pk_n", null))
-        val g = BigInteger(prefs.getString("pref_pk_g", null))
-        val lambda = BigInteger(prefs.getString("pref_sk_lambda", null))
-        val mu = BigInteger(prefs.getString("pref_sk_mu", null))
-
-        val keypair = KeyPair(n, g, lambda, mu)
-
-        val a = BigInteger.valueOf(10002)
-        val a_enc = keypair.encrypt(a)
-
-        val a_dec = keypair.decrypt(a_enc)
-        Log.d("tw_prefsTest", a_dec.toString())
-
     }
 
     fun sendData(jwt_token:String, count:Int, n:BigInteger, g:BigInteger, nSquared:BigInteger){
