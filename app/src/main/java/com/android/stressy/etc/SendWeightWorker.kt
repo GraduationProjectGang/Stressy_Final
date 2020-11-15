@@ -129,10 +129,9 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         val jsonString = Gson().toJson(dataBuffer.asDouble())
 
         jsonObject.put("W_0",jsonString)
-        jsonObject.put("partyId",party)
+        jsonObject.put("partyId", party)
         Log.d("params.json", jsonObject.toString())
         withVolley("W_0", jsonObject)
-
     }
 
     // 6,128      69120         W:{6,512}, RW:{128,512}, b:{1,512}
