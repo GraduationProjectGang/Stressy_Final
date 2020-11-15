@@ -31,14 +31,18 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         val last_inferred_timestamp = prefs.getLong("last_inferred_timestamp",0)
         Log.d("trtr.last_inferred",last_inferred_timestamp.toString())
 
+//        val data = getDataFrom(last_inferred_timestamp)
         val data = getDataFrom(last_inferred_timestamp)
         Log.d("trtr",model.summary())
 
 
         val highResultApp = mutableListOf<Int>()
 
-//        val rd = (cd[idx] - nMin[idx]) * 2 / (nMax[idx] - nMin[idx]) - 1
-        //
+        if (prefs.getString("pref_data_read_flag",null) == "false"){
+            readCSV()
+            prefs.edit().putString("pref_data_read_flag","true").apply()
+        }
+
 
         for (each in data){
             Log.d("trtr",each.shapeInfoToString())
@@ -62,7 +66,6 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         }
         saveData()
         saveHighResultApp(highResultApp)
-
         Result.success()
     }
 
@@ -83,7 +86,6 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
         val csvReader = CSVReaderBuilder(InputStreamReader(context.resources.openRawResource(R.raw.trainingdata_all)))
             .withCSVParser(CSVParserBuilder().withSeparator(',').build())
             .build()
-
         val dataArr = arrayListOf<Array<DoubleArray>>()
         // Read the rest
 
@@ -107,7 +109,6 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
                 corArr.add(doubleArr)
             }
 
-
             val arr2d = arrayListOf<Array<Double>>()
             for (i in 0 until 6){
                 val temp = arrayListOf<Double>()
@@ -117,7 +118,6 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
 
                 arr2d.add(temp.toTypedArray())
             }
-
             val arr2dNd = Nd4j.createFromArray(arr2d.toTypedArray())
             data_all.add(arr2dNd)
 //            val temp = line.contentToString().split("[","]",",")
@@ -127,26 +127,30 @@ class InferenceWorker(appContext: Context, workerParams: WorkerParameters)
 //            dataArr.add(doubleArr.toDoubleArray())
             line = csvReader.readNext()
         }
-//        try {
-//            println("fileread")
-//            val file = context.resources.openRawResource(R.raw.trainingdata_all)
-//            val reader = BufferedReader(InputStreamReader(file))
-//            for (line in reader.lines()) {
-//                val coroutine_array = Array(6) { DoubleArray(5) }
-//                val attributes = line.split("[","]",",","\"")
-//                Log.d("trtr.split",attributes.toString())
-//                for (j in 0 until 6) {
-//                    for (k in 0..5) {
-//                        coroutine_array[j][k] =
-//                            attributes[k].trim { it <= ' ' }.toDouble()
-//                    }
-//                }
-//                data_all[i] = coroutine_array
-//            }
-//        } catch (var11: IOException) {
-//            var11.printStackTrace()
-//        }
+
+
+
+
+
         return data_all
+    }
+    fun readCSV(){
+        val dbObject = Room.databaseBuilder(
+            context,
+            StressPredictedDatabase::class.java, "stressPredicted"
+        ).fallbackToDestructiveMigration().build().stressPredictedDao()
+
+        val csvReader = CSVReaderBuilder(InputStreamReader(context.resources.openRawResource(R.raw.stress_predicted)))
+            .withCSVParser(CSVParserBuilder().withSeparator(',').build())
+            .build()
+        var line: Array<String>? = csvReader.readNext()
+        while (line != null) {
+            val tempData = StressPredictedData(line[0].trim().toLong(),line[1].trim().toInt())
+            dataTimestamp.add(line[0].trim().toLong())
+            resultArray.add(line[1].trim().toInt())
+            Log.d("trtr.while",line[0].trim().toLong().toString()+line[1].trim().toInt().toShort())
+            line = csvReader.readNext()
+        }
     }
 
     fun getLabel(): Array<Int> {

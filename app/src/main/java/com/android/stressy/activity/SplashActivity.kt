@@ -32,6 +32,10 @@ class SplashActivity : AppCompatActivity() {
             //자동 로그인 정보 확인
             Log.d("splash login",user_email +"  "+ user_pw)
 
+//            if(prefs.getString("pref_data_read_flag",null) == null){
+//                prefs.edit().putString("pref_data_read_flag","false").apply()
+//            }
+
             if (if_auto_login!!.toBoolean()){
 //                val jwtToken = jsonObject.getString("jwtToken")
 //                editor.putString("user_jwt",jwtToken).apply()

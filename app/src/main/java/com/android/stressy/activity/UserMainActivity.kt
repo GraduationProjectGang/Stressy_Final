@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.room.Room
 import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequestBuilder
@@ -46,7 +47,11 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
     val mPref = "my_pref"
     lateinit var user_email:String
     lateinit var user_pw:String
-    lateinit var dataArr:DoubleArray
+
+    val graphFragment = MainTimeStressGraphFragment()
+    val graphFragment2 = MainStressGraphFragment()
+    val graphFragment3 = MainHighAppGraphFragment()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_main)
@@ -62,17 +67,19 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
     }
 
     fun init() = runBlocking {
+        val prefs = getSharedPreferences(mPref,Context.MODE_PRIVATE)
+
         user_email = intent.getStringExtra("user_email").toString()
         user_pw = intent.getStringExtra("user_pw").toString()
         checkPermission()
         addWhiteList()
         initButtonAndText()
         setAlarm()
-        getGraphData()
-        val prefs = getSharedPreferences(mPref,Context.MODE_PRIVATE)
-//        usercode.text =
-//            "Usercode: " + prefs.getString(getString(R.string.pref_previously_logined), "null")
-        val u_key = prefs.getString(getString(R.string.pref_previously_logined), "null")!!
+
+
+        setFragments(getGraphData(),graphFragment,graphFragment2,graphFragment3)
+
+
 
 
         Log.w(
@@ -309,7 +316,7 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                 else if (predicted == 3) three++
             }
         }
-        dataArr = doubleArrayOf(zero, one, two, three)
+        var dataArr = doubleArrayOf(zero, one, two, three)
         var avg = 0.0
         var size = 0
         if (getData.isNotEmpty())
@@ -321,34 +328,34 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         setImageAndDescription(avg)
         Log.d("mainfrag.dataarr",dataArr.contentToString())
 
-        setFragment(dataArr)
-
-
-
         return@runBlocking dataArr
     }
-    fun setFragment(dataArr:DoubleArray){
+    fun setFragments(dataArr: DoubleArray, graphFragment: Fragment, graphFragment2: Fragment, graphFragment3: Fragment ){
         runInferenceWorker()
-
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-        val graphFragment = MainTimeStressGraphFragment()
-        val graphFragment2 = MainStressGraphFragment()
-        val graphFragment3 = MainHighAppGraphFragment()
         val bundle = Bundle()
         bundle.putDoubleArray("data",dataArr)
         graphFragment2.arguments = bundle
         fragmentTransaction.add(R.id.mainTimeGraph, graphFragment)
         fragmentTransaction.add(R.id.mainStressGraph, graphFragment2)
-        fragmentTransaction.add(R.id.mainHighAppGraph, graphFragment3)
+        fragmentTransaction.add(R.id.mainHighAppGraph, graphFragment3).commit()
+    }
+
+    fun refreshFragments(dataArr: DoubleArray, graphFragment: Fragment, graphFragment2: Fragment, graphFragment3: Fragment ){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         fragmentTransaction.detach(graphFragment)
         fragmentTransaction.attach(graphFragment)
+
         fragmentTransaction.detach(graphFragment2)
+        val newBundle = Bundle()
+        newBundle.putDoubleArray("data",dataArr)
+        graphFragment2.arguments = newBundle
         fragmentTransaction.attach(graphFragment2)
+
         fragmentTransaction.detach(graphFragment3)
-        fragmentTransaction.attach(graphFragment3)
-        fragmentTransaction.commit()
+        fragmentTransaction.attach(graphFragment3).commit()
     }
 
     private fun runInferenceWorker() = runBlocking{
@@ -408,22 +415,19 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         //설문 버튼
         button_menu.setOnClickListener {
             showPopup(it)
-
         }
+
         button_survey.setOnClickListener {
             startStressCollectDialog(0)
         }
 
         button_refresh.setOnClickListener {
-            val dataArr = getGraphData()
-
+            refreshFragments(getGraphData(),graphFragment,graphFragment2,graphFragment3)
         }
+
         val mystring = "회원가입 하기"
         val content = SpannableString(mystring)
         content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
-
-
-
 
         val constraints = Constraints.Builder()
             .setRequiresCharging(false)
@@ -441,7 +445,6 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             }
             Log.d("trtr", "InferenceWorker enqueued")
         }
-
 
         trainingWorker.setOnClickListener {
             val collectRequest =
@@ -482,8 +485,6 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         }
     }
 
-
-
     fun startStressCollectDialog(code:Int?){
 //        val fragmentManager = supportFragmentManager
 //        val fragmentTransaction = fragmentManager.beginTransaction()
@@ -493,5 +494,4 @@ class UserMainActivity() : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         dialog.arguments = bundle
         dialog.show(supportFragmentManager, "dialog");
     }
-
 }

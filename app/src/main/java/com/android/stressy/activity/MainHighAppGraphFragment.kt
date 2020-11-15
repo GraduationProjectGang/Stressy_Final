@@ -1,11 +1,13 @@
 package com.android.stressy.activity
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.android.stressy.R
@@ -111,6 +113,7 @@ class MainHighAppGraphFragment() : Fragment() {
     }
 
     fun initChart(chart:BarChart, entries:ArrayList<BarEntry>){
+        val tf = ResourcesCompat.getFont(requireContext(),R.font.noto_sans) as Typeface
 //        val roundedBarChartRenderer = RoundedBarChartRenderer(
 //            chart,
 //            chart.getAnimator(),
@@ -161,17 +164,23 @@ class MainHighAppGraphFragment() : Fragment() {
         //barchart design
 
         chart.axisLeft.apply {
+            typeface = tf
             textSize = 12f
-            granularity = 5f
             axisMinimum = 0.0f
-            setDrawGridLines(true)
+            granularity = 1f
+            setDrawGridLines(false)
         }
+
         chart.axisRight.apply {
             setDrawGridLines(false)
+            typeface = tf
+            setDrawAxisLine(true)
             isEnabled = false
 
         }
+
         chart.xAxis.apply {
+            typeface = tf
             granularity = 1f
             textSize = 13f
 //            axisMinimum = -0.5f
@@ -180,8 +189,9 @@ class MainHighAppGraphFragment() : Fragment() {
             var stressDescription = desArr
             setValueFormatter(IndexAxisValueFormatter(stressDescription))
         }
+
         chart.apply {
-            defaultFocusHighlightEnabled = true
+            defaultFocusHighlightEnabled = false
             description.isEnabled = false
             this.data = barData
             legend.isEnabled = false
@@ -194,8 +204,5 @@ class MainHighAppGraphFragment() : Fragment() {
             invalidate()
         }
     }
-
-
-
 }
 

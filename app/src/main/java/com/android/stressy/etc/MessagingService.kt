@@ -30,6 +30,7 @@ class MessagingService() : FirebaseMessagingService() {
             for(key in remoteMessage.data.keys){
                 Log.d(TAG, "fcmMes: Key:"+key +" Data: " + remoteMessage.data.get(key))
             }
+
             message = remoteMessage.data.values.first() //payload 중 첫번째 value
             Log.d(TAG, "fcmMes: Data:$message")
             if (message == "dataCollect") {
@@ -43,8 +44,7 @@ class MessagingService() : FirebaseMessagingService() {
             }
 
         }
-
-            Log.d(TAG, "Message data payload: ${remoteMessage.data}")
+        Log.d(TAG, "Message data payload: ${remoteMessage.data}")
 
 
         // Check if message contains a notification payload.

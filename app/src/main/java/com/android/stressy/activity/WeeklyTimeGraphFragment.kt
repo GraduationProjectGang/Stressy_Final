@@ -1,12 +1,14 @@
 package com.android.stressy.activity
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.android.stressy.R
@@ -26,7 +28,7 @@ import kotlin.collections.ArrayList
 
 
 class WeeklyTimeGraphFragment : Fragment() {
-    var relativeDate = 0
+    var relativeDate = -1
     lateinit var chart : LineChart
     lateinit var timeStampArr: ArrayList<Long>
     lateinit var button_graph_left:Button
@@ -74,6 +76,7 @@ class WeeklyTimeGraphFragment : Fragment() {
 
 
     fun initChart(chart:LineChart,entries: ArrayList<Entry>){
+        val tf = ResourcesCompat.getFont(requireContext(),R.font.noto_sans) as Typeface
         var week_average = 0f
         for (entry in entries){
             week_average += entry.y
@@ -96,6 +99,7 @@ class WeeklyTimeGraphFragment : Fragment() {
 
         //barchart design
         chart.xAxis.apply {
+            typeface = tf
             position = XAxis.XAxisPosition.BOTTOM
             textSize = 13f
             setDrawGridLines(false)
@@ -114,9 +118,11 @@ class WeeklyTimeGraphFragment : Fragment() {
         }
 
         val stressDescription = arrayListOf("","낮음","보통","높음","매우높음")
+
         chart.axisLeft.apply {
             granularity = 1f
             textSize = 14f
+            typeface = tf
             val color1 = Color.parseColor("#3B60B3")
 
             textColor = color1
@@ -127,11 +133,10 @@ class WeeklyTimeGraphFragment : Fragment() {
 
             removeAllLimitLines()
             ll = LimitLine(week_average, "평균")
-            ll.lineColor = Color.RED
+            ll.lineColor = resources.getColor(R.color.colorAccent)
             ll.lineWidth = 1.5f
-            ll.textColor = Color.RED
+            ll.textColor = resources.getColor(R.color.colorAccent)
             ll.textSize = 12f
-            ll.enableDashedLine(10f,0f,0f)
 
             addLimitLine(ll)
             setDrawLimitLinesBehindData(true)
@@ -143,13 +148,13 @@ class WeeklyTimeGraphFragment : Fragment() {
             legend.isEnabled = false
             description.text = ""
             extraBottomOffset = 10f
+            disableScroll()
             notifyDataSetChanged()
         }
 
         chart.run {
             this.data = lineData
 //            setLine(true)
-
             Log.d("setset","invalidate")
 
             invalidate()
@@ -196,12 +201,6 @@ class WeeklyTimeGraphFragment : Fragment() {
 //            Log.d("insert data",tempData.toString())
 //        }
 
-
-
-
-
-
-
         timeStampArr = makeWeekDateArray(relativeDate)
         var dataArr = FloatArray(24) {1f * (it+1)} //날짜, 점수 맵
         var sizeArr = FloatArray(24) {1f * (it+1)} //시간별 size array
@@ -244,7 +243,7 @@ class WeeklyTimeGraphFragment : Fragment() {
         for (h in dataArr.indices){
             dataArr[h] = dataArr[h]/sizeArr[h]
 
-            entries.add(Entry(h.toFloat(), dataArr[h]))
+            entries.add(Entry(h.toFloat(), dataArr[h]+1))
             Log.d("getdata2",h.toString()+"   "+entries[h].toString()+"   "+sizeArr[h].toString())
         }
         return entries
@@ -261,9 +260,9 @@ class WeeklyTimeGraphFragment : Fragment() {
 
         calFrom.time = Date()
 
-        calFrom.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)
+//        calFrom.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)
 
-        calFrom.add(Calendar.DAY_OF_MONTH,7*(relativeDate))
+        calFrom.add(Calendar.DAY_OF_MONTH,7*(relativeDate)+1)
         calFrom.set(Calendar.HOUR_OF_DAY,0)
         calFrom.set(Calendar.MINUTE,0)
         calFrom.set(Calendar.SECOND,0)

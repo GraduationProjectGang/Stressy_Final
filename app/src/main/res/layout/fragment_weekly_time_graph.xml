@@ -10,7 +10,13 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
+        <TextView
+            android:id="@+id/textView_week"
+            style="@style/questions"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/hourlyStressGraph"
             android:layout_width="match_parent"

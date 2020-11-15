@@ -199,7 +199,7 @@
 
         <FrameLayout
             android:padding="5dp"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="15dp"
             android:id="@+id/mainTimeGraph"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -216,7 +216,7 @@
             android:layout_height="wrap_content"
             />
         <View
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_gravity="center"
@@ -246,14 +246,14 @@
 
         <FrameLayout
             android:padding="5dp"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="15dp"
             android:id="@+id/mainHighAppGraph"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
 
         <View
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_gravity="center"
@@ -273,6 +273,7 @@
 
 
         <FrameLayout
+            android:layout_marginVertical="15dp"
             android:id="@+id/mainStressGraph"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

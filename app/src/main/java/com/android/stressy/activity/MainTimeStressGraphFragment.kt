@@ -1,11 +1,13 @@
 package com.android.stressy.activity
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.android.stressy.R
@@ -130,6 +132,8 @@ class MainTimeStressGraphFragment() : Fragment() {
     }
 
     fun initChart(chart: LineChart, data: List<Double>){
+        val tf = ResourcesCompat.getFont(requireContext(),R.font.noto_sans) as Typeface
+
         val entries = getEntries(data)
 
         var avg = 0f
@@ -156,6 +160,7 @@ class MainTimeStressGraphFragment() : Fragment() {
 
         //barchart design
         chart.xAxis.apply {
+            typeface = tf
             position = XAxis.XAxisPosition.BOTTOM
             textSize = 13f
             setDrawGridLines(false)
@@ -174,6 +179,7 @@ class MainTimeStressGraphFragment() : Fragment() {
 
         val stressDescription = arrayListOf("","낮음","보통","높음","매우높음")
         chart.axisLeft.apply {
+            typeface = tf
             granularity = 1f
             textSize = 14f
             val color1 = Color.parseColor("#3B60B3")
@@ -190,17 +196,22 @@ class MainTimeStressGraphFragment() : Fragment() {
             ll.lineWidth = 2f
             ll.textColor = resources.getColor(R.color.colorAccent)
             ll.textSize = 12f
-            ll.enableDashedLine(0.5f,2f,1f)
 
             addLimitLine(ll)
             setDrawLimitLinesBehindData(true)
         }
 
+        chart.axisRight.apply {
+            typeface = tf
+            isEnabled = false
+            setDrawAxisLine(true)
+        }
         chart.apply {
             setBorderColor(Color.DKGRAY)
-            axisRight.isEnabled = false
             legend.isEnabled = false
             description.text = ""
+            disableScroll()
+
             notifyDataSetChanged()
         }
 

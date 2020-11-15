@@ -1,11 +1,13 @@
 package com.android.stressy.activity
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.android.stressy.R
 import com.github.mikephil.charting.charts.HorizontalBarChart
@@ -19,6 +21,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 
 
 class MainStressGraphFragment() : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,24 +39,7 @@ class MainStressGraphFragment() : Fragment() {
     }
 
     fun initChart(chart:HorizontalBarChart, data:DoubleArray){
-//        val roundedBarChartRenderer = RoundedBarChartRenderer(
-//            chart,
-//            chart.getAnimator(),
-//            chart.getViewPortHandler()
-//        )
-//        roundedBarChartRenderer.setmRadius(20f)
-//        chart.setRenderer(roundedBarChartRenderer)
-
-
-//        val data = listOf<Int>(2,4,3,4,2,3,4)
-
-//        val entries = arrayListOf<BarEntry>()
-//        for (i in 0 until 4) {
-//            entries.add(
-//                BarEntry(i.toFloat(), (3..15).random().toFloat())
-//            )
-//            Log.d("chacha",entries[i].toString())
-//        }
+        val tf = ResourcesCompat.getFont(requireContext(),R.font.noto_sans) as Typeface
 
         val entries = ArrayList<BarEntry>()
         for (i in data.indices){
@@ -69,7 +55,7 @@ class MainStressGraphFragment() : Fragment() {
             setDrawValues(false)
             valueTextSize = 10f
 //            barBorderWidth = 1f
-
+            valueTypeface = tf
         }
 
         val dataSets = arrayListOf<IBarDataSet>(dataSet)
@@ -84,27 +70,36 @@ class MainStressGraphFragment() : Fragment() {
         //barchart design
 
         chart.axisLeft.apply {
+            typeface = tf
             setDrawGridLines(false)
             isEnabled = false
         }
+
         chart.axisRight.apply {
+            typeface = tf
             textSize = 12f
-            axisMinimum = 0.0f
+            axisMinimum = 0f
+            granularity = 1f
             setDrawGridLines(false)
-//            granularity = 1f
-//            isGranularityEnabled = false
+            isEnabled = true
+            typeface = tf
         }
+
         chart.xAxis.apply {
+            typeface = tf
             granularity = 1f
             textSize = 13f
-//            axisMinimum = -0.5f
+            axisMinimum = -0.5f
             setPosition(XAxis.XAxisPosition.BOTTOM)
             setDrawGridLines(false)
+            typeface = tf
             var stressDescription = arrayListOf<String>("낮음","보통","높음","매우\n높음")
             setValueFormatter(IndexAxisValueFormatter(stressDescription))
         }
+
         chart.apply {
-            defaultFocusHighlightEnabled = true
+
+            defaultFocusHighlightEnabled = false
             description.isEnabled = false
             this.data = barData
             legend.isEnabled = false

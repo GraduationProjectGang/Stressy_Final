@@ -1,12 +1,14 @@
 package com.android.stressy.activity
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.android.stressy.R
@@ -25,7 +27,7 @@ import kotlin.collections.ArrayList
 
 
 class WeeklyStressGraphFragment : Fragment() {
-    var relativeDate = 0
+    var relativeDate = -1
     lateinit var chart : LineChart
     lateinit var timeStampArr: ArrayList<Long>
     lateinit var button_graph_left:Button
@@ -65,6 +67,8 @@ class WeeklyStressGraphFragment : Fragment() {
     }
 
     fun initChart(chart:LineChart,entries: ArrayList<Entry>){
+        val tf = ResourcesCompat.getFont(requireContext(),R.font.noto_sans) as Typeface
+
         var week_average = 0f
         for (entry in entries){
             week_average += entry.y
@@ -78,6 +82,7 @@ class WeeklyStressGraphFragment : Fragment() {
             setCircleSize(4f)
             setCircleColor (resources.getColor(R.color.colorPrimaryDark))
             setDrawValues(false)
+
             valueTextSize = 13f
             setDrawHighlightIndicators(false)
             highLightColor = resources.getColor(R.color.colorPrimary)
@@ -88,6 +93,7 @@ class WeeklyStressGraphFragment : Fragment() {
 
         //barchart design
         chart.xAxis.apply {
+            typeface = tf
             position = XAxis.XAxisPosition.BOTTOM
             textSize = 13f
             setDrawGridLines(false)
@@ -103,9 +109,13 @@ class WeeklyStressGraphFragment : Fragment() {
             labelRotationAngle = -45f
             valueFormatter = IndexAxisValueFormatter(dateString)
         }
-
+        chart.axisRight.apply {
+            setDrawGridLines(false)
+            isEnabled = false
+        }
         val stressDescription = arrayListOf("","낮음","보통","높음","매우높음")
         chart.axisLeft.apply {
+            typeface = tf
             granularity = 1f
             textSize = 14f
             val color1 = Color.parseColor("#3B60B3")
@@ -118,11 +128,10 @@ class WeeklyStressGraphFragment : Fragment() {
 
             removeAllLimitLines()
             ll = LimitLine(week_average, "평균")
-            ll.lineColor = Color.RED
+            ll.lineColor = resources.getColor(R.color.colorAccent)
             ll.lineWidth = 2f
-            ll.textColor = Color.RED
+            ll.textColor = resources.getColor(R.color.colorAccent)
             ll.textSize = 12f
-            ll.enableDashedLine(1f,1f,1f)
 
             addLimitLine(ll)
             setDrawLimitLinesBehindData(true)
@@ -130,9 +139,10 @@ class WeeklyStressGraphFragment : Fragment() {
 
         chart.apply {
             setBorderColor(Color.DKGRAY)
-            axisRight.isEnabled = false
+            axisRight.isEnabled = true
             legend.isEnabled = false
             description.text = ""
+            disableScroll()
             notifyDataSetChanged()
         }
 
@@ -216,9 +226,9 @@ class WeeklyStressGraphFragment : Fragment() {
 
         calFrom.time = Date()
 
-        calFrom.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)
+//        calFrom.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)
 
-        calFrom.add(Calendar.DAY_OF_MONTH,7*(relativeDate))
+        calFrom.add(Calendar.DAY_OF_MONTH,7*(relativeDate)+1)
         calFrom.set(Calendar.HOUR_OF_DAY,0)
         calFrom.set(Calendar.MINUTE,0)
         calFrom.set(Calendar.SECOND,0)
