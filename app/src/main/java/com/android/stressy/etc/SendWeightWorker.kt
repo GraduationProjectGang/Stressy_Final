@@ -16,6 +16,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.coroutineScope
 import okhttp3.MediaType
 import okhttp3.RequestBody
+import org.deeplearning4j.nn.modelimport.keras.KerasModel
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.util.ModelSerializer
 import org.json.JSONObject
@@ -28,10 +29,10 @@ import java.nio.charset.StandardCharsets
 class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     : CoroutineWorker(appContext, workerParams) {
     val mContext = appContext
-    lateinit var paramTable : Map<String,INDArray>
+    lateinit var paramTable : Map<String, INDArray>
 
     val mPref = "my_pref"
-    val prefs = mContext.getSharedPreferences(mPref,Context.MODE_PRIVATE)
+    val prefs = mContext.getSharedPreferences(mPref, Context.MODE_PRIVATE)
 
     override suspend fun doWork(): Result = coroutineScope {
         val inputStream = mContext.resources.openRawResource(R.raw.stressy_final_model_nokeras)
@@ -108,7 +109,13 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         Result.success()
     }
 
-    private fun getFile(maskTable: Array<DoubleArray>, partySize: Int, myIdx: Int, ratio: Double, party: String) {
+    private fun getFile(
+        maskTable: Array<DoubleArray>,
+        partySize: Int,
+        myIdx: Int,
+        ratio: Double,
+        party: String
+    ) {
 
         val jsonObject = JSONObject()
         Log.d("sw_ratio", ratio.toString())
@@ -161,10 +168,10 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     //    dropout (DropoutLayer)     -,-        0             -
     //    dense (DenseLayer)         128,4      516           W:{128,4}, b:{1,4}
 
-    fun withVolley(keyString:String,jsonObject:JSONObject) {
-        val prefs = mContext.getSharedPreferences("my_pref",Context.MODE_PRIVATE)
-        val fcm_token = prefs.getString("pref_fcm_token",null).toString()
-        jsonObject.put("fcm_token",fcm_token)
+    fun withVolley(keyString: String, jsonObject: JSONObject) {
+        val prefs = mContext.getSharedPreferences("my_pref", Context.MODE_PRIVATE)
+        val fcm_token = prefs.getString("pref_fcm_token", null).toString()
+        jsonObject.put("fcm_token", fcm_token)
 
         var keyUrl = ""
         if (keyString == "W_0") keyUrl = "w0"
@@ -178,7 +185,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 //        jsonObject.put("weight_key",key)
 
         val jsonRequest = object : JsonObjectRequest(
-            Request.Method.POST,url,jsonObject,
+            Request.Method.POST, url, jsonObject,
             Response.Listener<JSONObject> { res ->
                 val jsonObject = res
 //                    val bodyStr = jsonObject.getJSONObject("body")
@@ -196,7 +203,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
     }
 
-    fun getWeight(model:MultiLayerNetwork): Array<File>{
+    fun getWeight(model: MultiLayerNetwork): Array<File>{
         paramTable = model.paramTable()
         val fileArr = arrayListOf<File>()
         val keys = paramTable.keys
@@ -207,7 +214,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
             Log.d("model_key", key);//print keys
 
             val values = paramTable[key]
-            val file = File(mContext.filesDir.path +"weight_"+fileIndex.toString()+".csv")
+            val file = File(mContext.filesDir.path + "weight_" + fileIndex.toString() + ".csv")
             fileArr.add(file)
             FileOutputStream(file).use { fos ->
                 OutputStreamWriter(
@@ -231,7 +238,7 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
         return fileArr.toTypedArray()
     }
 
-    fun doInBackground(input:File){
+    fun doInBackground(input: File){
         val fileInputStream = FileInputStream(input)
         val byteArr = ByteArray(input.length().toInt())
         try {
@@ -245,21 +252,21 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
             println("Error Reading The File.")
             e1.printStackTrace()
         }
-        Log.d("bytearr",byteArr.toString())
+        Log.d("bytearr", byteArr.toString())
 
         try {
-            val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),byteArr)
-            Log.d("resres","request")
+            val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), byteArr)
+            Log.d("resres", "request")
 
             val service = FileUploadService.create()
-            Log.d("resres","servicecreated")
+            Log.d("resres", "servicecreated")
 
             val response = service.sendFile(requestBody).execute()
 
             var resStr = response.body()!!.toString()
-            Log.d("resres",resStr)
+            Log.d("resres", resStr)
 
-        }catch (e1:Exception) {
+        }catch (e1: Exception) {
             println("Error Reading The File.")
             e1.printStackTrace()
         }

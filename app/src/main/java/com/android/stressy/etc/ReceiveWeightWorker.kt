@@ -4,12 +4,17 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.android.stressy.R
 import com.android.stressy.dataclass.BaseUrl
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.coroutines.coroutineScope
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
+import org.deeplearning4j.util.ModelSerializer
 import org.json.JSONObject
+import org.nd4j.linalg.factory.Nd4j
+import kotlin.reflect.typeOf
 
 
 class ReceiveWeightWorker(appContext: Context, workerParams: WorkerParameters)
@@ -17,9 +22,13 @@ class ReceiveWeightWorker(appContext: Context, workerParams: WorkerParameters)
     val context = appContext
     val mPref = "my_pref"
     val prefs = context.getSharedPreferences(mPref,Context.MODE_PRIVATE)
+    lateinit var model: MultiLayerNetwork
 
     override suspend fun doWork(): Result = coroutineScope {
         Log.d("rwrw","received")
+
+        val inputStream = context.resources.openRawResource(R.raw.stressy_final_model_nokeras)
+        model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
 
         withVolley()
 
@@ -33,6 +42,51 @@ class ReceiveWeightWorker(appContext: Context, workerParams: WorkerParameters)
         Log.d("rw_0b", b_0.toString())
         Log.d("rw_2W", W_2.toString())
         Log.d("rw_2b", b_2.toString())
+
+        val value_0W = W_0.getString("data").replace("[", "").replace("]", "").split(",").toTypedArray()
+        val value_0RW = RW_0.getString("data").replace("[", "").replace("]", "").split(",").toTypedArray()
+        val value_0b = b_0.getString("data").replace("[", "").replace("]", "").split(",").toTypedArray()
+        val value_2W = W_2.getString("data").replace("[", "").replace("]", "").split(",").toTypedArray()
+        val value_2b = b_2.getString("data").replace("[", "").replace("]", "").split(",").toTypedArray()
+
+        val weights_0W: ArrayList<Double> = ArrayList()
+        val weights_0RW: ArrayList<Double> = ArrayList()
+        val weights_0b: ArrayList<Double> = ArrayList()
+        val weights_2W: ArrayList<Double> = ArrayList()
+        val weights_2b: ArrayList<Double> = ArrayList()
+
+        for (v in value_0W) {
+            weights_0W.add(v.toDouble())
+        }
+        for (v in value_0RW) {
+            weights_0RW.add(v.toDouble())
+        }
+        for (v in value_0b) {
+            weights_0b.add(v.toDouble())
+        }
+        for (v in value_2W) {
+            weights_2W.add(v.toDouble())
+        }
+        for (v in value_2b) {
+            weights_2b.add(v.toDouble())
+        }
+
+        // 6,128      69120         W:{6,512}, RW:{128,512}, b:{1,512}
+        //    dense (DenseLayer)         128,4      516           W:{128,4}, b:{1,4}
+
+        val ind_0W = Nd4j.create(weights_0W).reshape(6, 512)
+        val ind_0RW = Nd4j.create(weights_0RW).reshape(128, 512)
+        val ind_0b = Nd4j.create(weights_0b).reshape(1, 512)
+        val ind_2W = Nd4j.create(weights_2W).reshape(128, 4)
+        val ind_2b = Nd4j.create(weights_2b).reshape(1, 4)
+
+        model.setParam("0_W", ind_0W)
+        model.setParam("0_RW", ind_0RW)
+        model.setParam("0_b", ind_0b)
+        model.setParam("2_W", ind_2W)
+        model.setParam("2_b", ind_2b)
+
+        // 
 
     }
 
