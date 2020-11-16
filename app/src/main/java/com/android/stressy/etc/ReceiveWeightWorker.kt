@@ -14,7 +14,6 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.util.ModelSerializer
 import org.json.JSONObject
 import org.nd4j.linalg.factory.Nd4j
-import kotlin.reflect.typeOf
 
 
 class ReceiveWeightWorker(appContext: Context, workerParams: WorkerParameters)
@@ -26,6 +25,7 @@ class ReceiveWeightWorker(appContext: Context, workerParams: WorkerParameters)
 
     override suspend fun doWork(): Result = coroutineScope {
         Log.d("rwrw","received")
+        Log.d("SEJIWON", "ReceiveWeightWorker Enqueued")
 
         val inputStream = context.resources.openRawResource(R.raw.stressy_final_model_nokeras)
         model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
@@ -36,6 +36,7 @@ class ReceiveWeightWorker(appContext: Context, workerParams: WorkerParameters)
     }
 
     fun updateLocalModel(W_0: JSONObject, RW_0: JSONObject, b_0: JSONObject, W_2: JSONObject, b_2: JSONObject) {
+        Log.d("SEJIWON", "Local Model Update")
 
         Log.d("rw_0W", W_0.toString())
         Log.d("rw_0RW", RW_0.toString())
@@ -85,6 +86,7 @@ class ReceiveWeightWorker(appContext: Context, workerParams: WorkerParameters)
         model.setParam("0_b", ind_0b)
         model.setParam("2_W", ind_2W)
         model.setParam("2_b", ind_2b)
+        Log.d("SEJIWON", "2_b $ind_2b")
 
         // 
 

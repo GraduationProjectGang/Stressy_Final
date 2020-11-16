@@ -41,6 +41,8 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
         val model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
         val jwt = prefs.getString("jwt",null).toString()
         Log.d("trtr.jwt", jwt)
+        Log.d("SEJIWON", "TrainingWorker Enqueued")
+
 
         val last_trained_timestamp = prefs.getLong("last_trained_timestamp",0)
         Log.d("trtr.last_trained",last_trained_timestamp.toString())
@@ -139,6 +141,8 @@ class TrainingWorker(appContext: Context, workerParams: WorkerParameters)
                 params["pk_n"] = n.toString()
                 params["pk_g"] = g.toString()
                 params["pk_nSquared"] = nSquared.toString()
+                Log.d("SEJIWON", "count: $count, pk_n: $n, pk_g: $g, pk_nSquared: $nSquared")
+
                 return params
             }
 

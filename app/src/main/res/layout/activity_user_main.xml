@@ -155,7 +155,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2.5"
+        android:layout_weight="2.2"
         android:scrollbarThumbVertical="@drawable/scrollbar">
 
     <LinearLayout
@@ -290,30 +290,41 @@
             android:orientation="vertical">
 <!--     temp for test worker       -->
             <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:orientation="horizontal">
                 <Button
-                    android:text="dc"
+                    android:background="@color/colorAccent"
+                    style="@style/worker"
+                    android:text="DC"
                     android:id="@+id/datacollectworker"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     />
                 <Button
-                    android:text="if"
+                    android:background="@color/colorAccent"
+
+                    style="@style/worker"
+                    android:text="IF"
                     android:id="@+id/inferenceWorker"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     />
                 <Button
-                    android:text="tr"
+                    android:background="@color/colorAccent"
+
+                    style="@style/worker"
+                    android:text="TR"
                     android:id="@+id/trainingWorker"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     />
                 <Button
-                    android:text="sw"
+                    android:background="@color/colorAccent"
+                    style="@style/worker"
+                    android:text="SW"
                     android:id="@+id/sendweight"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
@@ -366,8 +377,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginHorizontal="60dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/button_radius"
                 android:paddingHorizontal="15dp"
                 android:text="스트레스 설문 하기"

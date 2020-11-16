@@ -35,6 +35,8 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
     val prefs = mContext.getSharedPreferences(mPref, Context.MODE_PRIVATE)
 
     override suspend fun doWork(): Result = coroutineScope {
+        Log.d("SEJIWON", "SendWeightWorker Enqueued")
+
         val inputStream = mContext.resources.openRawResource(R.raw.stressy_final_model_nokeras)
         val model = ModelSerializer.restoreMultiLayerNetwork(inputStream, false)
 
@@ -191,16 +193,14 @@ class SendWeightWorker(appContext: Context, workerParams: WorkerParameters)
 //                    val bodyStr = jsonObject.getJSONObject("body")
 //                    Log.d("encryption_json", bodyStr.toString())
 
-                Log.d("sw:res", res.toString())
+                Log.d("SEJIWON", res.toString())
             },
             Response.ErrorListener { error ->
                 Log.d("sw", error.toString())
             }
         ){
-
         }
         queue.add(jsonRequest)
-
     }
 
     fun getWeight(model: MultiLayerNetwork): Array<File>{

@@ -186,4 +186,12 @@
     <style name="DateTimePickerStyle">
 
     </style>
+
+    <style name="worker">
+        <item name="android:layout_marginHorizontal">3dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#434343</item>
+        <item name="android:textStyle">bold</item>
+        <item name="background">@color/design_default_color_secondary</item>
+    </style>
 </resources>

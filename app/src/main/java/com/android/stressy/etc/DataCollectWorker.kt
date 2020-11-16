@@ -87,6 +87,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
     override suspend fun doWork(): Result = coroutineScope {
 //        readFileLineByLineUsingForEachLine("com/android/stressy/etc/categories.json")
         val progress = "데이터 전송 중"
+        Log.d("SEJIWON", "DataCollectWorker Enqueued")
 
         setForeground(createForegroundInfo(progress))
 
@@ -211,6 +212,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
             applicationContext,
             CoroutineDatabase::class.java, "coroutine"
         ).fallbackToDestructiveMigration().build().coroutineDataDao()
+        Log.d("SEJIWON", data.toString())
 
         dbObject.insert(data)
 
