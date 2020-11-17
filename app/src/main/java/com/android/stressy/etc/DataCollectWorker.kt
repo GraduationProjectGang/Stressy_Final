@@ -212,7 +212,7 @@ class DataCollectWorker(appContext: Context, workerParams: WorkerParameters)
             applicationContext,
             CoroutineDatabase::class.java, "coroutine"
         ).fallbackToDestructiveMigration().build().coroutineDataDao()
-        Log.d("SEJIWON", data.toString())
+//        Log.d("SEJIWON", data.toString())
 
         dbObject.insert(data)
 
